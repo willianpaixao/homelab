@@ -1,0 +1,16 @@
+---
+kubernetes:
+  children:
+    controllers:
+      hosts:
+        "logos":
+          ansible_user: "willian"
+          ansible_host: "192.168.0.3"
+    workers:
+      hosts:
+        "mnemosyne":
+          ansible_user: "willian"
+          ansible_host: "192.168.0.5"
+        "vishnu":
+          ansible_user: "willian"
+          ansible_host: "192.168.0.6"
