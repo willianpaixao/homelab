@@ -30,5 +30,6 @@ spec:
         enabled: true
     ingress:
       enabled: true
-      ingressClassName: "nginx"
-      host: "longhorn.${SECRET_DOMAIN}"
+      ingressClassName: internal
+      host: &host "longhorn.${SECRET_DOMAIN}"
+      tls: true
