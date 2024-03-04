@@ -6,8 +6,10 @@ resources:
   - ./cilium.yaml
   - ./external-dns.yaml
   - ./ingress-nginx.yaml
-  - ./k8s-gateway.yaml
   - ./jetstack.yaml
+  - ./k8s-gateway.yaml
+  - ./longhorn.yaml
   - ./metrics-server.yaml
   - ./openebs.yaml
+  - ./prometheus-community-charts.yaml
   - ./stakater.yaml
