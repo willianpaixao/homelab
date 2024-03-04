@@ -3,16 +3,12 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: node-exporter
+  name: geth
   namespace: observability
 spec:
   staticConfigs:
     - labels:
-        job: node-exporter
+        job: geth
       targets:
-        - 192.168.0.148:9100
-    - labels:
-        job: prysm
-      targets:
-        - 192.168.0.148:8080
-  metricsPath: /metrics
+        - 192.168.0.148:6060
+  metricsPath: /debug/metrics/prometheus

@@ -157,3 +157,11 @@ spec:
           multicluster:
             etcd:
               enabled: true
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        accessModes:
+          - ReadWriteOnce
+        size: 8Gi
+        finalizers:
+          - kubernetes.io/pvc-protection
