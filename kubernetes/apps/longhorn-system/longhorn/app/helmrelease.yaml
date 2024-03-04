@@ -25,11 +25,19 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    persistence:
+      defaultClassReplicaCount: 2
+      defaultNodeSelector:
+        enable: true
+        selector: "ssd"
     metrics:
       serviceMonitor:
         enabled: true
     ingress:
       enabled: true
       ingressClassName: internal
+      annotations:
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
       host: &host "longhorn.${SECRET_DOMAIN}"
       tls: true

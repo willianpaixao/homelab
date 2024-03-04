@@ -86,7 +86,7 @@ spec:
       prometheusSpec:
         replicas: 2
         replicaExternalLabelName: __replica__
-        scrapeInterval: 1m # Must match interval in Grafana Helm chart
+        scrapeInterval: 30s
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
@@ -98,10 +98,17 @@ spec:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-        retention: 2d
-        retentionSize: 15GB
+        retention: 180d
+        retentionSize: 16GB
         externalLabels:
           cluster: main
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              resources:
+                requests:
+                  storage: 16Gi
     nodeExporter:
       enabled: true
     prometheus-node-exporter:

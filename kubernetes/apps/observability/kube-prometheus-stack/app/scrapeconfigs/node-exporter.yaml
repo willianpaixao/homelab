@@ -6,6 +6,8 @@ metadata:
   name: node-exporter
 spec:
   staticConfigs:
-    - targets:
-        - mjolnir:9100
+    - labels:
+        job: node-exporter
+      targets:
+        - 192.168.0.148:9100
   metricsPath: /metrics
