@@ -135,6 +135,14 @@ spec:
                 - __meta_kubernetes_pod_node_name
               targetLabel: kubernetes_node
     grafana:
+      ingress:
+        enabled: true
+        hosts:
+          - &host grafana.${SECRET_DOMAIN}
+        tls:
+          - hosts:
+              - *host
+            secretName: "grafana-tls"
       enabled: true
       forceDeployDashboards: true
       sidecar:
