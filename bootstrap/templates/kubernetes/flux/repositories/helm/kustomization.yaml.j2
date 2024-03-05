@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./bjw-s.yaml
   - ./cilium.yaml
+  - ./prometheus-community-charts.yaml
   #% if bootstrap_cloudflare.enabled %#
   - ./external-dns.yaml
   - ./ingress-nginx.yaml

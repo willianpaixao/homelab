@@ -25,10 +25,10 @@ spec:
   values:
     fullnameOverride: k8s-gateway
     domain: "${SECRET_DOMAIN}"
-    ttl: 10
+    ttl: 1
     service:
       type: LoadBalancer
       port: 53
       annotations:
         io.cilium/lb-ipam-ips: "192.168.0.80"
-      externalTrafficPolicy: Local
+      externalTrafficPolicy: Cluster

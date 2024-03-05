@@ -165,3 +165,5 @@ spec:
         size: 8Gi
         finalizers:
           - kubernetes.io/pvc-protection
+      nodeSelector:
+        disktype: ssd
