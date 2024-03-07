@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./flux.yaml
   - ./cluster.yaml
+  - ./telegram-provider.yaml
