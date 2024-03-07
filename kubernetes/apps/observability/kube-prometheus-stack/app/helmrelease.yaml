@@ -95,6 +95,10 @@ spec:
         enabled: true
         port: 2381
         targetPort: 2381
+      serviceMonitor:
+        enabled: true
+        https: true
+        insecureSkipVerify: true
     prometheus:
       ingress:
         enabled: true
