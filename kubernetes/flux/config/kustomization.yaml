@@ -4,5 +4,7 @@ kind: Kustomization
 resources:
   - ./cluster.yaml
   - ./flux.yaml
+  - ./grafana.sops.yaml
+  - ./grafana-provider.yaml
   - ./podmonitor.yaml
   - ./telegram-provider.yaml
