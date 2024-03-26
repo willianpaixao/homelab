@@ -9,3 +9,19 @@ spec:
   address: http://kube-prometheus-stack-grafana/api/annotations
   secretRef:
     name: grafana-token
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: grafana
+  namespace: flux-system
+spec:
+  providerRef:
+    name: grafana
+  eventSeverity: info
+  eventSources:
+    - kind: GitRepository
+      name: '*'
+      namespace: flux-system
+    - kind: Kustomization
+      name: '*'
