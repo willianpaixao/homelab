@@ -169,3 +169,5 @@ spec:
           - kubernetes.io/pvc-protection
       nodeSelector:
         disktype: ssd
+      env:
+        GF_FEATURE_TOGGLES_ENABLE: externalServiceAccounts
