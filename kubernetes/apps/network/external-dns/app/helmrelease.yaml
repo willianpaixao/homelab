@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: &app external-dns
 spec:
-  interval: 30m
+  interval: 1h
   chart:
     spec:
       chart: external-dns
@@ -14,14 +14,15 @@ spec:
         name: external-dns
         namespace: flux-system
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     fullnameOverride: *app
     provider: cloudflare
@@ -45,3 +46,7 @@ spec:
       enabled: true
     podAnnotations:
       secret.reloader.stakater.com/reload: external-dns-secret
+    resources:
+      limits:
+        cpu: 0.1
+        memory: 64Mi
