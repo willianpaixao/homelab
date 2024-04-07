@@ -23,9 +23,8 @@ spec:
     cleanupOnFail: true
     crds: CreateReplace
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     crds:
       enabled: true
@@ -76,6 +75,9 @@ spec:
     kubeEtcd:
       enabled: true
     prometheus:
+      service:
+        podDisruptionBudget:
+          enabled: true
       ingress:
         enabled: true
         ingressClassName: internal
@@ -104,6 +106,13 @@ spec:
         retentionSize: 16GB
         externalLabels:
           cluster: main
+        resources:
+          requests:
+            cpu: 400m
+            memory: 2Gi
+          limits:
+            cpu: 800m
+            memory: 4Gi
         storageSpec:
           volumeClaimTemplate:
             spec:
@@ -122,8 +131,7 @@ spec:
             - action: replace
               regex: (.*)
               replacement: $1
-              sourceLabels:
-                - __meta_kubernetes_pod_node_name
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
     kubeStateMetrics:
       enabled: true
@@ -140,8 +148,7 @@ spec:
             - action: replace
               regex: (.*)
               replacement: $1
-              sourceLabels:
-                - __meta_kubernetes_pod_node_name
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
     grafana:
       ingress:
