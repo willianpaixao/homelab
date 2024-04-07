@@ -67,13 +67,9 @@ spec:
             sourceLabels: ["__name__"]
             regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
     kubeControllerManager:
-      enabled: true
-    kubeScheduler:
-      enabled: true
-    kubeProxy:
       enabled: false
-    kubeEtcd:
-      enabled: true
+    kubeScheduler:
+      enabled: false
     prometheus:
       service:
         podDisruptionBudget:
