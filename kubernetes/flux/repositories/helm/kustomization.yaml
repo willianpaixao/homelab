@@ -8,8 +8,8 @@ resources:
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
+  - ./loki.yaml
   - ./longhorn.yaml
   - ./metrics-server.yaml
-  - ./openebs.yaml
   - ./prometheus-community-charts.yaml
   - ./stakater.yaml
