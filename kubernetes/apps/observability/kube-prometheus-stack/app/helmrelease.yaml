@@ -70,6 +70,8 @@ spec:
       enabled: false
     kubeScheduler:
       enabled: false
+    kubeProxy:
+      enabled: false
     prometheus:
       service:
         podDisruptionBudget:
