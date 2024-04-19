@@ -101,7 +101,7 @@ spec:
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
         retention: 180d
-        retentionSize: 16GB
+        retentionSize: 32GB
         externalLabels:
           cluster: main
         resources:
@@ -117,7 +117,7 @@ spec:
               storageClassName: longhorn
               resources:
                 requests:
-                  storage: 16Gi
+                  storage: 32Gi
     nodeExporter:
       enabled: true
     prometheus-node-exporter:
@@ -172,7 +172,21 @@ spec:
         size: 8Gi
         finalizers:
           - kubernetes.io/pvc-protection
+      plugins:
+        - grafana-pagerduty-datasource
+        - grafana-strava-datasource
+      datasources:
+        datasources.yaml:
+          apiVersion: 1
+          datasources:
+          - name: Prometheus
+            type: prometheus
+            url: https://prometheus.web3.wiki.br
+            access: proxy
+            isDefault: true
+          - name: loki
+            type: loki
+            url: https://loki.web3.wiki.br
+            access: proxy
       nodeSelector:
         disktype: ssd
-      env:
-        GF_FEATURE_TOGGLES_ENABLE: externalServiceAccounts
