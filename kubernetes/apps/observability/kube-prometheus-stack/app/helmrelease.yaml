@@ -183,7 +183,6 @@ spec:
             type: prometheus
             url: https://prometheus.web3.wiki.br
             access: proxy
-            isDefault: true
           - name: loki
             type: loki
             url: https://loki.web3.wiki.br
