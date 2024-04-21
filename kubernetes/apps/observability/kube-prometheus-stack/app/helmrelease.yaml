@@ -40,9 +40,9 @@ spec:
           - hosts:
               - *host
       alertmanagerSpec:
-        replicas: 2
-        useExistingSecret: true
-        configSecret: alertmanager-secret
+        replicas: 1
+        alertmanagerConfiguration:
+          name: alertmanager-config
     kubelet:
       enabled: true
       serviceMonitor:
@@ -175,17 +175,5 @@ spec:
       plugins:
         - grafana-pagerduty-datasource
         - grafana-strava-datasource
-      datasources:
-        datasources.yaml:
-          apiVersion: 1
-          datasources:
-          - name: Prometheus
-            type: prometheus
-            url: https://prometheus.web3.wiki.br
-            access: proxy
-          - name: loki
-            type: loki
-            url: https://loki.web3.wiki.br
-            access: proxy
       nodeSelector:
         disktype: ssd

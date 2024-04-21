@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: pagerduty-config
+    namespace: observability
+data:
+    serviceKey: ENC[AES256_GCM,data:gNmN8A1TOOAqSJKQmbtvH0RvJtvD6Sm9MPoSpjxV14E=,iv:HWaK0HDMjkrKKdPVzauF1rdfbozn9ggbAYIvYQaqsok=,tag:4fqQvOmiPwxioWFbTskTLg==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age17ary36xtm566uptguuhsj7xmuqzyz06ce54tcf6p3mge2thphqfs3gln40
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBFOUdmR3BPV05PWGMxRHpK
+            RWw3RzRVaGxvbE9jQ3NENnBGbFZ3NklJQ3hVCkRseE02MFE2THBDdXF1Wmo4TWZG
+            dW44b25KdjNWZW1jSndxMW5NZlZHencKLS0tIFpNY01HUzZucm5QSTJYcjRrL1Jp
+            OHpaZVNBdGo1ZUpCNkI4azRkbjVSZkkKTPXID1Ni97+YKSQpl6qfbfqfMbgmPuQ2
+            1wgD60Xo8VQI9X9+SRF2GMi6Trh0zfb9WnqnlJOpy7sn6LbtUfz4kA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-04-21T07:54:31Z"
+    mac: ENC[AES256_GCM,data:RMZyJsHcgg9Ju2l0caBKGC5tiAojK+PU09dTRlPpElomAa0jNaEyNitcY3oQdf9Hg/if+SyJKR6G46cPo8hbS4LD6dia9tjBoLPYuN5bp9H3dnU4Vm2Fwx401++toBGrgBH5e/65oPFcUq2uss7wmc662ug2AseObagn5An3yJ4=,iv:JfvXujJMNYpqUwpg2rqLwrfHJsnOpWdT4NmENYJB8bg=,tag:EwN7eQksgTHzLkVw041PlQ==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
