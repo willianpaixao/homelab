@@ -102,8 +102,6 @@ spec:
           - new-service-discovery-manager
         retention: 180d
         retentionSize: 32GB
-        externalLabels:
-          cluster: main
         resources:
           requests:
             cpu: 400m
@@ -111,6 +109,8 @@ spec:
           limits:
             cpu: 800m
             memory: 4Gi
+        nodeSelector:
+          disktype: ssd
         storageSpec:
           volumeClaimTemplate:
             spec:
@@ -149,6 +149,7 @@ spec:
               sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
     grafana:
+      defaultDashboardsTimezone: ${TIMEZONE}
       ingress:
         enabled: true
         hosts:
