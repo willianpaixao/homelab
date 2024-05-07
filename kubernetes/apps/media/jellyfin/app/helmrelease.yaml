@@ -18,7 +18,7 @@ spec:
       interval: 15m
   install:
     remediation:
-      retries: 5
+      retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
