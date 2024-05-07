@@ -107,6 +107,13 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /cache
+      movies:
+        enabled: true
+        type: nfs
+        server: ${NFS_SERVER}
+        path: /movies
+        globalMounts:
+          - path: /media/movies
       transcode:
         enabled: true
         type: emptyDir
