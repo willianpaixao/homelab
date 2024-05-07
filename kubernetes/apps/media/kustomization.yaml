@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
   - ./jellyfin/ks.yaml
   - ./prowlarr/ks.yaml
+  - ./radarr/ks.yaml
