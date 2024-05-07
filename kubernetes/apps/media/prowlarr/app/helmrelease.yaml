@@ -34,7 +34,6 @@ spec:
               repository: ghcr.io/onedr0p/prowlarr-develop
               tag: 1.17.0.4448
             env:
-              DOTNET_SYSTEM_NET_DISABLEIPV6: 1
               PROWLARR__INSTANCE_NAME: Prowlarr
               PROWLARR__PORT: &port 80
               PROWLARR__LOG_LEVEL: info
