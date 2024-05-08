@@ -27,8 +27,6 @@ spec:
             runAsNonRoot: true
             fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
-            supplementalGroups:
-              - 65542
         containers:
           app:
             image:
@@ -36,9 +34,12 @@ spec:
               tag: 5.5.2.8781@sha256:4b7de43df00613272532de7ecfc6a3207cb0a74fdcb2b05dd110ec2ebb493352
             env:
               COMPlus_EnableDiagnostics: "0"
+              RADARR__APPLICATION_URL: "https://radarr.${SECRET_DOMAIN}"
+              RADARR__AUTHENTICATION_METHOD: External
+              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
               RADARR__INSTANCE_NAME: Radarr
-              RADARR__PORT: &port 7878
               RADARR__LOG_LEVEL: info
+              RADARR__PORT: &port 7878
             probes:
               liveness:
                 enabled: true
@@ -93,3 +94,8 @@ spec:
         path: /movies
         globalMounts:
           - path: /media/movies
+    defaultPodOptions:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"

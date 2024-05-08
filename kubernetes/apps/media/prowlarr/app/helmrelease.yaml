@@ -43,6 +43,7 @@ spec:
               repository: ghcr.io/onedr0p/prowlarr-nightly
               tag: 1.17.2.4498@sha256:2d2eae4f357d22ffeb8b41e57d09879481528438a4b6a22097def8e6b8921c73
             env:
+              DOTNET_SYSTEM_NET_DISABLEIPV6: 1
               PROWLARR__INSTANCE_NAME: Prowlarr
               PROWLARR__PORT: &port 9696
               PROWLARR__LOG_LEVEL: info
@@ -96,3 +97,8 @@ spec:
         type: emptyDir
       tmp:
         type: emptyDir
+    defaultPodOptions:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
