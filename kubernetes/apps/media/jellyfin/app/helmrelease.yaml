@@ -112,6 +112,13 @@ spec:
         path: /movies
         globalMounts:
           - path: /media/movies
+      series:
+        enabled: true
+        type: nfs
+        server: ${NFS_SERVER}
+        path: /series
+        globalMounts:
+          - path: /media/series
       transcode:
         enabled: true
         type: emptyDir

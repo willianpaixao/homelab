@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app qbittorrent
+  name: &app sonarr
   namespace: &namespace media
 spec:
   interval: 30m
@@ -26,22 +26,28 @@ spec:
       retries: 3
   values:
     controllers:
-      qbittorrent:
+      sonarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
         pod:
           securityContext:
+            runAsUser: 2000
+            runAsGroup: 2000
+            runAsNonRoot: true
             fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
         containers:
           app:
-            nameOverride: qbittorrent
             image:
-              repository: ghcr.io/onedr0p/qbittorrent
-              tag: 4.6.4@sha256:b9af0f2173572a69d2c02eab8f701ef7b04f61689efe1c5338b96445d528dec4
+              repository: ghcr.io/onedr0p/sonarr-develop
+              tag: 4.0.4.1650@sha256:48625a08997acd9934595b281944152c222b93eca538eadebd2f9af19db73464
             env:
-              QBITTORRENT__PORT: &port 8080
-              QBITTORRENT__BT_PORT: &bittorrentPort 50413
+              COMPlus_EnableDiagnostics: "0"
+              SONARR__APP__INSTANCENAME: Sonarr
+              SONARR__LOG__LEVEL: info
+              SONARR__SERVER__PORT: &port 8989
+              SONARR__UPDATE__BRANCH: develop
               TZ: ${TIMEZONE}
-              UMASK: "022"
             probes:
               liveness:
                 enabled: true
@@ -54,50 +60,27 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                memory: 1Gi
+                memory: 512Mi
               limits:
-                memory: 4Gi
+                memory: 768Mi
             securityContext:
-              runAsUser: 2000
-              runAsGroup: 2000
-              runAsNonRoot: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
-          gluetun:
-            image:
-              repository: ghcr.io/qdm12/gluetun
-              tag: v3.38.0
-            env:
-              DOT: "off"
-              DNS_ADDRESS: 208.67.222.222
-              FIREWALL_INPUT_PORTS: 8080
-              FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/16,10.69.0.0/16 # Allow access to k8s subnets
-              SERVER_CATEGORIES: P2P
-              SERVER_COUNTRIES: Sweden
-              VPN_SERVICE_PROVIDER: nordvpn
-              VPN_TYPE: openvpn
-            envFrom:
-              - secretRef:
-                  name: qbittorrent-secret
-            securityContext:
-              capabilities:
-                add:
-                  - NET_ADMIN
-                  - SYS_MODULE
     service:
       app:
-        controller: qbittorrent
+        controller: sonarr
         ports:
           http:
             port: *port
+
     ingress:
       app:
         className: internal
         hosts:
-          - host: &host qbittorrent.${SECRET_DOMAIN}
+          - host: &host sonarr.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
@@ -109,20 +92,9 @@ spec:
     persistence:
       config:
         enabled: true
-        type: emptyDir
-        advancedMounts:
-          qbittorrent:
-            app:
-              - path: /config
-      movies:
-        enabled: true
-        type: nfs
-        server: ${NFS_SERVER}
-        path: /movies
-        advancedMounts:
-          qbittorrent:
-            app:
-              - path: /media/movies
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
       series:
         enabled: true
         type: nfs
@@ -130,3 +102,8 @@ spec:
         path: /series
         globalMounts:
           - path: /media/series
+    defaultPodOptions:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
