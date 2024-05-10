@@ -44,8 +44,11 @@ spec:
             env:
               COMPlus_EnableDiagnostics: "0"
               RADARR__APPLICATION_URL: "https://radarr.${SECRET_DOMAIN}"
-              RADARR__AUTHENTICATION_METHOD: External
-              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              RADARR__AUTH__APIKEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: radarr-secret
+                    key: api_key
               RADARR__INSTANCE_NAME: Radarr
               RADARR__LOG_LEVEL: info
               RADARR__PORT: &port 7878
