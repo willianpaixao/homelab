@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app postgresql
+  namespace: &namespace database
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: postgresql
+      version: 15.2.12
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    global:
+      postgresql:
+        auth:
+          existingSecret: postgresql-secret
+          database: main
+    image:
+      repository: bitnami/postgresql
+      tag: "16.3.0"
+    primary:
+      containerSecurityContext:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+      persistence:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 16Gi
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    backup:
+      enabled: true
+      cronjob:
+        storage:
+          storageClass: longhorn
+          size: 16Gi
