@@ -41,20 +41,29 @@ spec:
       ingress:
         main:
           enabled: true
-          className: external
+          ingressClassName: external
           annotations:
-            external-dns.alpha.kubernetes.io/target: "photos.${SECRET_DOMAIN}"
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          hosts:
+            - host: "photos.${SECRET_DOMAIN}"
+              paths:
+                - path: /
+          tls:
+            - hosts:
+                - photos.${SECRET_DOMAIN}
+        internal:
+          enabled: true
+          className: internal
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
             gethomepage.dev/enabled: "true"
             gethomepage.dev/group: Home
             gethomepage.dev/icon: immich.png
             gethomepage.dev/name: Photos
           hosts:
-            - host: photos.${SECRET_DOMAIN}
+            - host: "immich.${SECRET_DOMAIN}"
               paths:
                 - path: /
-                  service:
-                    identifier: main
-                    port: http
           tls:
             - hosts:
-                - photos.${SECRET_DOMAIN}
+                - immich.${SECRET_DOMAIN}
