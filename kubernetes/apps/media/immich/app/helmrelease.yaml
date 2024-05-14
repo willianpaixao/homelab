@@ -25,6 +25,12 @@ spec:
   values:
     postgresql:
       enabled: true
+    redis:
+      enabled: true
+      architecture: standalone
+      master:
+        persistence:
+          enabled: false
     immich:
       metrics:
         enabled: true
@@ -35,15 +41,20 @@ spec:
       ingress:
         main:
           enabled: true
+          className: external
           annotations:
-            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+            external-dns.alpha.kubernetes.io/target: "photos.${SECRET_DOMAIN}"
+            gethomepage.dev/enabled: "true"
+            gethomepage.dev/group: Home
+            gethomepage.dev/icon: immich.png
+            gethomepage.dev/name: Photos
           hosts:
-            - host: &host immich.${SECRET_DOMAIN}
+            - host: photos.${SECRET_DOMAIN}
               paths:
                 - path: /
                   service:
-                    identifier: server
+                    identifier: main
                     port: http
           tls:
             - hosts:
-                - *host
+                - photos.${SECRET_DOMAIN}
