@@ -23,6 +23,10 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    env:
+      TZ: ${TIMEZONE}
+    image:
+      tag: "v1.104.0"
     postgresql:
       enabled: true
     redis:
