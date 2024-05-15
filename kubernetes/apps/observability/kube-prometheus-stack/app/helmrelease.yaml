@@ -159,6 +159,8 @@ spec:
               sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
     grafana:
+      image:
+        tag: "11.0.0"
       defaultDashboardsTimezone: ${TIMEZONE}
       ingress:
         enabled: true
