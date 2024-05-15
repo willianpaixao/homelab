@@ -61,7 +61,7 @@ spec:
           annotations:
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
             gethomepage.dev/enabled: "true"
-            gethomepage.dev/group: Home
+            gethomepage.dev/group: Media
             gethomepage.dev/icon: immich.png
             gethomepage.dev/name: Photos
           hosts:

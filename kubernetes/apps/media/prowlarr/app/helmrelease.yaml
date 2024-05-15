@@ -81,6 +81,11 @@ spec:
       app:
         enabled: true
         className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/icon: prowlarr.png
+          gethomepage.dev/name: Prowlarr
         hosts:
           - host: &host prowlarr.${SECRET_DOMAIN}
             paths:

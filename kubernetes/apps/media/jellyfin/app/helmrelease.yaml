@@ -83,6 +83,11 @@ spec:
       main:
         enabled: true
         className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/icon: jellyfin.png
+          gethomepage.dev/name: Jellyfin
         hosts:
           - host: &host jellyfin.${SECRET_DOMAIN}
             paths:

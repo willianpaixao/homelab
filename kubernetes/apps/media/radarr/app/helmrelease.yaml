@@ -83,6 +83,11 @@ spec:
       app:
         enabled: true
         className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/icon: radarr.png
+          gethomepage.dev/name: Radarr
         hosts:
           - host: &host radarr.${SECRET_DOMAIN}
             paths:

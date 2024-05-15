@@ -34,6 +34,11 @@ spec:
         enabled: true
         pathType: Prefix
         ingressClassName: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Monitoring
+          gethomepage.dev/icon: alertmanager.png
+          gethomepage.dev/name: Alertmanager
         hosts:
           - &host alertmanager.${SECRET_DOMAIN}
         tls:
@@ -80,6 +85,11 @@ spec:
         enabled: true
         ingressClassName: internal
         pathType: Prefix
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Monitoring
+          gethomepage.dev/icon: prometheus.png
+          gethomepage.dev/name: Prometheus
         hosts:
           - &host prometheus.${SECRET_DOMAIN}
         tls:
@@ -152,6 +162,11 @@ spec:
       defaultDashboardsTimezone: ${TIMEZONE}
       ingress:
         enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Monitoring
+          gethomepage.dev/icon: grafana.png
+          gethomepage.dev/name: Grafana
         hosts:
           - &host grafana.${SECRET_DOMAIN}
         tls:

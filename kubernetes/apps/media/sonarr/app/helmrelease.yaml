@@ -83,6 +83,11 @@ spec:
     ingress:
       app:
         className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/icon: sonarr.png
+          gethomepage.dev/name: Sonarr
         hosts:
           - host: &host sonarr.${SECRET_DOMAIN}
             paths:
