@@ -5,4 +5,5 @@ kind: Kustomization
 namespace: default
 resources:
   - ./helmrelease.yaml
+  - ./homepage-config.yaml
   - ./rbac.yaml
