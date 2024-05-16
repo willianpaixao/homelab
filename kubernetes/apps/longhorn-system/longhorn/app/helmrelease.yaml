@@ -45,3 +45,5 @@ spec:
         gethomepage.dev/name: Longhorn
       host: &host "longhorn.${SECRET_DOMAIN}"
       tls: true
+    defaultSettings:
+      backupTarget: "nfs://${NFS_SERVER}:/longhorn"
