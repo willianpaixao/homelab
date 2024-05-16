@@ -26,6 +26,7 @@ spec:
     env:
       TZ: ${TIMEZONE}
     image:
+      # renovate: datasource=github-releases depName=immich-app/immich
       tag: "v1.104.0"
     postgresql:
       enabled: true
