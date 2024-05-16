@@ -28,11 +28,11 @@ spec:
     loki:
       commonConfig:
         replication_factor: 1
-        schemaConfig:
+        schema_config:
           configs:
-            - from: "2020-10-24"
-              store: tsdb
+            - from: "2024-04-01"
               object_store: filesystem
+              store: tsdb
               schema: v13
               index:
                 prefix: index_
@@ -40,7 +40,7 @@ spec:
       storage:
         type: 'filesystem'
       auth_enabled: false
-    
+
     gateway:
       ingress:
         enabled: true
@@ -76,10 +76,10 @@ spec:
 
     chunksCache:
       enabled: false
-    
+
     minio:
       enabled: false
-    
+
     backend:
       replicas: 0
     read:
@@ -104,4 +104,3 @@ spec:
       replicas: 0
     bloomGateway:
       replicas: 0
-    
