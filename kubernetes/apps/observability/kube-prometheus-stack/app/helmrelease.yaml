@@ -35,6 +35,8 @@ spec:
         pathType: Prefix
         ingressClassName: internal
         annotations:
+          nginx.ingress.kubernetes.io/auth-type: basic
+          nginx.ingress.kubernetes.io/auth-secret: basic-auth
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Monitoring
           gethomepage.dev/icon: alertmanager.png
@@ -86,6 +88,8 @@ spec:
         ingressClassName: internal
         pathType: Prefix
         annotations:
+          nginx.ingress.kubernetes.io/auth-type: basic
+          nginx.ingress.kubernetes.io/auth-secret: basic-auth
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Monitoring
           gethomepage.dev/icon: prometheus.png
