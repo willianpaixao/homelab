@@ -24,19 +24,19 @@ spec:
   values:
     fullnameOverride: *app
     reloader:
-      resources:
-        limits:
-          cpu: 10m
-          memory: 32Mi
-        requests:
-          cpu: 10m
-          memory: 32Mi
       readOnlyRootFileSystem: true
       podMonitor:
         enabled: true
         namespace: "{{ .Release.Namespace }}"
       deployment:
-        securityContext:
+        resources:
+          limits:
+            cpu: 30m
+            memory: 64Mi
+          requests:
+            cpu: 30m
+            memory: 64Mi
+        containerSecurityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities: { drop: ["ALL"] }
