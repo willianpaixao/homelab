@@ -72,3 +72,22 @@ spec:
           tls:
             - hosts:
                 - immich.${SECRET_DOMAIN}
+    microservices:
+      resources:
+        requests:
+          cpu: 1
+          memory: 2Gi
+        limits:
+          cpu: 1
+          memory: 2Gi
+    machine-learning:
+      resources:
+        requests:
+          cpu: 1
+          memory: 1Gi
+        limits:
+          cpu: 1
+          memory: 1Gi
+      persistence:
+        cache:
+          type: pvc
