@@ -58,7 +58,7 @@ spec:
                 - photos.${SECRET_DOMAIN}
         internal:
           enabled: true
-          className: internal
+          ingressClassName: internal
           annotations:
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
             gethomepage.dev/enabled: "true"
