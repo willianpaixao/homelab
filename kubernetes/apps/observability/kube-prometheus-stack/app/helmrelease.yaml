@@ -460,8 +460,17 @@ spec:
         size: 8Gi
         finalizers:
           - kubernetes.io/pvc-protection
+      admin:
+        existingSecret: "grafana-auth"
+        userKey: admin-user
+        passwordKey: admin-password
       plugins:
         - grafana-pagerduty-datasource
         - grafana-strava-datasource
+      grafana.ini:
+        feature_toggles:
+          externalServiceAccounts: true
+        panels:
+          enable_alpha: true
       nodeSelector:
         disktype: ssd
