@@ -73,9 +73,10 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.38.0
             env:
-              DOT: "off"
               FIREWALL_INPUT_PORTS: 8080
               FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/16,10.69.0.0/16 # Allow access to k8s subnets
+              SERVER_CATEGORIES: P2P
+              SERVER_COUNTRIES: Sweden
               VPN_SERVICE_PROVIDER: nordvpn
               VPN_TYPE: openvpn
             envFrom:
