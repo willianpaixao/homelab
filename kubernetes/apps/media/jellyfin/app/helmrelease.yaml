@@ -105,6 +105,8 @@ spec:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 1Gi
+        labels:
+          recurring-job-group.longhorn.io/backup: enabled
       cache:
         enabled: true
         type: emptyDir

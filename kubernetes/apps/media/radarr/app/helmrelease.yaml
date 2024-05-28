@@ -30,6 +30,8 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
+          nodeSelector:
+            disktype: ssd
           securityContext:
             runAsUser: 2000
             runAsGroup: 2000
@@ -106,6 +108,8 @@ spec:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 1Gi
+        labels:
+          recurring-job-group.longhorn.io/backup: enabled
       movies:
         enabled: true
         type: nfs
