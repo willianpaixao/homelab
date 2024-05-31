@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./cilium/ks.yaml
   - ./csi-driver-nfs/ks.yaml
+  - ./descheduler/ks.yaml
   - ./metrics-server/ks.yaml
   - ./namespace.yaml
   - ./reloader/ks.yaml
