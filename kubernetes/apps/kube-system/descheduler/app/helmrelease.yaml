@@ -23,7 +23,6 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    replicas: 1
     kind: Deployment
     deschedulerPolicyAPIVersion: descheduler/v1alpha2
     deschedulerPolicy:
@@ -36,6 +35,10 @@ spec:
                 evictLocalStoragePods: true
                 evictSystemCriticalPods: true
                 nodeFit: true
+            - name: RemovePodsHavingTooManyRestarts
+              args:
+                podRestartThreshold: 100
+                includingInitContainers: true
             - name: RemovePodsViolatingInterPodAntiAffinity
             - name: RemovePodsViolatingNodeAffinity
               args:
