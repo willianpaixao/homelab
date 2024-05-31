@@ -121,8 +121,8 @@ spec:
             cpu: 400m
             memory: 2Gi
           limits:
-            cpu: 800m
-            memory: 4Gi
+            cpu: 400m
+            memory: 2Gi
         nodeSelector:
           disktype: ssd
         storageSpec:
@@ -458,6 +458,8 @@ spec:
         accessModes:
           - ReadWriteOnce
         size: 8Gi
+        labels:
+          recurring-job-group.longhorn.io/backup: enabled
         finalizers:
           - kubernetes.io/pvc-protection
       admin:
