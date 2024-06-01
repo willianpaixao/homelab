@@ -78,7 +78,7 @@ spec:
               SERVER_CATEGORIES: P2P
               SERVER_COUNTRIES: Sweden
               VPN_SERVICE_PROVIDER: nordvpn
-              VPN_TYPE: openvpn
+              VPN_TYPE: wireguard
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
