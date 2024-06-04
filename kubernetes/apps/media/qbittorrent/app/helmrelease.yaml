@@ -25,6 +25,14 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    defaultPodOptions:
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 192.168.0.8
+        options:
+          - name: ndots
+            value: "2"
     controllers:
       qbittorrent:
         pod:
@@ -73,12 +81,14 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.38.0
             env:
+              DOT: "off"
+              DNS_ADDRESS: 1.1.1.1
               FIREWALL_INPUT_PORTS: 8080
-              FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/16,10.69.0.0/16 # Allow access to k8s subnets
+              FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16
               SERVER_CATEGORIES: P2P
               SERVER_COUNTRIES: Sweden
               VPN_SERVICE_PROVIDER: nordvpn
-              VPN_TYPE: wireguard
+              VPN_TYPE: openvpn
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
