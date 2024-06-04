@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -83,6 +83,7 @@ spec:
       service:
         podDisruptionBudget:
           enabled: true
+          minAvailable: 1
       ingress:
         enabled: true
         ingressClassName: internal
@@ -115,7 +116,7 @@ spec:
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
         retention: 180d
-        retentionSize: 32GB
+        retentionSize: 64GiB
         resources:
           requests:
             cpu: 400m
