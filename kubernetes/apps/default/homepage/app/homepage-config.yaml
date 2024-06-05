@@ -4,7 +4,27 @@ metadata:
   name: homepage-config
   namespace: default
 data:
-  bookmarks.yaml: ""
+  bookmarks.yaml: |
+    - Developer:
+        - Github:
+            - abbr: GH
+              href: https://github.com/
+    - Social:
+        - Reddit:
+            - icon: reddit.png
+              href: https://reddit.com/
+              description: The front page of the internet
+    - Entertainment:
+        - YouTube:
+            - abbr: YT
+              href: https://youtube.com/
+    - Fitness:
+        - Polar:
+            - abbr: PF
+              href: https://flow.polar.com/
+        - Strava:
+            - abbr: ST
+              href: https://www.strava.com/
   custom.css: ""
   custom.js: ""
   docker.yaml: ""

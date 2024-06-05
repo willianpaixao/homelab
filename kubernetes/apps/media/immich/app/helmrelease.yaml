@@ -64,7 +64,7 @@ spec:
             gethomepage.dev/enabled: "true"
             gethomepage.dev/group: Media
             gethomepage.dev/icon: immich.png
-            gethomepage.dev/name: Photos
+            gethomepage.dev/name: Immich
           hosts:
             - host: "immich.${SECRET_DOMAIN}"
               paths:
