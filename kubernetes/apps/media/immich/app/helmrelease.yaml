@@ -27,7 +27,7 @@ spec:
       TZ: ${TIMEZONE}
     image:
       # renovate: datasource=github-releases depName=immich-app/immich
-      tag: "v1.106.2"
+      tag: "v1.105.1"
     postgresql:
       enabled: true
     redis:
@@ -72,6 +72,7 @@ spec:
           tls:
             - hosts:
                 - immich.${SECRET_DOMAIN}
+    machine-learning:
       persistence:
         cache:
           type: pvc
