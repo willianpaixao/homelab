@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: geth
+  namespace: observability
+spec:
+  staticConfigs:
+    - labels:
+        job: geth
+      targets:
+        - 192.168.0.148:6060
+  metricsPath: /debug/metrics/prometheus

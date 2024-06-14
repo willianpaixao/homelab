@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: default
+data:
+  bookmarks.yaml: |
+    - Developer:
+        - Github:
+            - abbr: GH
+              href: https://github.com/
+    - Social:
+        - Reddit:
+            - icon: reddit.png
+              href: https://reddit.com/
+              description: The front page of the internet
+    - Entertainment:
+        - YouTube:
+            - abbr: YT
+              href: https://youtube.com/
+    - Fitness:
+        - Polar:
+            - abbr: PF
+              href: https://flow.polar.com/
+        - Strava:
+            - abbr: ST
+              href: https://www.strava.com/
+  custom.css: ""
+  custom.js: ""
+  docker.yaml: ""
+  kubernetes.yaml: |
+    mode: cluster
+  services.yaml: |
+    - Storage:
+        - OpenMediaVault:
+            href: https://openmediavault.web3.wiki.br
+            icon: openmediavault.png
+    - Network:
+        - Proxmox:
+            href: https://tank.web3.wiki.br:8006
+            icon: proxmox.png
+        - Pihole:
+            href: http://192.168.0.8
+            icon: pi-hole.png
+  settings.yaml: |
+    title: Homelab
+    startUrl: https://web3.wiki.br
+    theme: dark
+    quicklaunch:
+      hideInternetSearch: true
+      showSearchSuggestions: true
+      hideVisitURL: true
+    layout:
+      Media:
+        style: row
+        columns: 3
+        icon: mdi-television
+      Monitoring:
+        style: row
+        columns: 3
+        icon: mdi-chart-line
+      Storage:
+        style: row
+        columns: 2
+        icon: mdi-database
+      Network:
+        icon: mdi-lan
+        style: row
+        columns: 2
+  widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    - openmeteo:
+        label: Tyresö
+        latitude: 59.23
+        longitude: 18.22
+        timezone: Europe/Stockholm
+        units: metric
+        cache: 5
