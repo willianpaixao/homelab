@@ -115,7 +115,7 @@ spec:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-        retention: 180d
+        retention: 90d
         retentionSize: 64GiB
         resources:
           requests:
@@ -132,7 +132,7 @@ spec:
               storageClassName: longhorn
               resources:
                 requests:
-                  storage: 32Gi
+                  storage: 64Gi
     nodeExporter:
       enabled: true
     prometheus-node-exporter:
