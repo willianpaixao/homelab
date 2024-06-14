@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter-turing
+  namespace: observability
+spec:
+  staticConfigs:
+    - labels:
+        job: node-exporter
+      targets:
+        - 192.168.0.171:9100
+        - 192.168.0.172:9100
+        - 192.168.0.173:9100
+        - 192.168.0.174:9100
+  metricsPath: /metrics
