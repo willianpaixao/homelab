@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/observability/kube-prometheus-stack/app
+  path: ./kubernetes/main/apps/observability/kube-prometheus-stack/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -31,7 +31,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/observability/kube-prometheus-stack/config
+  path: ./kubernetes/main/apps/observability/kube-prometheus-stack/config
   prune: true
   sourceRef:
     kind: GitRepository
