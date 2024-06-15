@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: 0.6.0
+      version: 0.7.0
       sourceRef:
         kind: HelmRepository
         namespace: flux-system
@@ -24,10 +24,12 @@ spec:
       retries: 3
   values:
     env:
+      CPU_CORES: 4
+      IMMICH_LOG_LEVEL: "verbose"
       TZ: ${TIMEZONE}
     image:
       # renovate: datasource=github-releases depName=immich-app/immich
-      tag: "v1.105.1"
+      tag: "v1.106.4"
     postgresql:
       enabled: true
     redis:
