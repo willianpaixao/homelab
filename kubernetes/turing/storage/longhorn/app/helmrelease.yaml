@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: &namespace storage
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: longhorn
+      version: 1.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    persistence:
+      defaultClassReplicaCount: 2
+      defaultNodeSelector:
+        enable: true
+        selector: "ssd"
+    metrics:
+      serviceMonitor:
+        enabled: true
+    longhornUI:
+      replicas: 1
+    ingress:
+      enabled: true
+      ingressClassName: internal
+      host: &host "longhorn2.${SECRET_DOMAIN}"
+      tls: true
+    defaultSettings:
+      backupTarget: "nfs://192.168.0.154:/longhorn"
+      defaultDataPath: "/mnt/nvme/longhorn"
