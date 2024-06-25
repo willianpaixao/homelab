@@ -52,15 +52,16 @@ spec:
           enabled: true
           className: internal
           hosts:
-            - "hubble.web3.wiki.br"
+            - "hubble2.web3.wiki.br"
           tls:
             - hosts:
-                - "hubble.web3.wiki.br"
+                - "hubble2.web3.wiki.br"
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "192.168.0.0/24"
     k8sServiceHost: 127.0.0.1
     k8sServicePort: 6444
+    kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     l2announcements:
       enabled: true
