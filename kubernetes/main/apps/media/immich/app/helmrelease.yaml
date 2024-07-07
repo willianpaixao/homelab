@@ -45,6 +45,15 @@ spec:
         library:
           existingClaim: immich-nfs
     server:
+      probes:
+        startup:
+          enabled: true
+          spec:
+            httpGet:
+              path: /api/server-info/ping
+              port: http
+            periodSeconds: 10
+            failureThreshold: 30
       ingress:
         main:
           enabled: true
