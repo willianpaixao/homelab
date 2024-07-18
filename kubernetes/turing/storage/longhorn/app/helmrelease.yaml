@@ -29,7 +29,7 @@ spec:
       defaultClassReplicaCount: 2
       defaultNodeSelector:
         enable: true
-        selector: "ssd"
+        selector: "nvme"
     metrics:
       serviceMonitor:
         enabled: true
@@ -38,8 +38,9 @@ spec:
     ingress:
       enabled: true
       ingressClassName: internal
-      host: &host "longhorn2.${SECRET_DOMAIN}"
+      host: &host "longhorn.turing.${SECRET_DOMAIN}"
       tls: true
+      tlsSecret: longhorn-tls
     defaultSettings:
       backupTarget: "nfs://192.168.0.154:/longhorn"
       defaultDataPath: "/mnt/nvme/longhorn"
