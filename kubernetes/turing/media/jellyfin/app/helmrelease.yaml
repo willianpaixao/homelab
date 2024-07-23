@@ -89,7 +89,7 @@ spec:
           gethomepage.dev/icon: jellyfin.png
           gethomepage.dev/name: Jellyfin
         hosts:
-          - host: &host jellyfin.${SECRET_DOMAIN}
+          - host: &host jellyfin.turing.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix

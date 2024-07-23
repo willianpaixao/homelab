@@ -40,3 +40,4 @@ spec:
           dnsZones:
             - "${SECRET_DOMAIN}"
             - "*.${SECRET_DOMAIN}"
+            - "turing.${SECRET_DOMAIN}"
