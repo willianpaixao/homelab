@@ -29,7 +29,7 @@ spec:
       TZ: ${TIMEZONE}
     image:
       # renovate: datasource=github-releases depName=immich-app/immich
-      tag: "v1.109.2"
+      tag: "v1.110.0"
     postgresql:
       enabled: true
     redis:
