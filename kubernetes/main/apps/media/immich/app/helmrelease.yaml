@@ -24,8 +24,6 @@ spec:
       retries: 3
   values:
     env:
-      CPU_CORES: 4
-      IMMICH_LOG_LEVEL: "verbose"
       TZ: ${TIMEZONE}
     image:
       # renovate: datasource=github-releases depName=immich-app/immich
