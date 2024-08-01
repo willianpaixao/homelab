@@ -40,7 +40,6 @@ spec:
       ingressClassName: internal
       host: &host "longhorn.turing.${SECRET_DOMAIN}"
       tls: true
-      tlsSecret: longhorn-tls
     defaultSettings:
       backupTarget: "nfs://192.168.0.154:/longhorn"
       defaultDataPath: "/mnt/nvme/longhorn"
