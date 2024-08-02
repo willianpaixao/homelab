@@ -44,11 +44,13 @@ spec:
               tag: 1.21.2.4648@sha256:1cb047a17519c87e015b2585d1bdf0234ef35f1eb0addf13d4ad92d4db858700
             env:
               DOTNET_SYSTEM_NET_DISABLEIPV6: 1
-              PROWLARR__INSTANCE_NAME: Prowlarr
-              PROWLARR__PORT: &port 9696
-              PROWLARR__LOG_LEVEL: info
-              PROWLARR__THEME: dark
               PROWLARR__ANALYTICS_ENABLED: "False"
+              PROWLARR__AUTH__METHOD: External
+              PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              PROWLARR__INSTANCE_NAME: Prowlarr
+              PROWLARR__LOG_LEVEL: info
+              PROWLARR__PORT: &port 9696
+              PROWLARR__THEME: dark
               TZ: "${TIMEZONE}"
             probes:
               liveness:
@@ -100,8 +102,11 @@ spec:
               - *host
     persistence:
       config:
-        enabled: true
-        type: emptyDir
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        labels:
+          recurring-job-group.longhorn.io/backup: enabled
       tmp:
         type: emptyDir
     defaultPodOptions:
