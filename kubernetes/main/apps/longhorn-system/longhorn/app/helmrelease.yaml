@@ -5,7 +5,7 @@ metadata:
   name: longhorn
   namespace: &namespace longhorn-system
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: longhorn
@@ -47,3 +47,14 @@ spec:
       tls: true
     defaultSettings:
       backupTarget: "nfs://${NFS_SERVER}:/longhorn"
+      defaultReplicaCount: 2
+    longhornManager:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoExecute
+    longhornDriver:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoExecute
