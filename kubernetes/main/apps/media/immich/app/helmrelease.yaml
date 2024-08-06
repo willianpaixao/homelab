@@ -44,6 +44,12 @@ spec:
           existingClaim: immich-nfs
     server:
       probes:
+        liveness:
+          spec:
+            initialDelaySeconds: 60
+        readiness:
+          spec:
+            initialDelaySeconds: 60
         startup:
           enabled: true
           spec:
@@ -51,7 +57,7 @@ spec:
               path: /api/server-info/ping
               port: http
             periodSeconds: 10
-            failureThreshold: 30
+            failureThreshold: 50
       ingress:
         main:
           enabled: true
