@@ -46,10 +46,12 @@ spec:
       probes:
         liveness:
           spec:
-            initialDelaySeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 12
         readiness:
           spec:
-            initialDelaySeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 12
         startup:
           enabled: true
           spec:
@@ -57,7 +59,7 @@ spec:
               path: /api/server-info/ping
               port: http
             periodSeconds: 10
-            failureThreshold: 50
+            failureThreshold: 60
       ingress:
         main:
           enabled: true
