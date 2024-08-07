@@ -11,6 +11,7 @@ spec:
       name: letsencrypt-production
     solvers:
       - dns01:
+          cnameStrategy: Follow
           cloudflare:
             apiTokenSecretRef:
               name: cert-manager-secret
@@ -32,6 +33,7 @@ spec:
       name: letsencrypt-staging
     solvers:
       - dns01:
+          cnameStrategy: Follow
           cloudflare:
             apiTokenSecretRef:
               name: cert-manager-secret
@@ -39,5 +41,4 @@ spec:
         selector:
           dnsZones:
             - "${SECRET_DOMAIN}"
-            - "*.${SECRET_DOMAIN}"
             - "turing.${SECRET_DOMAIN}"
