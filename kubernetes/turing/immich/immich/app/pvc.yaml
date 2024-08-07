@@ -5,6 +5,7 @@ metadata:
   name: photos-nfs
   namespace: immich
 spec:
+  storageClassName: nfs-csi
   capacity:
     storage: 1Mi
   accessModes:
@@ -22,6 +23,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: nfs-csi
   resources:
     requests:
       storage: 1Mi
