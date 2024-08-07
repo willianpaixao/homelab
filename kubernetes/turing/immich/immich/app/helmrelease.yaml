@@ -59,11 +59,15 @@ spec:
           annotations:
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
           hosts:
+            - host: "immich.${SECRET_DOMAIN}"
+              paths:
+                - path: /
             - host: "photos.${SECRET_DOMAIN}"
               paths:
                 - path: /
           tls:
             - hosts:
+                - immich.${SECRET_DOMAIN}
                 - photos.${SECRET_DOMAIN}
     machine-learning:
       persistence:
