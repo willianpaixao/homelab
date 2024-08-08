@@ -70,6 +70,8 @@ spec:
                 - immich.${SECRET_DOMAIN}
                 - photos.${SECRET_DOMAIN}
     machine-learning:
+      image:
+        tag: "v1.111.0-armnn"
       persistence:
         cache:
           type: pvc
