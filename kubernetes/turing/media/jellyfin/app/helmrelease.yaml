@@ -27,13 +27,6 @@ spec:
   values:
     controllers:
       jellyfin:
-        pod:
-          securityContext:
-            runAsUser: 2000
-            runAsGroup: 2000
-            runAsNonRoot: true
-            fsGroup: 2000
-            fsGroupChangePolicy: "OnRootMismatch"
         containers:
           main:
             image:
@@ -47,7 +40,7 @@ spec:
               TZ: ${TIMEZONE}
             resources:
               requests:
-                memory: 1Gi
+                memory: 2Gi
               limits:
                 memory: 2Gi
             probes:
@@ -102,6 +95,10 @@ spec:
           - hosts:
               - *host
     persistence:
+      dev:
+        enabled: true
+        type: hostPath
+        hostPath: /dev
       config:
         enabled: true
         type: persistentVolumeClaim
