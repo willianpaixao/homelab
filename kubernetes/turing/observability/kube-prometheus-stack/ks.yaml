@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app prometheus-node-exporter
+  name: &app kube-prometheus-stack
   namespace: flux-system
 spec:
   targetNamespace: observability
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/turing/observability/prometheus-node-exporter/app
+  path: ./kubernetes/turing/observability/kube-prometheus-stack/app
   prune: true
   sourceRef:
     kind: GitRepository
