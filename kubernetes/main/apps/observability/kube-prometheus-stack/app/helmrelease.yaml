@@ -88,6 +88,8 @@ spec:
         podDisruptionBudget:
           enabled: true
           minAvailable: 1
+        type: LoadBalancer
+        loadBalancerIP: 192.168.0.76
       ingress:
         enabled: true
         ingressClassName: internal
@@ -123,13 +125,6 @@ spec:
         enableRemoteWriteReceiver: true
         retention: 90d
         retentionSize: 64GiB
-        resources:
-          requests:
-            cpu: 400m
-            memory: 2Gi
-          limits:
-            cpu: 400m
-            memory: 2Gi
         nodeSelector:
           disktype: ssd
         storageSpec:
