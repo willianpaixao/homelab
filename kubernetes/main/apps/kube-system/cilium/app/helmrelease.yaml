@@ -29,19 +29,12 @@ spec:
       enabled: true
     bpf:
       masquerade: false
-    cgroup:
-      automount:
-        enabled: false
-      hostRoot: /sys/fs/cgroup
     cluster:
       id: 1
       name: home-kubernetes
     containerRuntime:
       integration: containerd
       socketPath: /var/run/k3s/containerd/containerd.sock
-    # NOTE: This might need to be set if you have more than one active NIC on your hosts
-    # devices:
-    #   - eno0
     endpointRoutes:
       enabled: true
     hubble:
@@ -102,6 +95,15 @@ spec:
         enabled: true
         annotations:
           grafana_folder: Cilium
+    clustermesh:
+      useAPIServer: true
+      enableMCSAPISupport: true
+      apiserver:
+        kvstoremesh:
+          enabled: false
+        service:
+          type: LoadBalancer
+          loadBalancerIP: 192.168.0.77
     prometheus:
       enabled: true
       serviceMonitor:

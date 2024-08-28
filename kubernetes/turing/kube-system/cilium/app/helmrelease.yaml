@@ -72,6 +72,14 @@ spec:
     operator:
       replicas: 1
       rollOutPods: true
+    clustermesh:
+      useAPIServer: true
+      enableMCSAPISupport: true
+      apiserver:
+        kvstoremesh:
+          enabled: false
+        service:
+          type: LoadBalancer
     rollOutCiliumPods: true
     routingMode: native
     securityContext:
