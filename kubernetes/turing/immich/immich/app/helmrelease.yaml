@@ -27,7 +27,13 @@ spec:
       TZ: ${TIMEZONE}
     image:
       # renovate: datasource=github-releases depName=immich-app/immich
-      tag: "v1.113.1"
+      tag: "v1.114.0"
+    immich:
+      metrics:
+        enabled: true
+      persistence:
+        library:
+          existingClaim: photos-nfs
     postgresql:
       enabled: true
     redis:
@@ -36,22 +42,7 @@ spec:
       master:
         persistence:
           enabled: false
-    immich:
-      metrics:
-        enabled: true
-      persistence:
-        library:
-          existingClaim: photos-nfs
     server:
-      probes:
-        startup:
-          enabled: true
-          spec:
-            httpGet:
-              path: /api/server-info/ping
-              port: http
-            periodSeconds: 10
-            failureThreshold: 60
       ingress:
         main:
           enabled: true
@@ -71,7 +62,7 @@ spec:
                 - photos.${SECRET_DOMAIN}
     machine-learning:
       image:
-        tag: "v1.111.0-armnn"
+        tag: "v1.114.0-armnn"
       persistence:
         cache:
           type: pvc
