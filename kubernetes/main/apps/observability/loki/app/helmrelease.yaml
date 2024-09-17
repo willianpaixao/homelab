@@ -53,13 +53,6 @@ spec:
     deploymentMode: SingleBinary
     singleBinary:
       replicas: 1
-      resources:
-        limits:
-          cpu: 3
-          memory: 4Gi
-        requests:
-          cpu: 2
-          memory: 2Gi
       persistence:
         size: 32Gi
         storageClass: longhorn
