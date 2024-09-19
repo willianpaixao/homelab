@@ -103,7 +103,7 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 4Gi
         labels:
           recurring-job-group.longhorn.io/backup: enabled
       cache:
@@ -114,14 +114,14 @@ spec:
       movies:
         enabled: true
         type: nfs
-        server: 192.168.0.154
+        server: 192.168.0.173
         path: /movies
         globalMounts:
           - path: /media/movies
       series:
         enabled: true
         type: nfs
-        server: 192.168.0.154
+        server: 192.168.0.173
         path: /series
         globalMounts:
           - path: /media/series
