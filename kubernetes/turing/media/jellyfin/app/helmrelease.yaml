@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -27,6 +27,13 @@ spec:
   values:
     controllers:
       jellyfin:
+        pod:
+          securityContext:
+            fsGroup: 2000
+            fsGroupChangePolicy: "OnRootMismatch"
+            runAsGroup: 2000
+            runAsNonRoot: false
+            runAsUser: 2000
         containers:
           main:
             image:
@@ -34,15 +41,17 @@ spec:
               tag: "10.9.11"
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_FFmpeg__probesize: 50000000
               JELLYFIN_FFmpeg__analyzeduration: 50000000
-              JELLYFIN_CACHE_DIR: /cache
+              JELLYFIN_FFmpeg__probesize: 50000000
+              JELLYFIN_PublishedServerUrl: "jellyfin.${SECRET_DOMAIN}"
               TZ: ${TIMEZONE}
             resources:
               requests:
-                memory: 2Gi
+                memory: 4Gi
               limits:
-                memory: 2Gi
+                memory: 4Gi
+            securityContext:
+              privileged: true
             probes:
               liveness: &probes
                 enabled: true
@@ -51,29 +60,28 @@ spec:
                   httpGet:
                     path: /health
                     port: &port 8096
-                  initialDelaySeconds: 30
+                  initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
               startup:
-                enabled: false
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 30
     service:
       main:
         controller: jellyfin
-        annotations:
-          io.cilium/global-service: "true"
         ports:
           http:
             port: *port
-          discovery:
-            enabled: true
-            port: 7359
-            protocol: UDP
-          dlna:
-            enabled: true
-            port: 1900
-            protocol: UDP
     ingress:
       main:
         enabled: true
@@ -95,10 +103,6 @@ spec:
           - hosts:
               - *host
     persistence:
-      dev:
-        enabled: true
-        type: hostPath
-        hostPath: /dev
       config:
         enabled: true
         type: persistentVolumeClaim
@@ -106,11 +110,6 @@ spec:
         size: 4Gi
         labels:
           recurring-job-group.longhorn.io/backup: enabled
-      cache:
-        enabled: true
-        type: emptyDir
-        globalMounts:
-          - path: /cache
       movies:
         enabled: true
         type: nfs
@@ -125,8 +124,40 @@ spec:
         path: /series
         globalMounts:
           - path: /media/series
-      transcode:
+      tmp:
         enabled: true
         type: emptyDir
+        medium: Memory
         globalMounts:
-          - path: /transcodes
+          - subPath: "tmp"
+            path: "/tmp"
+          - subPath: "transcode"
+            path: "/transcode"
+
+      # This stuff is necessary for the rockchip GPU to work
+      # source: https://github.com/RonaldPhilipsen/home-ops/blob/main/kubernetes/apps/media/jellyfin/app/helmrelease.yaml
+      dri:
+        type: hostPath
+        hostPath: /dev/dri
+        globalMounts:
+          - path: /dev/dri
+      dma-heap:
+        type: hostPath
+        hostPath: /dev/dma_heap
+        globalMounts:
+          - path: /dev/dma_heap
+      mali0:
+        type: hostPath
+        hostPath: /dev/mali0
+        globalMounts:
+          - path: /dev/mali0
+      rga:
+        type: hostPath
+        hostPath: /dev/rga
+        globalMounts:
+          - path: /dev/rga
+      mpp-service:
+        type: hostPath
+        hostPath: /dev/mpp_service
+        globalMounts:
+          - path: /dev/mpp_service
