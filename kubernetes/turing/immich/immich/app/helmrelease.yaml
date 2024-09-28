@@ -66,3 +66,28 @@ spec:
       persistence:
         cache:
           type: pvc
+        dri:
+          enabled: true
+          type: hostPath
+          hostPath: /dev/dri
+          mountPath: /dev/dri
+        dma-heap:
+          enabled: true
+          type: hostPath
+          hostPath: /dev/dma_heap
+          mountPath: /dev/dma_heap
+        mali0:
+          enabled: true
+          type: hostPath
+          hostPath: /dev/mali0
+          mountPath: /dev/mali0
+        rga:
+          enabled: true
+          type: hostPath
+          hostPath: /dev/rga
+          mountPath: /dev/rga
+        mpp-service:
+          enabled: true
+          type: hostPath
+          hostPath: /dev/mpp_service
+          mountPath: /dev/mpp_service
