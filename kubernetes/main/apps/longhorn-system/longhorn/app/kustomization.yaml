@@ -6,3 +6,4 @@ resources:
   - ./alerts.yaml
   - ./basic-auth.sops.yaml
   - ./helmrelease.yaml
+  - ./secret.sops.yaml
