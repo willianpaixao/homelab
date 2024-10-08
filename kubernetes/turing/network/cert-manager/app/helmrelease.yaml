@@ -6,7 +6,7 @@ metadata:
   name: cert-manager
   namespace: &namespace network
 spec:
-  interval: 30m
+  interval: 1h
   chart:
     spec:
       chart: cert-manager
@@ -16,9 +16,11 @@ spec:
         name: jetstack
         namespace: flux-system
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     cleanupOnFail: true
     remediation:
       strategy: rollback
@@ -35,3 +37,7 @@ spec:
     prometheus:
       servicemonitor:
         enabled: true
+    ingressShim:
+      defaultIssuerName: letsencrypt-production
+      defaultIssuerKind: ClusterIssuer
+      defaultIssuerGroup: cert-manager.io

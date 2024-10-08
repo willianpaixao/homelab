@@ -11,15 +11,10 @@ spec:
       name: letsencrypt-production
     solvers:
       - dns01:
-          cnameStrategy: Follow
           cloudflare:
             apiTokenSecretRef:
               name: cert-manager-secret
               key: api-token
-        selector:
-          dnsZones:
-            - "${SECRET_DOMAIN}"
-            - "turing.${SECRET_DOMAIN}"
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -33,12 +28,7 @@ spec:
       name: letsencrypt-staging
     solvers:
       - dns01:
-          cnameStrategy: Follow
           cloudflare:
             apiTokenSecretRef:
               name: cert-manager-secret
               key: api-token
-        selector:
-          dnsZones:
-            - "${SECRET_DOMAIN}"
-            - "turing.${SECRET_DOMAIN}"
