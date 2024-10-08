@@ -32,11 +32,10 @@ spec:
     cluster:
       id: 2
       name: turing
-    containerRuntime:
-      integration: containerd
-      socketPath: /var/run/k3s/containerd/containerd.sock
     endpointRoutes:
       enabled: true
+    envoy:
+      enabled: false
     hubble:
       enabled: true
       relay:
