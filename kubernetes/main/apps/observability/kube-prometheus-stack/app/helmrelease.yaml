@@ -6,12 +6,12 @@ metadata:
   name: &app kube-prometheus-stack
   namespace: &namespace observability
 spec:
-  interval: 30m
-  timeout: 15m
+  interval: 1h
+  timeout: 30m
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 65.1.1
+      version: 65.2.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -124,7 +124,7 @@ spec:
           - remote-write-receiver
         enableRemoteWriteReceiver: true
         retention: 90d
-        retentionSize: 64GiB
+        retentionSize: 100GiB
         nodeSelector:
           disktype: ssd
         storageSpec:
@@ -133,7 +133,7 @@ spec:
               storageClassName: longhorn
               resources:
                 requests:
-                  storage: 64Gi
+                  storage: 100Gi
     nodeExporter:
       enabled: true
     prometheus-node-exporter:
@@ -433,6 +433,11 @@ spec:
                       suspended: [spec, suspend]
                       source_name: [spec, sourceRef, name]
     grafana:
+      enabled: true
+      admin:
+        existingSecret: "grafana-auth"
+        userKey: admin-user
+        passwordKey: admin-password
       defaultDashboardsTimezone: ${TIMEZONE}
       ingress:
         enabled: true
@@ -447,7 +452,6 @@ spec:
           - hosts:
               - *host
             secretName: "grafana-tls"
-      enabled: true
       forceDeployDashboards: true
       sidecar:
         dashboards:
@@ -462,16 +466,36 @@ spec:
         size: 8Gi
         labels:
           recurring-job-group.longhorn.io/backup: enabled
-        finalizers:
-          - kubernetes.io/pvc-protection
-      admin:
-        existingSecret: "grafana-auth"
-        userKey: admin-user
-        passwordKey: admin-password
       plugins:
         - grafana-pagerduty-datasource
         - grafana-strava-datasource
+      dashboards:
+        default:
+          flux-cluster:
+            url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
+            datasource: Prometheus
+          flux-control-plane:
+            url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
+            datasource: Prometheus
+          ingress-nginx:
+            gnetId: 9614
+            revision: 1
+            datasource: Prometheus
+          cert-manager:
+            gnetId: 11001
+            revision: 1
+            datasource: Prometheus
+          redis:
+            gnetId: 11835
+            revision: 1
+            datasource: Prometheus
+          postgresql:
+            gnetId: 9628
+            revision: 7
+            datasource: Prometheus
       grafana.ini:
+        server:
+          root_url: https://grafana.${SECRET_DOMAIN}
         feature_toggles:
           externalServiceAccounts: true
         panels:
