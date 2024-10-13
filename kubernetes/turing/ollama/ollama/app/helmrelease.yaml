@@ -37,7 +37,6 @@ spec:
                     operator: DoesNotExist
     controllers:
       ollama:
-        type: deployment
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
@@ -58,12 +57,49 @@ spec:
                 enabled: true
               startup:
                 enabled: false
+      ui:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/open-webui/open-webui
+              tag: "v0.3.32"
+            env:
+              DATA_DIR: /data
+              OLLAMA_BASE_URL: http://ollama.ollama.svc.cluster.local:11434
+              RAG_EMBEDDING_ENGINE: ollama
+              WEBUI_NAME: Ollama
+              WEBUI_URL: https://ollama.${SECRET_DOMAIN}
     service:
-      app:
-        controller: *app
+      ollama:
+        controller: ollama
         ports:
           http:
             port: &port 11434
+      ui:
+        controller: ui
+        ports:
+          http:
+            port: &port 8080
+    ingress:
+      app:
+        enabled: true
+        className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Ollama
+          gethomepage.dev/group: AI
+        hosts:
+          - host: &host ollama.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: ui
+                  port: http
+        tls:
+          - hosts:
+              - *host
     persistence:
       models:
         enabled: true
@@ -74,5 +110,16 @@ spec:
           ollama:
             app:
               - path: /models
+        labels:
+          recurring-job-group.longhorn.io/backup: enabled
+      ui:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 8Gi
+        advancedMounts:
+          ui:
+            app:
+              - path: /data
         labels:
           recurring-job-group.longhorn.io/backup: enabled
