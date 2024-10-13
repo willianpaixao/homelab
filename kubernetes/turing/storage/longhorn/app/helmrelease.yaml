@@ -38,7 +38,12 @@ spec:
     ingress:
       enabled: true
       ingressClassName: internal
-      host: &host "longhorn-turing.${SECRET_DOMAIN}"
+      annotations:
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: storage
+        gethomepage.dev/icon: longhorn.png
+        gethomepage.dev/name: longhorn
+      host: &host "longhorn.turing.${SECRET_DOMAIN}"
       tls: true
       tlsSecret: "longhorn-certs"
     defaultSettings:
