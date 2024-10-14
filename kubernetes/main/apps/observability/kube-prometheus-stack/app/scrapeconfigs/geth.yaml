@@ -10,5 +10,5 @@ spec:
     - labels:
         job: geth
       targets:
-        - 192.168.0.148:6060
+        - 192.168.0.150:6060
   metricsPath: /debug/metrics/prometheus

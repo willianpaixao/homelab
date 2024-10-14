@@ -5,4 +5,3 @@ kind: Kustomization
 resources:
   - ./geth.yaml
   - ./node-exporter.yaml
-  - ./node-exporter-turing.yaml
