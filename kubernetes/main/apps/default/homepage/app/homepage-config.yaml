@@ -44,9 +44,20 @@ data:
         - Proxmox:
             href: https://tank.web3.wiki.br:8006
             icon: proxmox.png
+            widget:
+              type: proxmox
+              fields: ["vms", "resources.mem"]
+              url: https://192.168.0.15:8006
+              username: "{{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}"
+              password: "{{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}"
         - Pihole:
             href: http://192.168.0.8
             icon: pi-hole.png
+            widget:
+              type: pihole
+              fields: ["queries", "blocked"]
+              url: http://192.168.0.8
+              key: {{HOMEPAGE_VAR_PIHOLE_TOKEN}}
   settings.yaml: |
     title: Homelab
     startUrl: https://web3.wiki.br
