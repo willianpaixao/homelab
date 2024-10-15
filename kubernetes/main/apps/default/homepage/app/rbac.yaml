@@ -3,6 +3,8 @@ kind: ClusterRole
 metadata:
   name: homepage
   namespace: default
+  labels:
+    app.kubernetes.io/name: homepage
 rules:
   - apiGroups:
       - ""
@@ -35,6 +37,8 @@ kind: ClusterRoleBinding
 metadata:
   name: homepage
   namespace: default
+  labels:
+    app.kubernetes.io/name: homepage
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

@@ -31,11 +31,16 @@ data:
   kubernetes.yaml: |
     mode: cluster
   services.yaml: |
-    - Storage:
-        - OpenMediaVault:
-            href: https://openmediavault.web3.wiki.br
-            icon: openmediavault.png
     - Network:
+        - Cloudflare:
+            icon: cloudflare.png
+            href: https://dash.cloudflare.com/
+            description: Cloudflare Tunnel Management
+            widget:
+              type: cloudflared
+              accountid: {{HOMEPAGE_VAR_CLOUDFLARE_ACCOUNT_ID}}
+              tunnelid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID}}
+              key: {{HOMEPAGE_VAR_CLOUDFLARE_API_TOKEN}}
         - Proxmox:
             href: https://tank.web3.wiki.br:8006
             icon: proxmox.png

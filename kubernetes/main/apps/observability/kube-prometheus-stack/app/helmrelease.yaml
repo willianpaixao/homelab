@@ -446,6 +446,8 @@ spec:
           gethomepage.dev/group: Monitoring
           gethomepage.dev/icon: grafana.png
           gethomepage.dev/name: Grafana
+        labels:
+          app.kubernetes.io/name: kube-prometheus-stack-prometheus
         hosts:
           - &host grafana.${SECRET_DOMAIN}
         tls:
