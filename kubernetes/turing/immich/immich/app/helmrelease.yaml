@@ -38,6 +38,12 @@ spec:
           existingClaim: photos-nfs
     postgresql:
       enabled: true
+      primary:
+        resources:
+          requests:
+            memory: 256Mi
+          limits:
+            memory: 256Mi
     redis:
       enabled: true
       architecture: standalone
@@ -55,13 +61,9 @@ spec:
             - host: "immich.${SECRET_DOMAIN}"
               paths:
                 - path: /
-            - host: "photos.${SECRET_DOMAIN}"
-              paths:
-                - path: /
           tls:
             - hosts:
                 - immich.${SECRET_DOMAIN}
-                - photos.${SECRET_DOMAIN}
     machine-learning:
       image:
         tag: "v1.117.0-armnn"
