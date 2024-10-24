@@ -1,0 +1,102 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app cilium
+  namespace: &namespace kube-system
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: cilium
+      version: 1.16.3
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    autoDirectNodeRoutes: true
+    bgpControlPlane:
+      enabled: true
+    bpf:
+      masquerade: false
+    cluster:
+      id: 1
+      name: raspberry
+    endpointRoutes:
+      enabled: true
+    envoy:
+      enabled: false
+    hubble:
+      enabled: true
+      relay:
+        enabled: true
+        rollOutPods: true
+        prometheus:
+          serviceMonitor:
+            enabled: true
+      ui:
+        enabled: true
+        rollOutPods: true
+        ingress:
+          enabled: true
+          className: internal
+          hosts:
+            - "hubble.raspberry.${SECRET_DOMAIN}"
+          tls:
+            - hosts:
+                - "hubble.raspberry.${SECRET_DOMAIN}"
+    ipam:
+      mode: kubernetes
+    ipv4NativeRoutingCIDR: "${CLUSTER_CIDR}"
+    k8sServiceHost: 127.0.0.1
+    k8sServicePort: 6444
+    kubeProxyReplacement: true
+    kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+    l2announcements:
+      enabled: true
+    loadBalancer:
+      algorithm: maglev
+      mode: dsr
+    localRedirectPolicy: true
+    operator:
+      replicas: 1
+      rollOutPods: true
+    clustermesh:
+      useAPIServer: true
+      enableMCSAPISupport: true
+      apiserver:
+        kvstoremesh:
+          enabled: false
+        service:
+          type: LoadBalancer
+          loadBalancerIP: 192.168.0.30
+    rollOutCiliumPods: true
+    routingMode: native
+    securityContext:
+      capabilities:
+        ciliumAgent:
+          - CHOWN
+          - KILL
+          - NET_ADMIN
+          - NET_RAW
+          - IPC_LOCK
+          - SYS_ADMIN
+          - SYS_RESOURCE
+          - DAC_OVERRIDE
+          - FOWNER
+          - SETGID
+          - SETUID
+        cleanCiliumState:
+          - NET_ADMIN
+          - SYS_ADMIN
+          - SYS_RESOURCE
