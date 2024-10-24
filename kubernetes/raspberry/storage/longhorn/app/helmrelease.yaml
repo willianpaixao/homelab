@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app longhorn
+  namespace: &namespace storage
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: longhorn
+      version: 1.7.2
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    persistence:
+      defaultClass: true
+      defaultClassReplicaCount: 2
+      defaultNodeSelector:
+        enable: true
+        selector: "disktype"
+    metrics:
+      serviceMonitor:
+        enabled: true
+    ingress:
+      enabled: true
+      ingressClassName: internal
+      annotations:
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: storage
+        gethomepage.dev/icon: longhorn.png
+        gethomepage.dev/name: longhorn
+      host: &host "longhorn.raspberry.${SECRET_DOMAIN}"
+      tls: true
+      tlsSecret: "longhorn-certs"
+    defaultSettings:
+      backupTarget: "s3://longhorn-uncaring@s3.us-east-005.backblazeb2.com/"
+      backupTargetCredentialSecret: "longhorn-backup"
+    longhornDriver:
+      nodeSelector:
+        disktype: ssd
+    longhornManager:
+      nodeSelector:
+        disktype: ssd
+    longhornUI:
+      replicas: 1
+      nodeSelector:
+        disktype: ssd
+
