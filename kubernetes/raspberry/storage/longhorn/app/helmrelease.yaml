@@ -32,7 +32,7 @@ spec:
       defaultClassReplicaCount: 2
       defaultNodeSelector:
         enable: true
-        selector: "disktype"
+        selector: "ssd"
     metrics:
       serviceMonitor:
         enabled: true
