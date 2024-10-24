@@ -6,7 +6,7 @@ metadata:
   name: ingress-nginx-internal
   namespace: network
 spec:
-  interval: 30m
+  interval: 1h
   chart:
     spec:
       chart: ingress-nginx
@@ -27,8 +27,7 @@ spec:
     controller:
       service:
         annotations:
-          io.cilium/lb-ipam-ips: "192.168.0.169"
-        externalTrafficPolicy: Cluster
+          io.cilium/lb-ipam-ips: "192.168.0.31"
       ingressClassResource:
         name: internal
         default: true
@@ -60,8 +59,3 @@ spec:
             any: true
       extraArgs:
         default-ssl-certificate: "network/${SECRET_DOMAIN/./-}-production-tls"
-      resources:
-        requests:
-          cpu: 100m
-        limits:
-          memory: 500Mi
