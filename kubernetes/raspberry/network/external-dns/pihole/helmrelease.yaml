@@ -16,12 +16,10 @@ spec:
         name: external-dns
         namespace: flux-system
   install:
-    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
     remediation:
       strategy: rollback
       retries: 3
@@ -29,10 +27,9 @@ spec:
     provider:
       name: pihole
     extraArgs:
-      - --pihole-server=http://192.168.0.8
       - --ingress-class=internal
-    policy: upsert-only
-    sources: ["ingress", "service"]
+      - --pihole-server=http://192.168.0.8
+      - --pihole-tls-skip-verify
     registry: noop
     domainFilters: ["web3.wiki.br"]
     env:
