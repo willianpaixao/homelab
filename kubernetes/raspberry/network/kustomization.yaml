@@ -8,3 +8,4 @@ resources:
   - ./ingress-nginx/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./namespace.yaml
+  - ./unifi-controller/ks.yaml
