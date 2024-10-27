@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: home
+data:
+  bookmarks.yaml: |
+    - Developer:
+        - Github:
+            - abbr: GH
+              href: https://github.com/
+    - Social:
+        - Reddit:
+            - icon: reddit.png
+              href: https://reddit.com/
+              description: The front page of the internet
+    - Entertainment:
+        - YouTube:
+            - abbr: YT
+              href: https://youtube.com/
+    - Fitness:
+        - Polar:
+            - abbr: PF
+              href: https://flow.polar.com/
+        - Strava:
+            - abbr: ST
+              href: https://www.strava.com/
+  custom.css: ""
+  custom.js: ""
+  docker.yaml: ""
+  kubernetes.yaml: |
+    mode: cluster
+  services.yaml: |
+    - Network:
+        - Cloudflare:
+            icon: cloudflare.png
+            href: https://dash.cloudflare.com/
+            description: Cloudflare Tunnel Management
+            widget:
+              type: cloudflared
+              accountid: {{HOMEPAGE_VAR_CLOUDFLARE_ACCOUNT_ID}}
+              tunnelid: {{HOMEPAGE_VAR_CLOUDFLARE_TUNNEL_ID}}
+              key: {{HOMEPAGE_VAR_CLOUDFLARE_API_TOKEN}}
+        - Proxmox:
+            href: https://tank.web3.wiki.br:8006
+            icon: proxmox.png
+            widget:
+              type: proxmox
+              fields: ["vms", "resources.mem"]
+              url: https://192.168.0.15:8006
+              username: "{{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}"
+              password: "{{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}"
+        - Pihole:
+            href: http://192.168.0.8
+            icon: pi-hole.png
+            widget:
+              type: pihole
+              fields: ["queries", "blocked"]
+              url: http://192.168.0.8
+              key: {{HOMEPAGE_VAR_PIHOLE_TOKEN}}
+  settings.yaml: |
+    title: Homelab
+    startUrl: https://web3.wiki.br
+    theme: dark
+    quicklaunch:
+      hideInternetSearch: true
+      showSearchSuggestions: true
+      hideVisitURL: true
+    layout:
+      Media:
+        style: row
+        columns: 3
+        icon: mdi-television
+      Monitoring:
+        style: row
+        columns: 3
+        icon: mdi-chart-line
+      Storage:
+        style: row
+        columns: 2
+        icon: mdi-database
+      Network:
+        icon: mdi-lan
+        style: row
+        columns: 2
+  widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    - openmeteo:
+        label: Tyresö
+        latitude: 59.23
+        longitude: 18.22
+        timezone: Europe/Stockholm
+        units: metric
+        cache: 5

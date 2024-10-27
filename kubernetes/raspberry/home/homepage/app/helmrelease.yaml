@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app homepage
+  namespace: &namespace home
+spec:
+  interval: 1h
+  timeout: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        name: bjw-s
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      homepage:
+        annotations:
+          configmap.reloader.stakater.com/reload: homepage-config
+        strategy: RollingUpdate
+        serviceAccount:
+          name: homepage
+        containers:
+          app:
+            image:
+              repository: ghcr.io/gethomepage/homepage
+              tag: v0.9.10@sha256:671c2ed1a61b5dfbb9a1998c8738c3aeb1acf11adbc12563f81fcf4fd9802198
+              pullPolicy: IfNotPresent
+            env:
+              TZ: ${TIMEZONE}
+            envFrom:
+              - secretRef:
+                  name: homepage-secret
+            probes:
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+    service:
+      homepage:
+        controller: homepage
+        ports:
+          http:
+            port: &port 3000
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: homepage-config
+        globalMounts:
+          - path: /app/config
+      logs:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /app/config/logs
+    ingress:
+      homepage:
+        enabled: true
+        className: internal
+        hosts:
+          - host: &host ${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: homepage
+                  port: http
+        tls:
+          - hosts:
+              - *host
