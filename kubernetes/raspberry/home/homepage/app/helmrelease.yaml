@@ -30,8 +30,6 @@ spec:
         annotations:
           configmap.reloader.stakater.com/reload: homepage-config
         strategy: RollingUpdate
-        serviceAccount:
-          name: homepage
         containers:
           app:
             image:
