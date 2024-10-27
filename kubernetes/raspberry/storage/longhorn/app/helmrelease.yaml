@@ -44,6 +44,8 @@ spec:
         gethomepage.dev/group: storage
         gethomepage.dev/icon: longhorn.png
         gethomepage.dev/name: longhorn
+        gethomepage.dev/pod-selector: "app=longhorn-ui"
+        gethomepage.dev/widget.type: "longhorn"
       host: &host "longhorn.raspberry.${SECRET_DOMAIN}"
       tls: true
       tlsSecret: "longhorn-certs"
