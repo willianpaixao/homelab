@@ -58,6 +58,9 @@ spec:
               capabilities:
                 drop:
                   - ALL
+    serviceAccount:
+      create: true
+      name: homepage
     service:
       homepage:
         controller: homepage
