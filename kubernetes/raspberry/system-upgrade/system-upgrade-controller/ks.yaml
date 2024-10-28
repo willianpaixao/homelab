@@ -10,12 +10,12 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/system-upgrade/system-upgrade-controller/app
+  path: ./kubernetes/raspberry/system-upgrade/system-upgrade-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
   wait: true
-  interval: 30m
+  interval: 1h
   retryInterval: 1m
   timeout: 5m

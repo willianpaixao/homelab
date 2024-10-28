@@ -3,6 +3,7 @@ apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
   name: controllers
+  namespace: system-upgrade
 spec:
   version: "${KUBE_VERSION}"
   upgrade:
@@ -35,6 +36,7 @@ apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
   name: workers
+  namespace: system-upgrade
 spec:
   version: "${KUBE_VERSION}"
   serviceAccountName: system-upgrade
@@ -46,5 +48,8 @@ spec:
   prepare:
     image: rancher/k3s-upgrade
     args: ["prepare", "controllers"]
+  drain:
+    force: true
+    skipWaitForDeleteTimeout: 60
   upgrade:
     image: rancher/k3s-upgrade
