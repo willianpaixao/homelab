@@ -47,7 +47,7 @@ data:
             widget:
               type: proxmox
               fields: ["vms", "resources.mem"]
-              url: https://192.168.0.15:8006
+              url: https://tank.web3.wiki.br:8006
               username: "{{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}"
               password: "{{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}"
         - Pihole:
@@ -61,28 +61,36 @@ data:
   settings.yaml: |
     title: Homelab
     startUrl: https://web3.wiki.br
+    background:
+      image: https://stsci-opo.org/STScI-01G8GZR18A6CBS9TGJS8JE9CM4.png
+      opacity: 20
+      cardBlur: md
     theme: dark
+    headerStyle: clean
     quicklaunch:
       hideInternetSearch: true
       showSearchSuggestions: true
       hideVisitURL: true
     layout:
-      Media:
-        style: row
-        columns: 3
-        icon: mdi-television
-      Monitoring:
-        style: row
-        columns: 3
-        icon: mdi-chart-line
-      Storage:
-        style: row
-        columns: 2
-        icon: mdi-database
-      Network:
-        icon: mdi-lan
-        style: row
-        columns: 2
+      - Media:
+          style: row
+          columns: 2
+          icon: mdi-television
+      - Monitoring:
+          style: row
+          columns: 2
+          icon: mdi-chart-line
+      - Storage:
+          style: row
+          columns: 2
+          icon: mdi-database
+      - Network:
+          icon: mdi-lan
+          style: row
+          columns: 2
+    providers:
+      longhorn:
+        url: https://longhorn.raspberry.web3.wiki.br
   widgets.yaml: |
     - kubernetes:
         cluster:
