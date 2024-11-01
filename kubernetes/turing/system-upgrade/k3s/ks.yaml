@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: system-upgrade-controller
-  path: ./kubernetes/raspberry/system-upgrade/k3s/app
+  path: ./kubernetes/turing/system-upgrade/k3s/app
   prune: true
   sourceRef:
     kind: GitRepository
