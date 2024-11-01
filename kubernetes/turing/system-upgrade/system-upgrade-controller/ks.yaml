@@ -3,25 +3,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app system-upgrade-k3s
+  name: &app system-upgrade-controller
   namespace: flux-system
 spec:
   targetNamespace: system-upgrade
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: system-upgrade-controller
-  path: ./kubernetes/raspberry/system-upgrade/k3s/app
+  path: ./kubernetes/turing/system-upgrade/system-upgrade-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: false
+  wait: true
   interval: 1h
   retryInterval: 1m
   timeout: 5m
-  postBuild:
-    substitute:
-      # renovate: datasource=github-releases depName=k3s-io/k3s
-      KUBE_VERSION: v1.31.2+k3s1
