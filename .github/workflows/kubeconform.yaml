@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: ["main"]
     paths: ["kubernetes/**"]
+  workflow_dispatch:
 
 env:
   KUBERNETES_DIR: ./kubernetes
@@ -17,13 +18,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-
-      - name: Setup Workflow Tools
-        run: brew install fluxcd/tap/flux kubeconform kustomize
-
-      - name: Run kubeconform
-        shell: bash
-        run: bash ./scripts/kubeconform.sh ${{ env.KUBERNETES_DIR }}
+      - name: Login to Github Packages
+        run: echo "${{ github.token }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+      - uses: docker://ghcr.io/yannh/kubeconform:latest
+        with:
+          entrypoint: "/kubeconform"
+          args: "-summary -output json -ignore-missing-schemas -ignore-filename-pattern json ${{ env.KUBERNETES_DIR }}"
