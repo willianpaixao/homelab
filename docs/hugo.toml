@@ -6,7 +6,9 @@ enableGitInfo = true
 
 [params]
 BookFavicon = 'favicon.svg'
+BookLogo = 'logo.png'
 BookRepo = 'https://github.com/willianpaixao/homelab'
+BookSection = '*'
 
 [module]
 [[module.imports]]

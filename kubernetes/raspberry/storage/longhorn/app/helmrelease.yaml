@@ -61,4 +61,3 @@ spec:
       replicas: 1
       nodeSelector:
         disktype: ssd
-
