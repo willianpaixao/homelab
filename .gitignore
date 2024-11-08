@@ -1,25 +1,10 @@
-# Trash
-.DS_Store
-Thumbs.db
-# k8s
-kubeconfig
-.decrypted~*.yaml
-.config.env
 *.agekey
-*.pub
 *.key
-# Private
-.private
-.bin
-# Ansible
-.venv*
-# Taskfile
-.task
-# Brew
-Brewfile.lock.json
-# intellij
+*.pub
+.config.env
 .idea
-# wiki
-wiki
-# Bootstrap
+.private
+.venv*
 /config.yaml
+/docs/.hugo_build.lock
+kubeconfig

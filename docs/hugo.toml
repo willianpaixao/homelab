@@ -1,0 +1,13 @@
+baseURL = 'https://willianpaixao.github.io/homelab'
+languageCode = 'en-us'
+title = 'Homelab'
+
+enableGitInfo = true
+
+[params]
+BookFavicon = 'favicon.svg'
+BookRepo = 'https://github.com/willianpaixao/homelab'
+
+[module]
+[[module.imports]]
+path = 'github.com/alex-shpak/hugo-book'
