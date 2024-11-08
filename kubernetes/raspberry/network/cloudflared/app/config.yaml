@@ -5,7 +5,6 @@ metadata:
   namespace: network
 data:
   config.yaml: |
-    ---
     originRequest:
       originServerName: "external.${SECRET_DOMAIN}"
     ingress:

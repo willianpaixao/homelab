@@ -7,28 +7,6 @@ tags = ['network']
 
 # Network topology
 
-{{<mermaid>}}
-architecture-beta
-    service vigilant(server)[vigilant]
-
-    group proxmox(cloud)[zion]
-    service dozer(server)[dozer] in proxmox
-    service tank(server)[tank] in proxmox
-
-    group main(cloud)[main]
-    service logos(server)[logos] in main
-    service mjolnir(server)[mjolnir] in main
-    service mnemosyne(server)[mnemosyne] in main
-    service vishnu(server)[vishnu] in main
-
-    group turing(cloud)[turing]
-    service cotijuba(server)[cotijuba] in turing
-    service marajo(server)[marajo] in turing
-    service outeiro(server)[outeiro] in turing
-    service tapajos(server)[tapajos] in turing
-{{</mermaid>}}
-
-
 ### Gateways and switches
 
 | Host                                                 | IP address    | MAC address       |

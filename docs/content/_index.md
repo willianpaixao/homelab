@@ -11,19 +11,23 @@ title = 'Homelab'
 For more information about Turing Pi Cluster Board, please visit the [main](turingpi) article.
 
 ## Network
+
 For detailed information about the network topology, please visit the [network](network) article.
 
 ## Software
 
 ### Services
 
-| Service                                 | Description              |
-|-----------------------------------------|--------------------------|
-| [Kubernetes](https://kubernetes.io/)    | Container Orchestration  |
-| [Prometheus](https://prometheus.io/)    | Monitoring               |
-| [Grafana](https://grafana.com/grafana/) | Visualization            |
-| [Pi-hole](https://pi-hole.net/)         | Network-wide Ad Blocking |
-| [WireGuard](https://www.wireguard.com/) | VPN                      |
+| Service                                 | Description                |
+|-----------------------------------------|----------------------------|
+| [Grafana](https://grafana.com/grafana/) | Visualization              |
+| [Immich](https://immich.app/)           | Photo and video management |
+| [Kubernetes](https://kubernetes.io/)    | Container Orchestration    |
+| [Pi-hole](https://pi-hole.net/)         | Network-wide Ad Blocking   |
+| [Prometheus](https://prometheus.io/)    | Monitoring                 |
+| [Sonarr](https://sonarr.tv/)            | TV Shows                   |
+| [Radarr](https://radarr.video/)         | Movies                     |
+| [WireGuard](https://www.wireguard.com/) | VPN                        |
 
 ## Features
 
