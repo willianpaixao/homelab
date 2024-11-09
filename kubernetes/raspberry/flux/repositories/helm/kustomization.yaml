@@ -10,3 +10,4 @@ resources:
   - k8s-gateway.yaml
   - longhorn.yaml
   - metrics-server.yaml
+  - node-feature-discovery.yaml
