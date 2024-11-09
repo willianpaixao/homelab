@@ -1,0 +1,132 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app kube-prometheus-stack
+  namespace: &namespace observability
+spec:
+  interval: 1h
+  timeout: 30m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 66.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-charts
+        namespace: flux-system
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    crds:
+      enabled: true
+    alertmanager:
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Monitoring
+          gethomepage.dev/icon: alertmanager.png
+          gethomepage.dev/name: Alertmanager
+        hosts:
+          - &host alertmanager.${SECRET_DOMAIN}
+        tls:
+          - hosts:
+              - *host
+      alertmanagerSpec:
+        replicas: 1
+    prometheus:
+      service:
+        type: LoadBalancer
+        loadBalancerIP: 192.168.0.35
+      ingress:
+        enabled: true
+        ingressClassName: internal
+        pathType: Prefix
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Monitoring
+          gethomepage.dev/icon: prometheus.png
+          gethomepage.dev/name: Prometheus
+        hosts:
+          - &host prometheus.${SECRET_DOMAIN}
+        tls:
+          - hosts:
+              - *host
+      prometheusSpec:
+        replicas: 1
+        scrapeInterval: 30s
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
+        enableAdminAPI: true
+        walCompression: true
+        enableFeatures:
+          - auto-gomaxprocs
+          - memory-snapshot-on-shutdown
+          - new-service-discovery-manager
+          - remote-write-receiver
+        enableRemoteWriteReceiver: true
+        retention: 30d
+        retentionSize: 64GiB
+        nodeSelector:
+          disktype: ssd
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              resources:
+                requests:
+                  storage: 64Gi
+    nodeExporter:
+      enabled: true
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+    kubeStateMetrics:
+      enabled: true
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      prometheus:
+        monitor:
+          enabled: true
+    grafana:
+      enabled: true
+      defaultDashboardsTimezone: ${TIMEZONE}
+      ingress:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Monitoring
+          gethomepage.dev/icon: grafana.png
+          gethomepage.dev/name: Grafana
+        hosts:
+          - &host grafana.${SECRET_DOMAIN}
+        tls:
+          - hosts:
+              - *host
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        accessModes:
+          - ReadWriteOnce
+        size: 8Gi
+        labels:
+          recurring-job-group.longhorn.io/backup: enabled
+      nodeSelector:
+        disktype: ssd

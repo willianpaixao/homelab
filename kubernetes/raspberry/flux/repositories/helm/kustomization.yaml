@@ -11,3 +11,4 @@ resources:
   - longhorn.yaml
   - metrics-server.yaml
   - node-feature-discovery.yaml
+  - prometheus-community-charts.yaml
