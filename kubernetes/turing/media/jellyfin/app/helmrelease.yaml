@@ -134,6 +134,11 @@ spec:
             path: "/tmp"
           - subPath: "transcode"
             path: "/transcode"
+      fonts:
+        type: hostPath
+        hostPath: /usr/share/fonts
+        globalMounts:
+          - path: /usr/local/share/fonts
 
       # This stuff is necessary for the rockchip GPU to work
       # source: https://github.com/RonaldPhilipsen/home-ops/blob/main/kubernetes/apps/media/jellyfin/app/helmrelease.yaml
