@@ -80,6 +80,8 @@ spec:
           - new-service-discovery-manager
           - remote-write-receiver
         enableRemoteWriteReceiver: true
+        externalLabels:
+          cluster: "raspberry"
         retention: 30d
         retentionSize: 64GiB
         nodeSelector:
