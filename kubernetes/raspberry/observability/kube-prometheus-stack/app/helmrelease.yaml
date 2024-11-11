@@ -39,6 +39,7 @@ spec:
           gethomepage.dev/group: Monitoring
           gethomepage.dev/icon: alertmanager.png
           gethomepage.dev/name: Alertmanager
+          gethomepage.dev/app: alertmanager
         hosts:
           - &host alertmanager.${SECRET_DOMAIN}
         tls:
@@ -56,9 +57,13 @@ spec:
         pathType: Prefix
         annotations:
           gethomepage.dev/enabled: "true"
+          gethomepage.dev/app: kube-prometheus-stack-prometheus-operator
           gethomepage.dev/group: Monitoring
           gethomepage.dev/icon: prometheus.png
           gethomepage.dev/name: Prometheus
+          gethomepage.dev/widget.type: prometheus
+          gethomepage.dev/widget.fields: "[\"targets_up\", \"targets_down\"]"
+          gethomepage.dev/widget.url: http://kube-prometheus-stack-prometheus.observability:9090
         hosts:
           - &host prometheus.${SECRET_DOMAIN}
         tls:
