@@ -41,7 +41,8 @@ spec:
     prometheus:
       agentMode: true
       prometheusSpec:
-        externalLabels:
-          cluster: "turing"
+        scrapeInterval: 30s
+        podMonitorSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
         remoteWrite:
           - url: 'http://192.168.0.35:9090/api/v1/write'
