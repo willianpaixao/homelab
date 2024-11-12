@@ -26,6 +26,7 @@ spec:
       retries: 3
   values:
     env:
+      IMMICH_LOG_LEVEL: debug
       TZ: ${TIMEZONE}
     image:
       # renovate: datasource=github-releases depName=immich-app/immich
@@ -65,6 +66,15 @@ spec:
             - hosts:
                 - immich.${SECRET_DOMAIN}
     machine-learning:
+      image:
+        tag: "v1.120.1-armnn"
+      securityContext:
+        fsGroup: 2000
+        fsGroupChangePolicy: "OnRootMismatch"
+        privileged: true
+        runAsGroup: 2000
+        runAsNonRoot: false
+        runAsUser: 2000
       persistence:
         cache:
           type: pvc
@@ -93,3 +103,13 @@ spec:
           type: hostPath
           hostPath: /dev/mpp_service
           mountPath: /dev/mpp_service
+        mali-csffw:
+          enabled: true
+          type: hostPath
+          hostPath: /lib/firmware/mali_csffw.bin
+          mountPath: /lib/firmware/mali_csffw.bin
+        libmali:
+          enabled: true
+          type: hostPath
+          hostPath: /usr/lib/aarch64-linux-gnu/libmali.so
+          mountPath: /usr/lib/libmali.so
