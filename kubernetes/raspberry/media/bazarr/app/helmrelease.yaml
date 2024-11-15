@@ -71,6 +71,11 @@ spec:
       app:
         enabled: true
         className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/icon: bazarr.png
+          gethomepage.dev/name: Bazarr
         hosts:
           - host: &host bazarr.${SECRET_DOMAIN}
             paths:
