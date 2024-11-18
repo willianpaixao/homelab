@@ -27,8 +27,6 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    crds:
-      enabled: true
     alertmanager:
       ingress:
         enabled: true
@@ -85,8 +83,6 @@ spec:
           - new-service-discovery-manager
           - remote-write-receiver
         enableRemoteWriteReceiver: true
-        externalLabels:
-          cluster: "raspberry"
         retention: 30d
         retentionSize: 64GiB
         nodeSelector:
@@ -98,20 +94,6 @@ spec:
               resources:
                 requests:
                   storage: 64Gi
-    nodeExporter:
-      enabled: true
-    prometheus-node-exporter:
-      fullnameOverride: node-exporter
-      prometheus:
-        monitor:
-          enabled: true
-    kubeStateMetrics:
-      enabled: true
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-      prometheus:
-        monitor:
-          enabled: true
     grafana:
       enabled: true
       defaultDashboardsTimezone: ${TIMEZONE}
@@ -127,6 +109,11 @@ spec:
         tls:
           - hosts:
               - *host
+      sidecar:
+        dashboards:
+          multicluster:
+            global:
+              enabled: true
       persistence:
         enabled: true
         storageClassName: longhorn

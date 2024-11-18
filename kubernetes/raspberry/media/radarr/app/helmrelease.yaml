@@ -124,6 +124,10 @@ spec:
         path: /movies
         globalMounts:
           - path: /media/movies
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: "/tmp"
     defaultPodOptions:
       dnsConfig:
         options:

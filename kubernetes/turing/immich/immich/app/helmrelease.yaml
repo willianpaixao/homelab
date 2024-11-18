@@ -26,7 +26,6 @@ spec:
       retries: 3
   values:
     env:
-      IMMICH_LOG_LEVEL: debug
       TZ: ${TIMEZONE}
     image:
       # renovate: datasource=github-releases depName=immich-app/immich

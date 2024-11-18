@@ -6,7 +6,7 @@ metadata:
   name: &app prometheus-agent
   namespace: &namespace observability
 spec:
-  interval: 30m
+  interval: 1h
   timeout: 15m
   chart:
     spec:
@@ -17,32 +17,24 @@ spec:
         name: prometheus-community-charts
         namespace: flux-system
   install:
+    crds: Create
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     cleanupOnFail: true
     remediation:
       strategy: rollback
       retries: 3
   values:
-    fullnameOverride: *app
-    alertmanager:
-      enabled: false
-    grafana:
-      enabled: false
-    kubeApiServer:
-      enabled: false
-    kubeEtcd:
-      enabled: false
-    kubeScheduler:
-      enabled: false
-    kubeProxy:
-      enabled: false
     prometheus:
       agentMode: true
       prometheusSpec:
+        externalLabels:
+          cluster: "turing"
         scrapeInterval: 30s
         podMonitorSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         remoteWrite:
           - url: 'http://192.168.0.35:9090/api/v1/write'
