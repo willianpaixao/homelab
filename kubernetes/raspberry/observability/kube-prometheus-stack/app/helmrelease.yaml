@@ -45,6 +45,8 @@ spec:
               - *host
       alertmanagerSpec:
         replicas: 1
+        alertmanagerConfiguration:
+          name: alertmanager-config
     prometheus:
       service:
         type: LoadBalancer
@@ -67,6 +69,10 @@ spec:
         tls:
           - hosts:
               - *host
+      serviceMonitor:
+        relabelings:
+          - replacement: raspberry
+            targetLabel: cluster
       prometheusSpec:
         replicas: 1
         scrapeInterval: 30s
@@ -94,6 +100,60 @@ spec:
               resources:
                 requests:
                   storage: 64Gi
+    kubeApiServer:
+      serviceMonitor:
+        relabelings:
+          - replacement: raspberry
+            targetLabel: cluster
+    kubelet:
+      serviceMonitor:
+        cAdvisorRelabelings:
+          - sourceLabels: [__metrics_path__]
+            targetLabel: metrics_path
+          - replacement: raspberry
+            targetLabel: cluster
+        relabelings:
+          - sourceLabels: [__metrics_path__]
+            targetLabel: metrics_path
+          - replacement: raspberry
+            targetLabel: cluster
+    kubeControllerManager:
+      endpoints:
+        - 192.168.0.5
+        - 192.168.0.6
+        - 192.168.0.7
+      serviceMonitor:
+        relabelings:
+          - replacement: raspberry
+            targetLabel: cluster
+    kubeScheduler:
+      endpoints:
+        - 192.168.0.5
+        - 192.168.0.6
+        - 192.168.0.7
+      serviceMonitor:
+        relabelings:
+          - replacement: raspberry
+            targetLabel: cluster
+    kubeProxy:
+      enabled: false
+    kube-state-metrics:
+      prometheus:
+        monitor:
+          relabelings:
+            - replacement: raspberry
+              targetLabel: cluster
+    prometheus-node-exporter:
+      prometheus:
+        monitor:
+          relabelings:
+            - replacement: raspberry
+              targetLabel: cluster
+    prometheusOperator:
+      serviceMonitor:
+        relabelings:
+          - replacement: raspberry
+            targetLabel: cluster
     grafana:
       enabled: true
       defaultDashboardsTimezone: ${TIMEZONE}

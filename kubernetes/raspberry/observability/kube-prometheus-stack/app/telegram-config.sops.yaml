@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: telegram-config
+    namespace: observability
+data:
+    BOT_TOKEN: ENC[AES256_GCM,data:nv+mcZ8PsDtJrBlw9TWqENjyhHxWGN6RqiXrkZGEaDzPC8ducn9m+2vqGVtc8VUz4gViCNi1c+c8JI3XphyUdw==,iv:XlMkKzN+QjFep6p2ub8bebwanwokY8zsI1dyGCUh2hA=,tag:KO00y4tQVkST+jXY/p8oNw==,type:str]
+    CHAT_ID: ENC[AES256_GCM,data:Iy8A7A4PvyShJM1TXpNONMzc+ro=,iv:qLdTA/uS6rr7eoCVARl/c/nzBABvGT1x6l8eyQdU260=,tag:DK91+mMXIXW5Za2F0D+AKQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1nkvss2a8xvmjauvr5mxzm233hyh2mk2fg4s6pt0t0kcn03dv34wqtgymg8
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBkZzB1bjh1alJkKyt1aWNl
+            eWdMYjZqbjMwMWNiYnB4R0ZXZE82c3pFZzJZClhxUEh4UTFlcFZnVTJBVmZ2eFMz
+            blBWRnBmeEdnNjBISUJYQTBtalZWR3MKLS0tIERmemFSQ0o0bk1MT0dIWU9iOXN1
+            R2lsSUFvMjFQVTRYT25tb3FOMG9NQTgKAl8sBHxxpvLC3zVTMoEUe/dLPzyRQjdu
+            iaYlewpypwzduLlDfo2dpfErOCedf6oC2w4gRmNJTP0lg2KWdzN33A==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1wxwqdrmkwkzsxajp58g0cgeextgf4wq287fv82pptv9yghkfgcqql66zhj
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAxTWEwb29QbW0yUjk2QUlN
+            djVrbnZPeUgvMmJwZU5MZ0ozUTBnN0RQcEdjClRaeEZSVU5SZHB2aHVoczBjOXNs
+            VVlyZU5aVTlxcldaTXBFYVRyaFpDSmMKLS0tIGFidm9wVW1YT2NMdy9rSnZENytj
+            UVc3WTRVSFFVSGNrNCt0MXFYUWZLbDQKpIJimfVIW3uR4TBL/emtALvJmKdYkh4t
+            M1UOLPI4cDPK8vC6mgg6fZlJyzp0A3Q8kPoTV2STjjh9Ezpk2blVkQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-11-21T18:40:04Z"
+    mac: ENC[AES256_GCM,data:rCzaMX48ZDNAY1pG4JrmmncbSpyMfp7xxDntz0kt17iaIVzkrB94UiVd41xbdviJ79R2SOapFDbs8aOrH1uMa7PgGvSoW//xDqi0vKeR5Pae461WM8tu+7cZNVumUxwv2doS85a46UDZam9/aNeQB9qUwM2MtmSm9X1r/tdz0qs=,iv:AF4TW8fLQxvE/NTObL/JwxXpjMv1yeho2rf6cze2Umw=,tag:Wk46e9cNF2JFzHKF9rQ48w==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.1

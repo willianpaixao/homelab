@@ -27,6 +27,18 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    alertmanager:
+      enabled: false
+    grafana:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeProxy:
+      enabled: false
     prometheus:
       agentMode: true
       prometheusSpec:
