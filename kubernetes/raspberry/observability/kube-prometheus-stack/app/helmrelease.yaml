@@ -121,23 +121,9 @@ spec:
           - replacement: raspberry
             targetLabel: cluster
     kubeControllerManager:
-      endpoints:
-        - 192.168.0.5
-        - 192.168.0.6
-        - 192.168.0.7
-      serviceMonitor:
-        relabelings:
-          - replacement: raspberry
-            targetLabel: cluster
+      enabled: false
     kubeScheduler:
-      endpoints:
-        - 192.168.0.5
-        - 192.168.0.6
-        - 192.168.0.7
-      serviceMonitor:
-        relabelings:
-          - replacement: raspberry
-            targetLabel: cluster
+      enabled: false
     kubeProxy:
       enabled: false
     kube-state-metrics:
