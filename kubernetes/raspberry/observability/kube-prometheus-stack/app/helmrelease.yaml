@@ -87,7 +87,6 @@ spec:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-          - remote-write-receiver
         enableRemoteWriteReceiver: true
         retention: 30d
         retentionSize: 64GiB
