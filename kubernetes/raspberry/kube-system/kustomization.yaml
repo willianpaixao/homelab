@@ -5,4 +5,3 @@ resources:
   - cilium/ks.yaml
   - metrics-server/ks.yaml
   - namespace.yaml
-  - node-feature-discovery/ks.yaml
