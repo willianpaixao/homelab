@@ -32,11 +32,11 @@ spec:
     dns01RecursiveNameserversOnly: true
     resources:
       requests:
-        cpu: 50m
-        memory: 32Mi
-      limits:
         cpu: 100m
         memory: 32Mi
+      limits:
+        cpu: 200m
+        memory: 64Mi
     podDnsConfig:
       nameservers:
         - "1.1.1.1"
