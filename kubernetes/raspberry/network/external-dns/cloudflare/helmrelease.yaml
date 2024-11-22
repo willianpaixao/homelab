@@ -41,6 +41,13 @@ spec:
       - --crd-source-kind=DNSEndpoint
       - --events
       - --ingress-class=external
+    resources:
+      requests:
+        cpu: 20m
+        memory: 32Mi
+      limits:
+        cpu: 20m
+        memory: 32Mi
     policy: sync
     sources: ["crd", "ingress"]
     txtPrefix: k8s.

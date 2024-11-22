@@ -41,6 +41,11 @@ spec:
             envFrom:
               - secretRef:
                   name: homepage-secret
+            resources:
+              requests:
+                memory: 128Mi
+              limits:
+                memory: 256Mi
             probes:
               startup:
                 enabled: true

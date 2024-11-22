@@ -42,7 +42,6 @@ spec:
               tag: v8.6.9@sha256:b8eb551cc0aa61666357aab0078bba15fec557c81ba83284c2c9bfc217d6a529
               pullPolicy: IfNotPresent
             env:
-              DEBUG: "true"
               JVM_MAX_HEAP_SIZE: 1024M
               RUNAS_UID0: "false"
               TZ: ${TIMEZONE}
@@ -51,8 +50,11 @@ spec:
               UNIFI_UID: "999"
             resources:
               requests:
-                memory: 2Gi
                 cpu: 50m
+                memory: 1Gi
+              limits:
+                cpu: 50m
+                memory: 1Gi
     service:
       app:
         controller: unifi
