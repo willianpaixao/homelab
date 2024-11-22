@@ -36,6 +36,10 @@ spec:
     metrics:
       serviceMonitor:
         enabled: true
+        metricRelabelings:
+          - sourceLabels: [__name__]
+            action: drop
+            regex: "longhorn_rest_client_rate_limiter_latency_seconds_bucket"
     ingress:
       enabled: true
       ingressClassName: internal

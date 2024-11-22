@@ -102,6 +102,10 @@ spec:
                   storage: 64Gi
     kubeApiServer:
       serviceMonitor:
+        metricRelabelings:
+          - sourceLabels: [__name__]
+            action: drop
+            regex: '(apiserver|etcd)_request_duration_seconds_bucket'
         relabelings:
           - replacement: raspberry
             targetLabel: cluster
