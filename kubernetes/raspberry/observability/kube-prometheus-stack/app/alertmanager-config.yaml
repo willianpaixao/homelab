@@ -13,8 +13,20 @@ spec:
     groupInterval: 5m
     repeatInterval: 12h
     receiver: 'telegram'
+    routes:
+      - receiver: 'null'
+        matchers:
+          - name: 'alertname'
+            value: 'InfoInhibitor'
+            matchType: '='
+      - receiver: 'telegram'
+        matchers:
+          - name: 'severity'
+            value: 'critical|page'
+            matchType: '=~'
   receivers:
-    - name: telegram
+    - name: 'null'
+    - name: 'telegram'
       telegramConfigs:
         - botToken:
             name: 'telegram-config'
