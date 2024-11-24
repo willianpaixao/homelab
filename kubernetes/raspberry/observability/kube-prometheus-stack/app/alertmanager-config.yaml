@@ -22,8 +22,14 @@ spec:
       - receiver: 'telegram'
         matchers:
           - name: 'severity'
-            value: 'critical|page'
-            matchType: '=~'
+            value: 'critical'
+            matchType: '='
+      - receiver: 'telegram'
+        matchers:
+          - name: 'severity'
+            value: 'page'
+            matchType: '='
+>>>>>>> f46cd93 (feat(prom): update alertmanagerconfig)
   receivers:
     - name: 'null'
     - name: 'telegram'
