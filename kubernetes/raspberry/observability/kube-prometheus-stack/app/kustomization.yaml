@@ -5,3 +5,4 @@ resources:
   - alertmanager-config.yaml
   - helmrelease.yaml
   - telegram-config.sops.yaml
+  - scrapeconfigs
