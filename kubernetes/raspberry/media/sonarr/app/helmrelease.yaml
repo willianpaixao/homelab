@@ -67,11 +67,11 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                cpu: 400m
-                memory: 400Mi
+                cpu: 500m
+                memory: 256Mi
               limits:
-                cpu: 400m
-                memory: 400Mi
+                cpu: 1
+                memory: 512Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
