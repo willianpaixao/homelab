@@ -7,6 +7,8 @@
     ':dependencyDashboard',
     ':semanticCommits',
     ':automergeBranch',
+    ':automergeDigest',
+    'helpers:pinGitHubActionDigests',
   ],
   dependencyDashboard: true,
   dependencyDashboardTitle: 'Renovate Dashboard 🤖',
@@ -20,19 +22,16 @@
   ],
   flux: {
     fileMatch: [
-      '(^|/)ansible/.+\\.ya?ml(\\.j2)?$',
       '(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$',
     ],
   },
   'helm-values': {
     fileMatch: [
-      '(^|/)ansible/.+\\.ya?ml(\\.j2)?$',
       '(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$',
     ],
   },
   kubernetes: {
     fileMatch: [
-      '(^|/)ansible/.+\\.ya?ml(\\.j2)?$',
       '(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$',
     ],
   },
