@@ -82,13 +82,8 @@ spec:
               tag: v3.39.1
             env:
               DOT: "off"
-              DNS_ADDRESS: 1.1.1.1
               FIREWALL_INPUT_PORTS: 8080
               FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16
-              SERVER_CATEGORIES: P2P
-              SERVER_COUNTRIES: Sweden
-              VPN_SERVICE_PROVIDER: nordvpn
-              VPN_TYPE: openvpn
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
