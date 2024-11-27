@@ -29,7 +29,6 @@ spec:
           - name: 'severity'
             value: 'page'
             matchType: '='
->>>>>>> f46cd93 (feat(prom): update alertmanagerconfig)
   receivers:
     - name: 'null'
     - name: 'telegram'
