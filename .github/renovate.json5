@@ -11,39 +11,54 @@
     ':disableRateLimiting',
     ':semanticCommits',
   ],
-  assignees: ['willianpaixao'],
-  reviewers: ['willianpaixao'],
+  assignees: [
+    'willianpaixao',
+  ],
+  reviewers: [
+    'willianpaixao',
+  ],
   assignAutomerge: true,
   dependencyDashboard: true,
   dependencyDashboardTitle: 'Renovate Dashboard 🤖',
-  ignorePaths: ['**/*.sops.*', '**/docs/**'],
+  ignorePaths: [
+    '**/*.sops.*',
+    '**/docs/**',
+  ],
   suppressNotifications: [
     'prEditedNotification',
     'prIgnoreNotification',
   ],
   rebaseWhen: 'conflicted',
-  schedule: ['on saturday',],
-  "flux": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
-    ]
-  },
-  "helm-values": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+  schedule: [
+    'on saturday',
+  ],
+  flux: {
+    fileMatch: [
+      '(^|/)kubernetes/.+\\.ya?ml$',
     ],
-    "pinDigests": false
   },
-  "kubernetes": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
-    ]
+  'helm-values': {
+    fileMatch: [
+      '(^|/)kubernetes/.+\\.ya?ml$',
+    ],
+    pinDigests: false,
   },
-  "packageRules": [
+  kubernetes: {
+    fileMatch: [
+      '(^|/)kubernetes/.+\\.ya?ml$',
+    ],
+  },
+  packageRules: [
     {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["minor"],
-      "matchPackagePatterns": ["app-template"]
+      matchDatasources: [
+        'docker',
+      ],
+      matchUpdateTypes: [
+        'minor',
+      ],
+      matchPackageNames: [
+        '/app-template/',
+      ],
     },
-  ]
+  ],
 }
