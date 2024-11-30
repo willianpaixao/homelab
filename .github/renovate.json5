@@ -52,12 +52,21 @@
       matchDatasources: [
         'docker',
       ],
+      matchPackageNames: [
+        'ghcr.io/bjw-s/helm/app-template',
+      ],
+      pinDigests: false,
+    },
+    {
+      matchDatasources: [
+        'docker',
+      ],
       matchUpdateTypes: [
         'minor',
-        'patch',
       ],
-      matchPackagePatterns: [
-        'app-template',
+      matchPackageNames: [
+        'ghcr.io/onedr0p/prowlarr-nightly',
+        'ghcr.io/onedr0p/sonarr-develop',
       ],
     },
   ],
