@@ -56,8 +56,8 @@
         'minor',
         'patch',
       ],
-      matchPackagePatterns: [
-        'app-template',
+      matchPackageNames: [
+        '/app-template/',
       ],
     },
   ],
