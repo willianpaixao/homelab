@@ -36,21 +36,16 @@ spec:
             runAsNonRoot: false
             runAsUser: 2000
         containers:
-          main:
+          app:
             image:
               repository: jellyfin/jellyfin
               tag: "10.10.3@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221"
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_FFmpeg__analyzeduration: 50000000
-              JELLYFIN_FFmpeg__probesize: 50000000
+              JELLYFIN_FFmpeg__analyzeduration: 500000000
+              JELLYFIN_FFmpeg__probesize: 500000000
               JELLYFIN_PublishedServerUrl: "jellyfin.${SECRET_DOMAIN}"
               TZ: ${TIMEZONE}
-            resources:
-              requests:
-                memory: 4Gi
-              limits:
-                memory: 4Gi
             securityContext:
               privileged: true
             probes:
@@ -67,24 +62,15 @@ spec:
                   failureThreshold: 3
               readiness: *probes
               startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 30
+                enabled: false
     service:
-      main:
+      app:
         controller: jellyfin
         ports:
           http:
             port: *port
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         annotations:
@@ -98,7 +84,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -109,31 +95,38 @@ spec:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 4Gi
-        labels:
-          recurring-job-group.longhorn.io/backup: enabled
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /config
       movies:
         enabled: true
         type: nfs
         server: 192.168.0.173
         path: /movies
-        globalMounts:
-          - path: /media/movies
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /media/movies
       series:
         enabled: true
         type: nfs
         server: 192.168.0.173
         path: /series
-        globalMounts:
-          - path: /media/series
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /media/series
       tmp:
         enabled: true
         type: emptyDir
-        medium: Memory
-        globalMounts:
-          - subPath: "tmp"
-            path: "/tmp"
-          - subPath: "transcode"
-            path: "/transcode"
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /transcode
+                subPath: transcode
       fonts:
         type: hostPath
         hostPath: /usr/share/fonts
