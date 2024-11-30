@@ -41,7 +41,6 @@
     fileMatch: [
       '(^|/)kubernetes/.+\\.ya?ml$',
     ],
-    pinDigests: false,
   },
   kubernetes: {
     fileMatch: [
@@ -55,9 +54,10 @@
       ],
       matchUpdateTypes: [
         'minor',
+        'patch',
       ],
-      matchPackageNames: [
-        '/app-template/',
+      matchPackagePatterns: [
+        'app-template',
       ],
     },
   ],
