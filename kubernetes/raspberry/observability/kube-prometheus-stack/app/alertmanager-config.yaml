@@ -12,31 +12,18 @@ spec:
     groupWait: 30s
     groupInterval: 5m
     repeatInterval: 12h
+    receiver: 'telegram'
     routes:
       - receiver: 'null'
         matchers:
           - name: 'alertname'
-            value: 'InfoInhibitor'
-            matchType: '='
-          - name: 'alertname'
-            value: 'NodeCPUHighUsage'
-            matchType: '='
-          - name: 'alertname'
-            value: 'NodeSystemSaturation'
-            matchType: '='
-          - name: 'alertname'
-            value: 'Watchdog'
-            matchType: '='
+            value: 'InfoInhibitor|NodeCPUHighUsage|NodeSystemSaturation|Watchdog'
+            matchType: '=~'
       - receiver: 'telegram'
         matchers:
           - name: 'severity'
-            value: 'critical'
-            matchType: '='
-      - receiver: 'telegram'
-        matchers:
-          - name: 'severity'
-            value: 'page'
-            matchType: '='
+            value: 'critical|page'
+            matchType: '=~'
   receivers:
     - name: 'null'
     - name: 'telegram'
