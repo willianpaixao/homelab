@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/prowlarr-nightly
-              tag: 1.28.0.4854@sha256:340a380a93ff29615e74fe215dd410fd31d0e537b735674d37bb889112ace7ee
+              tag: 1.28.1.4868@sha256:433bdea87e043ae4311c52f979accf0ece390145f410c86981c0cfff9fbfe487
             env:
               DOTNET_SYSTEM_NET_DISABLEIPV6: 1
               PROWLARR__ANALYTICS_ENABLED: "False"
