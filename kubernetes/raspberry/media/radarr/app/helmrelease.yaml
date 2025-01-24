@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.15.1.9463@sha256:e9144f8a76d8e2a98f57a2ff6170e05f5880c6839d9fc351a9cb854813f8bc69
+              tag: 5.18.1.9612@sha256:64364aa80c8e7bb1350c77a0400dcf7da298cf06c44c84081937955bbbd01e4c
             env:
               COMPlus_EnableDiagnostics: "0"
               RADARR__APPLICATION_URL: "https://radarr.${SECRET_DOMAIN}"
