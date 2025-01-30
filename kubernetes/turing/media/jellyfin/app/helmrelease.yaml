@@ -94,7 +94,7 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 4Gi
+        size: 8Gi
         advancedMounts:
           jellyfin:
             app:
