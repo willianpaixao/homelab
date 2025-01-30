@@ -17,8 +17,16 @@ spec:
       - receiver: 'null'
         matchers:
           - name: 'alertname'
-            value: 'InfoInhibitor|NodeCPUHighUsage|NodeSystemSaturation|Watchdog'
+            value: 'InfoInhibitor|NodeCPUHighUsage|NodeSystemSaturation'
             matchType: '=~'
+      - receiver: 'dead-mans-switch'
+        groupWait: 0s
+        groupInterval: 5m
+        repeatInterval: 5m
+        matchers:
+          - name: 'alertname'
+            value: 'Watchdog'
+            matchType: '='
       - receiver: 'telegram'
         matchers:
           - name: 'severity'
@@ -26,6 +34,9 @@ spec:
             matchType: '=~'
   receivers:
     - name: 'null'
+    - name: 'dead-mans-switch'
+      webhookConfigs:
+        - url: "${HEALTHCHECKS_IO_URL}"
     - name: 'telegram'
       telegramConfigs:
         - botToken:
