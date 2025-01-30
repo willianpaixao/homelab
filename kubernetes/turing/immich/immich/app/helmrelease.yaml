@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: 0.8.4
+      version: 0.8.5
       sourceRef:
         kind: HelmRepository
         namespace: flux-system
@@ -28,8 +28,7 @@ spec:
     env:
       TZ: ${TIMEZONE}
     image:
-      # renovate: datasource=github-releases depName=immich-app/immich
-      tag: "v1.121.0"
+      tag: "v1.125.7"
     immich:
       metrics:
         enabled: true
@@ -66,7 +65,7 @@ spec:
                 - immich.${SECRET_DOMAIN}
     machine-learning:
       image:
-        tag: "v1.120.1-armnn"
+        tag: "v1.125.7-armnn"
       securityContext:
         fsGroup: 2000
         fsGroupChangePolicy: "OnRootMismatch"
