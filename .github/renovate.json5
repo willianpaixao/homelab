@@ -58,11 +58,12 @@
       pinDigests: false,
     },
     {
+      enabled: false,
       matchDatasources: [
         'docker',
       ],
       matchUpdateTypes: [
-        'minor',
+        'patch',
       ],
       matchPackageNames: [
         'ghcr.io/onedr0p/prowlarr-nightly',

@@ -6,7 +6,7 @@ metadata:
   name: longhorn
   namespace: &namespace storage
 spec:
-  interval: 30m
+  interval: 1h
   chart:
     spec:
       chart: longhorn
@@ -17,10 +17,12 @@ spec:
         namespace: flux-system
   maxHistory: 3
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       strategy: rollback
       retries: 3
