@@ -16,12 +16,10 @@ spec:
         name: external-dns
         namespace: flux-system
   install:
-    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
     remediation:
       strategy: rollback
       retries: 3
@@ -43,11 +41,11 @@ spec:
       - --ingress-class=external
     resources:
       requests:
-        cpu: 20m
-        memory: 32Mi
+        cpu: 30m
+        memory: 128Mi
       limits:
-        cpu: 20m
-        memory: 32Mi
+        cpu: 30m
+        memory: 128Mi
     policy: sync
     sources: ["crd", "ingress"]
     txtPrefix: k8s.
