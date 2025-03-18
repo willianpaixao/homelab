@@ -111,20 +111,15 @@ spec:
         size: 1Gi
         labels:
           recurring-job-group.longhorn.io/backup: enabled
-      downloads:
+      media:
         enabled: true
         type: nfs
         server: ${NFS_SERVER}
-        path: /downloads
-        globalMounts:
-          - path: /media/downloads
-      series:
-        enabled: true
-        type: nfs
-        server: ${NFS_SERVER}
-        path: /series
-        globalMounts:
-          - path: /media/series
+        path: /
+        advancedMounts:
+          sonarr:
+            app:
+              - path: /media
       tmp:
         type: emptyDir
         globalMounts:
