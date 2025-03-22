@@ -25,7 +25,8 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    provider: pihole
+    provider:
+      name: pihole
     extraArgs:
       - --pihole-server=http://192.168.0.8
       - --ingress-class=internal
