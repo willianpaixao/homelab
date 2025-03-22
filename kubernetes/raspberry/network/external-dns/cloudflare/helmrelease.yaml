@@ -24,7 +24,6 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    fullnameOverride: *app
     provider:
       name: cloudflare
     env:
