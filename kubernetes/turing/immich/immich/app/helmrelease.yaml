@@ -75,7 +75,9 @@ spec:
         runAsUser: 2000
       persistence:
         cache:
+          size: 4Gi
           type: pvc
+          accessMode: ReadWriteOnce
         dri:
           enabled: true
           type: hostPath
