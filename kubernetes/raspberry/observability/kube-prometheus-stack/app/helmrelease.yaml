@@ -89,7 +89,7 @@ spec:
           - new-service-discovery-manager
         enableRemoteWriteReceiver: true
         retention: 30d
-        retentionSize: 64GiB
+        retentionSize: 128GiB
         nodeSelector:
           disktype: ssd
         storageSpec:
