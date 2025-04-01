@@ -28,7 +28,7 @@ spec:
     env:
       TZ: ${TIMEZONE}
     image:
-      tag: "v1.129.0"
+      tag: "v1.131.2"
     immich:
       metrics:
         enabled: true
@@ -65,7 +65,7 @@ spec:
                 - immich.${SECRET_DOMAIN}
     machine-learning:
       image:
-        tag: "v1.129.0-armnn"
+        tag: "v1.131.2-armnn"
       securityContext:
         fsGroup: 2000
         fsGroupChangePolicy: "OnRootMismatch"
