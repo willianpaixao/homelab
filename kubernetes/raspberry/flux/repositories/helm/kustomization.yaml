@@ -6,10 +6,10 @@ resources:
   - cilium.yaml
   - descheduler.yaml
   - external-dns.yaml
+  - flux-operator.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
   - k8s-gateway.yaml
   - longhorn.yaml
   - metrics-server.yaml
-  - node-feature-discovery.yaml
   - prometheus-community-charts.yaml
