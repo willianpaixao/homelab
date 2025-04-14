@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
   - cluster-secrets.sops.yaml
   - cluster-settings.yaml
-  - flux.yaml
   - github-deploy-key.sops.yaml
-  - helmrelease.yaml
+  - gotk-components.yaml
+  - gotk-sync.yaml
   - sops-age.sops.yaml
   - ./webhook/ks.yaml
