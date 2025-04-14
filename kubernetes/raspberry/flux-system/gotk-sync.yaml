@@ -12,6 +12,10 @@ spec:
   secretRef:
     name: github-deploy-key
   url: ssh://git@github.com:22/willianpaixao/homelab.git
+  verify:
+    mode: HEAD
+    secretRef:
+      name: pgp-public-keys
   ignore: |
     /*
     !/kubernetes/raspberry
