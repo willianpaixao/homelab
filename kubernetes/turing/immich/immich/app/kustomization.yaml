@@ -4,5 +4,7 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - immich-secret.sops.yaml
+  - networkpolicy.yaml
   - pdb.yaml
   - pvc.yaml
+  - svc.yaml
