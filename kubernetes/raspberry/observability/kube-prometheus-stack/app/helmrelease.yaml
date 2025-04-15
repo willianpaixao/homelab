@@ -148,6 +148,7 @@ spec:
       defaultDashboardsTimezone: ${TIMEZONE}
       ingress:
         enabled: true
+        ingressClassName: internal
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Monitoring
