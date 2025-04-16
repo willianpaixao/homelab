@@ -41,8 +41,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.20.1.9773@sha256:8187c129a78fdfe15b1603db9175abd2be0e1ca2e99ea3733987c3ae941da165
+              repository: ghcr.io/home-operations/radarr
+              tag: 5.22.2@sha256:cc27be2fa5310b911f2b4c262868a659b4a7c5cee5b61f348d3ef9406ee75e84
             env:
               COMPlus_EnableDiagnostics: "0"
               RADARR__APPLICATION_URL: "https://radarr.${SECRET_DOMAIN}"
@@ -123,8 +123,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: "/tmp"
-    defaultPodOptions:
-      dnsConfig:
-        options:
-          - name: ndots
-            value: "1"
