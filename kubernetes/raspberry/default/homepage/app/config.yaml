@@ -48,8 +48,8 @@ data:
               type: proxmox
               fields: ["vms", "resources.mem"]
               url: https://tank.web3.wiki.br:8006
-              username: "{{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}"
-              password: "{{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}"
+              username: {{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}
+              password: {{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}
         - Pihole:
             href: http://192.168.0.8
             icon: pi-hole.png
@@ -61,10 +61,6 @@ data:
   settings.yaml: |
     title: Homelab
     startUrl: https://web3.wiki.br
-    background:
-      image: https://stsci-opo.org/STScI-01G8GZR18A6CBS9TGJS8JE9CM4.png
-      opacity: 20
-      cardBlur: md
     theme: dark
     headerStyle: clean
     quicklaunch:
