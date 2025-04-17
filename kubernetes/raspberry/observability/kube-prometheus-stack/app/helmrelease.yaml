@@ -151,6 +151,7 @@ spec:
         ingressClassName: internal
         annotations:
           gethomepage.dev/enabled: "true"
+          gethomepage.dev/app: grafana
           gethomepage.dev/group: Monitoring
           gethomepage.dev/icon: grafana.png
           gethomepage.dev/name: Grafana

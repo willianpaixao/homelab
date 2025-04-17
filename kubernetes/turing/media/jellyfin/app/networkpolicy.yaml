@@ -29,6 +29,16 @@ spec:
       ports:
         - protocol: TCP
           port: 8096
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homepage
+      ports:
+        - protocol: TCP
+          port: 8096
   egress:
     - to:
         - namespaceSelector:

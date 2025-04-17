@@ -31,6 +31,16 @@ data:
   kubernetes.yaml: |
     mode: cluster
   services.yaml: |
+    - Media:
+        - Jellyfin:
+            icon: jellyfin.png
+            href: https://jellyfin.web3.wiki.br
+            widget:
+              type: jellyfin
+              fields: ["movies", "episodes"]
+              url: https://jellyfin.web3.wiki.br
+              key: {{HOMEPAGE_VAR_JELLYFIN_API_TOKEN}}
+              enableNowPlaying: false
     - Network:
         - Cloudflare:
             icon: cloudflare.png
