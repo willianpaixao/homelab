@@ -1,10 +1,38 @@
 ---
-area/ansible:
-  - changed-files:
-      - any-glob-to-any-file: ansible/**/*
 area/github:
   - changed-files:
       - any-glob-to-any-file: .github/**/*
 area/kubernetes:
   - changed-files:
       - any-glob-to-any-file: kubernetes/**/*
+area/documentation:
+  - changed-files:
+      - any-glob-to-any-file: docs/**/*
+      - any-glob-to-any-file: "*.md"
+area/flux:
+  - changed-files:
+      - any-glob-to-any-file: kubernetes/*/flux/**/*
+      - any-glob-to-any-file: kubernetes/*/flux-system/**/*
+cluster/raspberry:
+  - changed-files:
+      - any-glob-to-any-file: kubernetes/raspberry/**/*
+cluster/turing:
+  - changed-files:
+      - any-glob-to-any-file: kubernetes/turing/**/*
+app/networking:
+  - changed-files:
+      - any-glob-to-any-file: kubernetes/*/network/**/*
+app/media:
+  - changed-files:
+      - any-glob-to-any-file: kubernetes/*/media/**/*
+app/observability:
+  - changed-files:
+      - any-glob-to-any-file: kubernetes/*/observability/**/*
+type/config:
+  - changed-files:
+      - any-glob-to-any-file: "*.yaml"
+      - any-glob-to-any-file: "*.yml"
+      - any-glob-to-any-file: "*.json"
+type/security:
+  - changed-files:
+      - any-glob-to-any-file: "**/*.sops.*"

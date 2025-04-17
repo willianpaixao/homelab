@@ -1,13 +1,17 @@
 ---
 # Area
-- { name: "area/ansible",            color: "0e8a16" }
 - { name: "area/github",             color: "0e8a16" }
 - { name: "area/kubernetes",         color: "0e8a16" }
-# Distro
-- { name: "distro/k3s",              color: "ffc300" }
+- { name: "area/documentation",      color: "0e8a16" }
+- { name: "area/flux",               color: "0e8a16" }
+# Cluster
+- { name: "cluster/raspberry",       color: "d4c5f9" }
+- { name: "cluster/turing",          color: "d4c5f9" }
+# App
+- { name: "app/networking",          color: "1d76db" }
+- { name: "app/media",               color: "1d76db" }
+- { name: "app/observability",       color: "1d76db" }
 # Renovate
-- { name: "renovate/ansible",        color: "027fa0" }
-- { name: "renovate/container",      color: "027fa0" }
 - { name: "renovate/github-action",  color: "027fa0" }
 - { name: "renovate/github-release", color: "027fa0" }
 - { name: "renovate/helm",           color: "027fa0" }
@@ -16,5 +20,7 @@
 - { name: "type/minor",              color: "ff9800" }
 - { name: "type/major",              color: "f6412d" }
 - { name: "type/break",              color: "f6412d" }
+- { name: "type/config",             color: "fbca04" }
+- { name: "type/security",           color: "b60205" }
 # Uncategorized
 - { name: "hold/upstream",           color: "ee0701" }

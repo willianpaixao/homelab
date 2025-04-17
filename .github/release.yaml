@@ -1,4 +1,35 @@
 changelog:
-  exclude:
-    authors:
-      - renovate
+  categories:
+    - title: 'GitHub'
+      labels:
+        - 'area/github'
+    - title: 'Kubernetes'
+      labels:
+        - 'area/kubernetes'
+    - title: 'Documentation'
+      labels:
+        - 'area/documentation'
+    - title: 'Flux'
+      labels:
+        - 'area/flux'
+    - title: 'Raspberry Cluster'
+      labels:
+        - 'cluster/raspberry'
+    - title: 'Turing Cluster'
+      labels:
+        - 'cluster/turing'
+    - title: 'Networking'
+      labels:
+        - 'app/networking'
+    - title: 'Media'
+      labels:
+        - 'app/media'
+    - title: 'Observability'
+      labels:
+        - 'app/observability'
+    - title: 'Configuration'
+      labels:
+        - 'type/config'
+    - title: 'Security'
+      labels:
+        - 'type/security'
