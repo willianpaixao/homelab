@@ -20,6 +20,7 @@ spec:
       retries: 3
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       strategy: rollback
       retries: 3
@@ -33,10 +34,11 @@ spec:
             name: external-dns-secret
             key: api-token
     extraArgs:
+      - --cloudflare-dns-records-per-page=1000
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --events
+      - --ignore-ingress-tls-spec
       - --ingress-class=external
     resources:
       requests:
@@ -45,6 +47,7 @@ spec:
       limits:
         cpu: 30m
         memory: 128Mi
+    triggerLoopOnEvent: true
     policy: sync
     sources: ["crd", "ingress"]
     txtPrefix: k8s.

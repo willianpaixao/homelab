@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - homepage/ks.yaml
   - namespace.yaml
+  - willian-eth/ks.yaml
