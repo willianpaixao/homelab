@@ -65,14 +65,14 @@ spec:
                 - immich.${SECRET_DOMAIN}
     machine-learning:
       image:
-        tag: "v1.131.3"
+        tag: "v1.131.3-rknn"
       env:
-        MACHINE_LEARNING_ANN_FP16_TURBO: "True"
+        MACHINE_LEARNING_RKNN_THREADS: "2"
       securityContext:
         privileged: true
       persistence:
         cache:
-          size: 4Gi
+          size: 32Gi
           type: pvc
           accessMode: ReadWriteOnce
         dri:
