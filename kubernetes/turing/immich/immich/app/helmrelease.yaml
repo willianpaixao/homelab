@@ -65,14 +65,11 @@ spec:
                 - immich.${SECRET_DOMAIN}
     machine-learning:
       image:
-        tag: "v1.131.3-armnn"
+        tag: "v1.131.3"
+      env:
+        MACHINE_LEARNING_ANN_FP16_TURBO: "True"
       securityContext:
-        fsGroup: 2000
-        fsGroupChangePolicy: "OnRootMismatch"
         privileged: true
-        runAsGroup: 2000
-        runAsNonRoot: false
-        runAsUser: 2000
       persistence:
         cache:
           size: 4Gi
