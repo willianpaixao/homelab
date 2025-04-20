@@ -1,5 +1,7 @@
 # Kubernetes Turing Pi Cluster
 
+![Turing Pi cluster](https://imgur.com/QY0BY1W)
+
 This directory contains the configuration for the [Turing Pi](https://turingpi.com/) Kubernetes cluster, which is part of the homelab infrastructure. The cluster is managed using [Flux](https://fluxcd.io/) for GitOps and runs various media and photo management services.
 
 ## Cluster Specifications
