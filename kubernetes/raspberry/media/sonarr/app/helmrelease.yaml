@@ -108,7 +108,7 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 2Gi
         labels:
           recurring-job-group.longhorn.io/backup: enabled
       media:
@@ -124,8 +124,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: "/tmp"
-    defaultPodOptions:
-      dnsConfig:
-        options:
-          - name: ndots
-            value: "1"
