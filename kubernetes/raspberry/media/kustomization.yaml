@@ -5,6 +5,7 @@ resources:
   - bazarr/ks.yaml
   - flaresolverr/ks.yaml
   - namespace.yaml
+  - networkpolicy.yaml
   - prowlarr/ks.yaml
   - qbittorrent/ks.yaml
   - radarr/ks.yaml

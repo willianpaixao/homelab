@@ -165,6 +165,10 @@ spec:
           multicluster:
             global:
               enabled: true
+          provider:
+            foldersFromFilesStructure: true
+          searchNamespace: observability
+          folderAnnotation: grafana_folder
       persistence:
         enabled: true
         storageClassName: longhorn

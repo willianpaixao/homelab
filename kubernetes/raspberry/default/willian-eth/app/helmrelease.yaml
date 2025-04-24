@@ -61,6 +61,7 @@ spec:
               runAsNonRoot: true
               runAsUser: 101
               runAsGroup: 101
+              serviceAccountName: willian-eth
     service:
       app:
         controller: main
