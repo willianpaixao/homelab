@@ -1,0 +1,66 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app netbox
+  namespace: network
+spec:
+  interval: 1h
+  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: netbox
+  values:
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+    image:
+      repository: ghcr.io/netbox-community/netbox
+      tag: v4.2.8
+    resources:
+      requests:
+        cpu: 1
+        memory: 1Gi
+      limits:
+        cpu: 2
+        memory: 1Gi
+    resourcesPreset: "none"
+    loginRequired: true
+    timeZone: ${TIMEZONE}
+    metrics:
+      enabled: true
+    redis:
+      enabled: true
+      architecture: standalone
+      master:
+        persistence:
+          enabled: false
+    postgresql:
+      primary:
+        nodeSelector:
+          disktype: ssd
+    worker:
+      enabled: false
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+    startupProbe:
+      enabled: false
+
+    ingress:
+      enabled: true
+      className: internal
+      hosts:
+        - host: &host netbox.${SECRET_DOMAIN}
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: netbox
+                  port:
+                    number: 80
+      tls:
+        - hosts:
+            - *host
