@@ -40,9 +40,9 @@ spec:
       primary:
         resources:
           requests:
-            memory: 256Mi
-          limits:
             memory: 512Mi
+          limits:
+            memory: 1Gi
     redis:
       enabled: true
       architecture: standalone
