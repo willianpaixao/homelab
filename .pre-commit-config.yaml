@@ -8,7 +8,7 @@ exclude: |
 
 repos:
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.1
+    rev: v1.37.0
     hooks:
       - id: yamllint
 
@@ -29,13 +29,3 @@ repos:
     hooks:
       - id: forbid-crlf
       - id: forbid-tabs
-
-  - repo: https://github.com/sirosen/fix-smartquotes
-    rev: 0.2.0
-    hooks:
-      - id: fix-smartquotes
-
-  - repo: https://github.com/k8s-at-home/sops-pre-commit
-    rev: v2.1.1
-    hooks:
-      - id: forbid-secrets
