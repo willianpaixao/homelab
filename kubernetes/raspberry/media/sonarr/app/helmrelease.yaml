@@ -124,3 +124,8 @@ spec:
         type: emptyDir
         globalMounts:
           - path: "/tmp"
+    defaultPodOptions:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
