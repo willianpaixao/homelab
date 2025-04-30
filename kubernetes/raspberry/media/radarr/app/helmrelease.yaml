@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/radarr
-              tag: 5.22.3@sha256:f01085db848e3e0238c7d3f09faaa552471d1de1f144dfd94d95bb796706e91c
+              tag: 5.23.0@sha256:36cd279903d97e74fc687c937d6a5693a6fb69a01787203795b17ab66fb0e3e9
             env:
               COMPlus_EnableDiagnostics: "0"
               RADARR__APPLICATION_URL: "https://radarr.${SECRET_DOMAIN}"
