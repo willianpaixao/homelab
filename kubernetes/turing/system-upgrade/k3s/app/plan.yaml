@@ -7,7 +7,7 @@ metadata:
 spec:
   version: "${KUBE_VERSION}"
   upgrade:
-    image: rancher/k3s-upgrade@sha256:70a238fdf8da99b99fcdb835f8162c9176e8078c170f5d6f349d3b38c3bfed7b
+    image: rancher/k3s-upgrade@sha256:f29b6e38a40711f4a8c187512e4976ddb9a8af5b3b1f1f221d863267f4c3387c
   serviceAccountName: system-upgrade
   concurrency: 1
   cordon: true
@@ -46,10 +46,10 @@ spec:
       - key: node-role.kubernetes.io/control-plane
         operator: DoesNotExist
   prepare:
-    image: rancher/k3s-upgrade@sha256:70a238fdf8da99b99fcdb835f8162c9176e8078c170f5d6f349d3b38c3bfed7b
+    image: rancher/k3s-upgrade@sha256:f29b6e38a40711f4a8c187512e4976ddb9a8af5b3b1f1f221d863267f4c3387c
     args: ["prepare", "controllers"]
   drain:
     force: true
     skipWaitForDeleteTimeout: 60
   upgrade:
-    image: rancher/k3s-upgrade@sha256:70a238fdf8da99b99fcdb835f8162c9176e8078c170f5d6f349d3b38c3bfed7b
+    image: rancher/k3s-upgrade@sha256:f29b6e38a40711f4a8c187512e4976ddb9a8af5b3b1f1f221d863267f4c3387c
