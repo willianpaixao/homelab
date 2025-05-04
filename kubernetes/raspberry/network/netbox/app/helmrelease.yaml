@@ -16,7 +16,7 @@ spec:
       reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/netbox-community/netbox
-      tag: v4.2.8@sha256:e485550e8598ab40b42752f73cb960d1924e6e3c08ab60857edc9ef68f705859
+      tag: v4.3.0@sha256:dc703b59b7ed2eb8b815c79a9bdbe00ec2d355a5b01e45be25a5b13bec9bdb97
     resources:
       requests:
         cpu: 1
