@@ -27,6 +27,10 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    crds:
+      upgradeJob:
+        enabled: true
+        forceConflicts: true
     alertmanager:
       ingress:
         enabled: true
