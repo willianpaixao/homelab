@@ -1,0 +1,81 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prysm-rules
+  namespace: observability
+spec:
+  groups:
+    - name: prysm.rules
+      rules:
+        - alert: PrysmNodeDown
+          expr: up{job="prysm"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Prysm consensus client down (instance {{ $labels.instance }})"
+            description: "Prysm Ethereum consensus client is down\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmSyncLagging
+          expr: sync_eth2_synced == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Prysm node not synced (instance {{ $labels.instance }})"
+            description: "Prysm Ethereum consensus client is not in sync with the network\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmLowPeerCount
+          expr: p2p_peer_count{state="Connected"} < 15
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm low peer count (instance {{ $labels.instance }})"
+            description: "Prysm Ethereum consensus client has fewer than 15 peers\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmNoIncomingBlocksForSlots
+          expr: rate(block_received_slot[5m]) == 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm not receiving blocks (instance {{ $labels.instance }})"
+            description: "Prysm Ethereum consensus client has not received any blocks in the last 5 minutes\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmMissedAttestations
+          expr: rate(missed_attestations_total[30m]) > 3
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm missing attestations (instance {{ $labels.instance }})"
+            description: "Prysm validator is missing attestations at a high rate\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmHighMemoryUsage
+          expr: process_resident_memory_bytes{job="prysm"} > 6e9
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm high memory usage (instance {{ $labels.instance }})"
+            description: "Prysm is using more than 6GB of memory\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmGRPCErrors
+          expr: sum(rate(grpc_server_handled_total{grpc_code!="OK"}[5m])) by (instance) > 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm GRPC errors (instance {{ $labels.instance }})"
+            description: "Prysm consensus client is experiencing GRPC errors\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmSlotProcessingDelay
+          expr: slot_processing_delay_seconds > 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm slot processing delay (instance {{ $labels.instance }})"
+            description: "Prysm slot processing is delayed by more than 1 second\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
