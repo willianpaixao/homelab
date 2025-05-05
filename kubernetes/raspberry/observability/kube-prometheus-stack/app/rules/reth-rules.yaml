@@ -1,0 +1,72 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: reth-rules
+  namespace: observability
+spec:
+  groups:
+    - name: reth.rules
+      rules:
+        - alert: RethNodeDown
+          expr: up{job=~".*reth.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Reth node down (instance {{ $labels.instance }})"
+            description: "Reth node is down\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethSyncLagging
+          expr: max(time() - reth_chain_sync_stage_progress{stage="Headers"}) > 3600
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth sync lagging (instance {{ $labels.instance }})"
+            description: "Reth Ethereum node is more than 1 hour behind in synchronization\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethPeerCountLow
+          expr: reth_network_peers < 5
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth peer count low (instance {{ $labels.instance }})"
+            description: "Reth Ethereum node has fewer than 5 peers\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethHighBlockLatency
+          expr: time() - reth_chain_latest_block_timestamp > 60
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth block latency high (instance {{ $labels.instance }})"
+            description: "Reth Ethereum node is more than 60 seconds behind the latest block\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethCriticalBlockLatency
+          expr: time() - reth_chain_latest_block_timestamp > 180
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Reth block latency critical (instance {{ $labels.instance }})"
+            description: "Reth Ethereum node is more than 3 minutes behind the latest block\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethBlockProcessingTime
+          expr: rate(reth_chain_blocks_imported_total[5m]) < 0.1
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth slow block processing (instance {{ $labels.instance }})"
+            description: "Reth Ethereum node is processing fewer than 0.1 blocks per second on average\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethMissedSlots
+          expr: increase(reth_consensus_missed_slots_total[15m]) > 5
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth missed slots (instance {{ $labels.instance }})"
+            description: "Reth Ethereum node has missed more than 5 slots in the last 15 minutes\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

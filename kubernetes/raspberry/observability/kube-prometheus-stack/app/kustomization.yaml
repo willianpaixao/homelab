@@ -7,3 +7,4 @@ resources:
   - telegram-config.sops.yaml
   - dashboards
   - scrapeconfigs
+  - rules
