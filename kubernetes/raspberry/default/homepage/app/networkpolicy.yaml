@@ -10,7 +10,6 @@ spec:
       app.kubernetes.io/name: homepage
   policyTypes:
     - Ingress
-    - Egress
   ingress:
     - from:
         - namespaceSelector:
@@ -22,5 +21,3 @@ spec:
       ports:
         - protocol: TCP
           port: 3000
-  egress:
-    - to: []
