@@ -30,7 +30,8 @@ spec:
         strategy: RollingUpdate
         serviceAccount:
           create: false
-          name: willian-eth
+        pod:
+          automountServiceAccountToken: false
         containers:
           app:
             image:
@@ -61,13 +62,12 @@ spec:
               runAsNonRoot: true
               runAsUser: 101
               runAsGroup: 101
-              serviceAccountName: willian-eth
     service:
       app:
         controller: main
         ports:
           http:
-            port: &port 80
+            port: 80
     ingress:
       app:
         enabled: true
