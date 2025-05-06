@@ -57,7 +57,7 @@ spec:
                   periodSeconds: 5
             resources:
               limits:
-                cpu: 300m
+                cpu: 500m
                 memory: 512Mi
             securityContext:
               allowPrivilegeEscalation: false

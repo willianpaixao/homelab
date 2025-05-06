@@ -88,10 +88,6 @@ spec:
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
-            resources:
-              limits:
-                cpu: 50m
-                memory: 64Mi
             securityContext:
               capabilities:
                 add:
