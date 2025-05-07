@@ -13,7 +13,7 @@ tags = ['cluster', 'turingpi']
 
 ### Hardware
 
-The cluster is composed by 4x [Turing RK1](https://docs.turingpi.com/docs/turing-rk1-specs-and-io-ports) Compute Module with 16GB RAM and 1TB NVMe storage. Official documentation available [here](https://docs.turingpi.com/docs/turing-pi2-intro).
+The cluster is composed of 4 [Turing RK1](https://docs.turingpi.com/docs/turing-rk1-specs-and-io-ports) Compute Modules with 16GB RAM and 1TB NVMe storage. Official documentation available [here](https://docs.turingpi.com/docs/turing-pi2-intro).
 
 #### GPU
 
