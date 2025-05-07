@@ -6,35 +6,30 @@ title = 'Homelab'
 
 # Willian's Homelab
 
+Welcome to the documentation for my personal homelab infrastructure. This site details the configuration and setup of my Kubernetes clusters, managed using a GitOps approach with FluxCD. The goal is to maintain a reproducible and automated environment.
+
+## Architecture Overview
+
+The homelab is built around two distinct Kubernetes clusters:
+
+*   **Raspberry Pi Cluster:** A K3s cluster running on several Raspberry Pi 4 nodes. This cluster handles general workloads and services.
+*   **Turing Pi Cluster:** A K3s cluster utilizing a Turing Pi 2 board with RK1 compute modules. This cluster is often used for specific tasks or experimentation.
+
+Both clusters are managed declaratively via GitOps, pulling their configuration from the [GitHub repository](https://github.com/willianpaixao/homelab). The reconciliation is triggered upon push via webhooks.
+
 ## Hardware
 
 For more information about Turing Pi Cluster Board, please visit the [main](turingpi) article.
 
-## Network
-
-For detailed information about the network topology, please visit the [network](network) article.
-
-## Software
-
-### Services
-
-| Service                                 | Description                |
-|-----------------------------------------|----------------------------|
-| [Grafana](https://grafana.com/grafana/) | Visualization              |
-| [Immich](https://immich.app/)           | Photo and video management |
-| [Kubernetes](https://kubernetes.io/)    | Container Orchestration    |
-| [Pi-hole](https://pi-hole.net/)         | Network-wide Ad Blocking   |
-| [Prometheus](https://prometheus.io/)    | Monitoring                 |
-| [Sonarr](https://sonarr.tv/)            | TV Shows                   |
-| [Radarr](https://radarr.video/)         | Movies                     |
-| [WireGuard](https://www.wireguard.com/) | VPN                        |
-
-## Features
-
 ## Roadmap
 
+- Kubernetes
+  - [ ] Setup Network Policies to all workloads
+  - [ ] Setup Service Account to all workloads
+
 - Network
+  - [ ] Configure Multi-cluster
   - [ ] Configure VLANs
   - [ ] Configure IPv6
 - Misc
-  - [ ] Implement autoscaling and automatic shutdown of nodes
+  - [ ] Implement autoscaling and automatic shutdown of nodes at night

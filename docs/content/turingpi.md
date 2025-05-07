@@ -1,6 +1,6 @@
 +++
 date = '2024-11-08T11:55:00+01:00'
-draft = true
+draft = false
 title = 'Turing Pi Cluster Board'
 tags = ['cluster', 'turingpi']
 +++
