@@ -25,7 +25,7 @@ Ubuntu used in the nodes is 22.04 LTS, and the cluster is running Kubernetes. Im
 
 The four nodes are running [K3s](https://k3s.io/) installed using [xanmanning.k3s](https://galaxy.ansible.com/ui/standalone/roles/xanmanning/k3s/) Ansible role.
 
-Initially I was using [onedr0p/cluster-template](https://github.com/onedr0p/cluster-template) to bootstrap and update the cluster, but since [#1482](https://github.com/onedr0p/cluster-template/pull/1482) support to K3s was dropped in favor of [Talos](https://www.siderolabs.com/platform/talos-os-for-kubernetes/).
+Initially I was using [onedr0p/cluster-template](https://github.com/onedr0p/cluster-template) to bootstrap and update the cluster, but since [#1482](https://github.com/onedr0p/cluster-template/pull/1482) support for K3s was dropped in favor of [Talos](https://www.siderolabs.com/platform/talos-os-for-kubernetes/).
 
 GitOps workflow is used to maintain the workloads. [FluxCD](https://fluxcd.io/) listens to the repository and reconciles the changes upon new commits due to a webhook.
 
