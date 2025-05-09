@@ -17,6 +17,8 @@ The homelab is built around two distinct Kubernetes clusters:
 
 Both clusters are managed declaratively via GitOps, pulling their configuration from the [GitHub repository](https://github.com/willianpaixao/homelab). The reconciliation is triggered upon push via webhooks.
 
+For more information about the clusters, please visit the [main](kubernetes) article.
+
 ## Hardware
 
 For more information about Turing Pi Cluster Board, please visit the [main](turingpi) article.
