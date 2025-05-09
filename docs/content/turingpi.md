@@ -1,11 +1,11 @@
 +++
 date = '2024-11-08T11:55:00+01:00'
 draft = false
-title = 'Turing Pi Cluster Board'
+title = 'Turing Pi Cluster'
 tags = ['cluster', 'turingpi']
 +++
 
-# Turing Pi Cluster Board
+# Turing Pi Cluster
 
 ![Turing Pi 2](../images/turingpi-1.jpg)
 

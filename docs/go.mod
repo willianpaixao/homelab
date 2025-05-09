@@ -1,5 +1,5 @@
 module github.com/willianpaixao/homelab
 
-go 1.23.2
+go 1.24.3
 
-require github.com/alex-shpak/hugo-book v0.0.0-20241009212754-7c78a39c531a // indirect
+require github.com/alex-shpak/hugo-book v0.0.0-20250428224046-9405c4c3d7c7 // indirect
