@@ -1,0 +1,63 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: storage-rules
+  namespace: observability
+spec:
+  groups:
+    - name: storage.rules
+      rules:
+        - alert: LonghornVolumeActualSpaceUsedHigh
+          expr: longhorn_volume_actual_size_bytes / longhorn_volume_capacity_bytes > 0.85
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn volume space usage high (volume {{ $labels.volume }})"
+            description: "Longhorn volume {{ $labels.volume }} is using more than 85% of its capacity\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: LonghornNodeStorageUsageHigh
+          expr: longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes > 0.85
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn node storage usage high (node {{ $labels.node }})"
+            description: "Longhorn storage on node {{ $labels.node }} is more than 85% full\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: LonghornVolumeReplicaCountUnhealthy
+          expr: longhorn_volume_robustness == 2
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn volume unhealthy (volume {{ $labels.volume }})"
+            description: "Longhorn volume {{ $labels.volume }} is in degraded state\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: LonghornVolumeIOLatencyHigh
+          expr: rate(longhorn_volume_read_latency_microseconds[5m]) / 1000 > 250 or rate(longhorn_volume_write_latency_microseconds[5m]) / 1000 > 250
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn volume I/O latency high (volume {{ $labels.volume }})"
+            description: "Longhorn volume {{ $labels.volume }} has high I/O latency (>250ms)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PersistentVolumeUsageHigh
+          expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes > 0.85
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Persistent volume usage high (volume {{ $labels.persistentvolumeclaim }})"
+            description: "PersistentVolume {{ $labels.persistentvolumeclaim }} is more than 85% full\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: DiskIOWaitHigh
+          expr: rate(node_disk_io_time_weighted_seconds_total[5m]) > 0.5
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Disk IO wait high (instance {{ $labels.instance }})"
+            description: "Disk IO wait on {{ $labels.device }} is high (>50%)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

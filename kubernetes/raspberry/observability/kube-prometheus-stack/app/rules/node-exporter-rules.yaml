@@ -1,0 +1,27 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-exporter-rules
+  namespace: observability
+spec:
+  groups:
+    - name: node-exporter.rules
+      rules:
+        - alert: HostSystemdServiceCrashed
+          expr: node_systemd_unit_state{state="failed"} == 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Host systemd service crashed (instance {{ $labels.instance }})"
+            description: "systemd service crashed\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: HostNodeOvertemperature
+          expr: node_hwmon_temp_celsius > 75
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Host node overtemperature (instance {{ $labels.instance }})"
+            description: "Physical node temperature is high\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
