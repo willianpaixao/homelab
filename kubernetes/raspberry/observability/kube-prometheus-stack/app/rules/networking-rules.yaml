@@ -1,0 +1,63 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: networking-rules
+  namespace: observability
+spec:
+  groups:
+    - name: networking.rules
+      rules:
+        - alert: NetworkHighPacketLoss
+          expr: 100 * (1 - (sum by(instance)(rate(node_network_receive_packets_total[5m])) / sum by(instance)(rate(node_network_receive_packets_total[5m]) + rate(node_network_receive_errs_total[5m]) + rate(node_network_receive_drop_total[5m])))) > 1
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Network high packet loss (instance {{ $labels.instance }})"
+            description: "Network packet loss is higher than 1%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: NetworkInterfaceSaturated
+          expr: (rate(node_network_receive_bytes_total[1m]) + rate(node_network_transmit_bytes_total[1m])) / node_network_speed_bytes{device!~"lo|veth.*|docker.*|flannel.*|cali.*|cbr.*"} > 0.8
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Network interface saturated (instance {{ $labels.instance }})"
+            description: "Network interface {{ $labels.device }} on {{ $labels.instance }} is getting overloaded (>80% utilization)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: NetworkDNSLatencyHigh
+          expr: probe_dns_lookup_time_seconds > 1
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Network DNS latency high (instance {{ $labels.instance }})"
+            description: "DNS lookup latency is too high\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: ServiceEndpointDown
+          expr: probe_success == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Service endpoint down (instance {{ $labels.instance }})"
+            description: "Service endpoint {{ $labels.instance }} is down\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: HttpServiceSlowResponses
+          expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, job, handler)) > 1
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "HTTP service slow responses (instance {{ $labels.instance }})"
+            description: "HTTP request duration is high (>1s for 99th percentile)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: NetworkInterfaceErrors
+          expr: rate(node_network_transmit_errs_total[5m]) + rate(node_network_receive_errs_total[5m]) > 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Network interface errors (instance {{ $labels.instance }})"
+            description: "Network interface {{ $labels.device }} showing errors\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
