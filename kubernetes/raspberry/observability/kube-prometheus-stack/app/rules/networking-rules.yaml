@@ -9,7 +9,7 @@ spec:
     - name: networking.rules
       rules:
         - alert: NetworkHighPacketLoss
-          expr: 100 * (1 - (sum(rate(node_network_receive_packets_total[5m])) / sum(rate(node_network_receive_packets_total[5m]) + rate(node_network_receive_errs_total[5m]) + rate(node_network_receive_drop_total[5m])))) > 1
+          expr: 100 * (1 - (sum by(instance)(rate(node_network_receive_packets_total[5m])) / sum by(instance)(rate(node_network_receive_packets_total[5m]) + rate(node_network_receive_errs_total[5m]) + rate(node_network_receive_drop_total[5m])))) > 1
           for: 15m
           labels:
             severity: warning
