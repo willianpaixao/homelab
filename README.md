@@ -1,7 +1,11 @@
 # Willian's homelab
 
-This is a repository to document my homelab setup. Currently running two Kubernetes clusters, one with Raspberry Pis 4
-and another with Turing Pi Cluster Board and RK1.
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/willianpaixao/homelab?logo=github)
+![GitHub Release](https://img.shields.io/github/v/release/willianpaixao/homelab?logo=github)
+![Hugo](https://img.shields.io/github/actions/workflow/status/willianpaixao/homelab/hugo.yaml?logo=hugo&label=docs)
+![Kubeconform](https://img.shields.io/github/actions/workflow/status/willianpaixao/homelab/kubeconform.yaml?logo=kubernetes&label=kubeconform)
+
+This is a repository to document my homelab setup. Currently running two Kubernetes clusters, one with Raspberry Pis 4 and another with Turing Pi Cluster Board and RK1.
 
 ## Getting Started
 

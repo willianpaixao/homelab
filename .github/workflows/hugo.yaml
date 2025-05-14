@@ -1,8 +1,11 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Hugo
 
 on:
   push:
     branches: ["main"]
+    paths: ["docs/**"]
   workflow_dispatch:
 
 permissions:
@@ -23,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SOURCE_DIR: docs
-      HUGO_VERSION: 0.138.0
+      HUGO_VERSION: 0.147.3
     steps:
       - name: Install Hugo CLI
         run: |

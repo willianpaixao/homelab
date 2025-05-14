@@ -46,6 +46,7 @@ spec:
               requests:
                 memory: 128Mi
               limits:
+                cpu: 500m
                 memory: 256Mi
             probes:
               startup:
@@ -59,17 +60,15 @@ spec:
                 enabled: true
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            runAsNonRoot: true
-            fsGroup: 1000
-            fsGroupChangePolicy: "OnRootMismatch"
+              fsGroup: 1000
+              fsGroupChangePolicy: "OnRootMismatch"
+              readOnlyRootFilesystem: true
+              runAsGroup: 1000
+              runAsNonRoot: true
+              runAsUser: 1000
     serviceAccount:
       create: true
       name: homepage
