@@ -24,6 +24,7 @@ spec:
       limits:
         cpu: 2
         memory: 1Gi
+    replicaCount: 1
     resourcesPreset: "none"
     loginRequired: true
     timeZone: ${TIMEZONE}
@@ -39,6 +40,8 @@ spec:
       primary:
         nodeSelector:
           disktype: ssd
+    housekeeping:
+      enabled: false
     worker:
       enabled: false
     livenessProbe:
