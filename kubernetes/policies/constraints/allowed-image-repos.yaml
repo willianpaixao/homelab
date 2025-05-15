@@ -1,0 +1,19 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAllowedRepos
+metadata:
+  name: allowed-image-repos
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+      - apiGroups: ["apps"]
+        kinds: ["Deployment", "StatefulSet", "DaemonSet"]
+  parameters:
+    repos:
+      - "docker.io/"
+      - "gcr.io/"
+      - "k8s.gcr.io/"
+      - "registry.k8s.io/"
+      - "quay.io/"
+      - "ghcr.io/"
