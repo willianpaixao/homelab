@@ -1,0 +1,58 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "OPA Tests"
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths: ["kubernetes/**"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  opa-tests:
+    name: OPA Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      matrix:
+        paths: ["kubernetes/raspberry", "kubernetes/turing"]
+      max-parallel: 4
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          path: pull
+
+      - name: Setup OPA
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: latest
+
+      - name: Build Flux manifests
+        uses: docker://ghcr.io/allenporter/flux-local:v7.5.0@sha256:2111f5e96e65bfdb7cee71f3384cdfae0de1a6a2ce5b95d0fa6de8142c3314d1
+        with:
+          args: >-
+            build helmrelease
+            --all-namespaces
+            --path /github/workspace/pull/${{ matrix.paths }}/flux-system
+            --output /github/workspace/pull/manifests.yaml
+
+      - name: Run OPA Tests
+        working-directory: pull
+        run: |
+          opa test kubernetes/policies/ > output.txt
+          cat output.txt
+
+      - uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2
+        with:
+          message-id: "${{ github.event.pull_request.number }}/${{ matrix.paths }}"
+          message-failure: OPA Gator CLI failed
+          message-path: |
+            pull/output.txt

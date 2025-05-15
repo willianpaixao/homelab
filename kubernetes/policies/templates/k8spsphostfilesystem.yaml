@@ -1,0 +1,88 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8spsphostfilesystem
+  annotations:
+    description: Controls usage of host filesystem
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sPSPHostFilesystem
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            allowedHostPaths:
+              type: array
+              items:
+                type: object
+                properties:
+                  pathPrefix:
+                    type: string
+                  readOnly:
+                    type: boolean
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8spsphostfilesystem
+
+        violation[{"msg": msg}] {
+          volume := input_hostpath_volumes[_]
+          allowedPaths := get_allowed_paths(input.parameters)
+          input_hostpath_denied(allowedPaths, volume)
+          msg := sprintf("hostPath volume %v is not allowed, pod: %v. Allowed path: %v", [volume, input.review.object.metadata.name, allowedPaths])
+        }
+
+        input_hostpath_denied(allowedPaths, volume) {
+          # If input.parameters.allowedHostPaths is undefined, then no
+          # hostPath volumes are allowed.
+          not input.parameters.allowedHostPaths
+        }
+
+        input_hostpath_denied(allowedPaths, volume) {
+          not input_hostpath_allowed(allowedPaths, volume)
+        }
+
+        get_allowed_paths(parameters) = out {
+          parameters.allowedHostPaths
+          out = parameters.allowedHostPaths
+        }
+
+        get_allowed_paths(parameters) = [] {
+          not parameters.allowedHostPaths
+        }
+
+        input_hostpath_allowed(allowedPaths, volume) {
+          allowedHostPath := allowedPaths[_]
+          path_matches(allowedHostPath.pathPrefix, volume.hostPath.path)
+          not allowedHostPath.readOnly == true
+        }
+
+        input_hostpath_allowed(allowedPaths, volume) {
+          allowedHostPath := allowedPaths[_]
+          path_matches(allowedHostPath.pathPrefix, volume.hostPath.path)
+          allowedHostPath.readOnly
+          volume.readOnly
+        }
+
+        # Path matches if the pathPrefix is a prefix of the path.
+        path_matches(prefix, path) {
+          startswith(path, prefix)
+        }
+
+        # Get volumes based on resource type
+        input_hostpath_volumes[volume] {
+          # Pod case
+          input.review.object.kind == "Pod"
+          volume := input.review.object.spec.volumes[_]
+          volume.hostPath
+        }
+
+        input_hostpath_volumes[volume] {
+          # Deployment, StatefulSet, DaemonSet case
+          kinds := {"Deployment", "StatefulSet", "DaemonSet"}
+          kinds[input.review.object.kind]
+          volume := input.review.object.spec.template.spec.volumes[_]
+          volume.hostPath
+        }
