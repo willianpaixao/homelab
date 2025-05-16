@@ -20,6 +20,8 @@
   assignAutomerge: true,
   dependencyDashboard: true,
   dependencyDashboardTitle: 'Renovate Dashboard 🤖',
+  dependencyDashboardLabels: ['dependencies', 'renovate'],
+  dependencyDashboardFooter: "Need help? See the [Renovate documentation](https://docs.renovatebot.com/)",
   ignorePaths: [
     '**/*.sops.*',
     '**/docs/**',
@@ -71,6 +73,7 @@
       addLabels: [
         'type/patch',
       ],
+      automerge: true,
     },
     {
       matchUpdateTypes: [

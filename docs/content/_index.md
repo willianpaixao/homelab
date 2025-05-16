@@ -33,5 +33,7 @@ For more information about Turing Pi Cluster Board, please visit the [main](turi
   - [ ] Configure Multi-cluster
   - [ ] Configure VLANs
   - [ ] Configure IPv6
+- Linux
+  - [ ] Experiment with [Talos Linux](https://www.siderolabs.com/platform/talos-os-for-kubernetes/) in favor of Ubuntu
 - Misc
   - [ ] Implement autoscaling and automatic shutdown of nodes at night
