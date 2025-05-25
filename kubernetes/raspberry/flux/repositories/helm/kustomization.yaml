@@ -5,12 +5,12 @@ kind: Kustomization
 resources:
   - bjw-s.yaml
   - cilium.yaml
-  - descheduler.yaml
   - external-dns.yaml
   - flux-operator.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
   - k8s-gateway.yaml
+  - knative.yaml
   - longhorn.yaml
   - metrics-server.yaml
   - netbox.yaml
