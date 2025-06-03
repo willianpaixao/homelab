@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: immich
-      version: 0.8.5
+      version: 0.9.3
       sourceRef:
         kind: HelmRepository
         namespace: flux-system
@@ -28,21 +28,26 @@ spec:
     env:
       TZ: ${TIMEZONE}
     image:
-      tag: "v1.132.3"
+      tag: "v1.134.0"
     immich:
       metrics:
         enabled: true
       persistence:
         library:
           existingClaim: photos-nfs
+    useDeprecatedPostgresChart: true
     postgresql:
       enabled: true
+      image:
+        registry: ghcr.io
+        repository: immich-app/postgres
+        tag: 14-vectorchord0.3.0-pgvectors0.3.0@sha256:c17734ad29f36e49b6207cd28fd6e2a1945c3befc7ff9118b25cd1b5c1c6c8c8
       primary:
         resources:
           requests:
             memory: 512Mi
           limits:
-            memory: 1Gi
+            memory: 4Gi
     redis:
       enabled: true
       architecture: standalone
@@ -65,7 +70,7 @@ spec:
                 - immich.${SECRET_DOMAIN}
     machine-learning:
       image:
-        tag: "v1.132.3-rknn"
+        tag: "v1.134.0-rknn"
       env:
         MACHINE_LEARNING_RKNN_THREADS: "2"
       securityContext:
