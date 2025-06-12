@@ -41,13 +41,13 @@ spec:
       image:
         registry: ghcr.io
         repository: immich-app/postgres
-        tag: 14-vectorchord0.3.0-pgvectors0.3.0@sha256:c17734ad29f36e49b6207cd28fd6e2a1945c3befc7ff9118b25cd1b5c1c6c8c8
+        tag: 14-vectorchord0.4.1-pgvectors0.2.0@sha256:0063a64c5288463a7f44a90df610ecb2e5680ff55fc853243ae1adca4c24afd7
       primary:
         resources:
           requests:
             memory: 512Mi
           limits:
-            memory: 4Gi
+            memory: 1Gi
     redis:
       enabled: true
       architecture: standalone
