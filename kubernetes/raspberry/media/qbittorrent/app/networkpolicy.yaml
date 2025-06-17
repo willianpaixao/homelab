@@ -21,7 +21,9 @@ spec:
   egress:
     - to: []
       ports:
-        - protocol: TCP
-          port: 563
+        - protocol: UDP
+          port: 1337
+        - protocol: UDP
+          port: 6969
         - protocol: UDP
           port: 51820
