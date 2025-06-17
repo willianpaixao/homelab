@@ -68,6 +68,7 @@ data:
               fields: ["queries", "blocked"]
               url: http://192.168.0.8
               key: {{HOMEPAGE_VAR_PIHOLE_TOKEN}}
+              version: 6
   settings.yaml: |
     title: Homelab
     startUrl: https://web3.wiki.br

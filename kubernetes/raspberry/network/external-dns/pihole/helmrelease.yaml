@@ -28,6 +28,7 @@ spec:
       name: pihole
     extraArgs:
       - --ingress-class=internal
+      - --pihole-api-version=6
       - --pihole-server=http://192.168.0.8
       - --pihole-tls-skip-verify
     registry: noop
