@@ -11,6 +11,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
+    namespace: flux-system
   install:
     remediation:
       retries: 3
@@ -33,22 +34,34 @@ spec:
               repository: ghcr.io/fallenbagel/jellyseerr
               tag: 2.7.0@sha256:3ec2ce92445719ea1e610b3e758da20cd317c8e1028fc810d001b1370a339226
             env:
-              PORT: &port 8080
+              PORT: &port 80
               TZ: ${TIMEZONE}
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/status
+                    port: *port
+                  initialDelaySeconds: 120
+                  periodSeconds: 10
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               limits:
                 memory: 2Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              runAsUser: 2000
-              runAsGroup: 2000
-              runAsNonRoot: true
-              fsGroup: 2000
-              fsGroupChangePolicy: "OnRootMismatch"
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: { drop: ["ALL"] }
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: jellyseerr
@@ -76,10 +89,11 @@ spec:
               - *host
     persistence:
       config:
-        enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 1Gi
+        globalMounts:
+          - path: /app/config
       tmpfs:
         type: emptyDir
         advancedMounts:
