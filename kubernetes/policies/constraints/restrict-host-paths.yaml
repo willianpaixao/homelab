@@ -1,0 +1,23 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sPSPHostFilesystem
+metadata:
+  name: restrict-host-paths
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+      - apiGroups: ["apps"]
+        kinds: ["Deployment", "StatefulSet", "DaemonSet"]
+  parameters:
+    allowedHostPaths:
+      # Necessary for CNI plugins
+      - pathPrefix: "/opt/cni"
+        readOnly: true
+      - pathPrefix: "/etc/cni"
+        readOnly: true
+      # Necessary for Kubernetes components
+      - pathPrefix: "/var/lib/kubelet"
+        readOnly: true
+      - pathPrefix: "/var/log"
+        readOnly: true
