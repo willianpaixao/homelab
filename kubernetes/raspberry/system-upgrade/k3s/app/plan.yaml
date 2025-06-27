@@ -18,7 +18,7 @@ spec:
       - {key: node-role.kubernetes.io/control-plane, operator: Exists}
   serviceAccountName: system-upgrade
   upgrade:
-    image: rancher/k3s-upgrade@sha256:ffeb43a8623756eafa7cb2ebc6a689eb8fddca7c78ef6fc426b80d4108bccf13
+    image: rancher/k3s-upgrade@sha256:648e989524b0bb08986d5de02bec1f54b9d0674a7d7a8b65015a7cfd0d035f8d
 ---
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
@@ -38,10 +38,10 @@ spec:
       - {key: node-role.kubernetes.io/control-plane, operator: DoesNotExist}
   serviceAccountName: system-upgrade
   prepare:
-    image: rancher/k3s-upgrade@sha256:ffeb43a8623756eafa7cb2ebc6a689eb8fddca7c78ef6fc426b80d4108bccf13
+    image: rancher/k3s-upgrade@sha256:648e989524b0bb08986d5de02bec1f54b9d0674a7d7a8b65015a7cfd0d035f8d
     args: ["prepare", "k3s-server"]
   drain:
     force: true
     skipWaitForDeleteTimeout: 60
   upgrade:
-    image: rancher/k3s-upgrade@sha256:ffeb43a8623756eafa7cb2ebc6a689eb8fddca7c78ef6fc426b80d4108bccf13
+    image: rancher/k3s-upgrade@sha256:648e989524b0bb08986d5de02bec1f54b9d0674a7d7a8b65015a7cfd0d035f8d
