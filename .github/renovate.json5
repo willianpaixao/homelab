@@ -97,6 +97,7 @@
       ],
       matchPackageNames: [
         'ghcr.io/bjw-s/helm/app-template',
+        'ghcr.io/bjw-s-labs/helm/app-template'
       ],
       pinDigests: false,
     },
