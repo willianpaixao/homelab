@@ -28,7 +28,7 @@ spec:
     env:
       TZ: ${TIMEZONE}
     image:
-      tag: "v1.134.0"
+      tag: "v1.135.3"
     immich:
       metrics:
         enabled: true
@@ -41,13 +41,13 @@ spec:
       image:
         registry: ghcr.io
         repository: immich-app/postgres
-        tag: 14-vectorchord0.3.0-pgvectors0.2.0@sha256:007a98749340534a0408a26435b1a0ab5ded76df788f897fdb6342c9c1b95448
+        tag: 14-vectorchord0.4.3-pgvectors0.2.0@sha256:5f6a838e4e44c8e0e019d0ebfe3ee8952b69afc2809b2c25f7b0119641978e91
       primary:
         resources:
           requests:
             memory: 512Mi
           limits:
-            memory: 1Gi
+            memory: 2Gi
     redis:
       enabled: true
       architecture: standalone
@@ -70,7 +70,7 @@ spec:
                 - immich.${SECRET_DOMAIN}
     machine-learning:
       image:
-        tag: "v1.134.0-rknn"
+        tag: "v1.135.3-rknn"
       env:
         MACHINE_LEARNING_RKNN_THREADS: "2"
       securityContext:
