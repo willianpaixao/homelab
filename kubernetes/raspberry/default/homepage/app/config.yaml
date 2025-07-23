@@ -30,6 +30,10 @@ data:
   docker.yaml: ""
   kubernetes.yaml: |
     mode: cluster
+  proxmox.yaml: |
+    url: https://tank.web3.wiki.br:8006
+    token: {{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}
+    secret: {{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}
   services.yaml: |
     - Media:
         - Jellyfin:
@@ -57,9 +61,6 @@ data:
             widget:
               type: proxmox
               fields: ["vms", "resources.mem"]
-              url: https://tank.web3.wiki.br:8006
-              username: {{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}
-              password: {{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}
         - Pihole:
             href: http://192.168.0.8
             icon: pi-hole.png
