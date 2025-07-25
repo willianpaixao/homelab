@@ -43,7 +43,7 @@ spec:
                   fieldRef:
                     fieldPath: spec.nodeName
               SYSTEM_UPGRADE_JOB_BACKOFF_LIMIT: "99"
-              SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: "rancher/kubectl:v1.33.2@sha256:038a3765ec4815f03941ea7544f31fedc1c9b8d0b34ad6e2c68e9b4adfe885df"
+              SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: "rancher/kubectl:v1.33.3@sha256:26d09fcee6eb9a14b81c95e52dd90964a0a24263abb075f58651d2ac62651b59"
               SYSTEM_UPGRADE_JOB_PRIVILEGED: false
             securityContext:
               allowPrivilegeEscalation: false
