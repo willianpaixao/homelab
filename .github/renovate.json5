@@ -97,7 +97,8 @@
       ],
       matchPackageNames: [
         'ghcr.io/bjw-s/helm/app-template',
-        'ghcr.io/bjw-s-labs/helm/app-template'
+        'ghcr.io/bjw-s-labs/helm/app-template',
+        'ghcr.io/prometheus-community/charts/kube-prometheus-stack'
       ],
       pinDigests: false,
     },
