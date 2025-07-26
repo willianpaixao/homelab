@@ -28,7 +28,7 @@ spec:
     env:
       TZ: ${TIMEZONE}
     image:
-      tag: "v1.135.3"
+      tag: "v1.136.0"
     immich:
       metrics:
         enabled: true
@@ -70,7 +70,7 @@ spec:
                 - immich.${SECRET_DOMAIN}
     machine-learning:
       image:
-        tag: "v1.135.3-rknn"
+        tag: "v1.136.0-rknn"
       env:
         MACHINE_LEARNING_RKNN_THREADS: "2"
       securityContext:
