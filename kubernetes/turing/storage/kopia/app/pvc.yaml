@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: photos-nfs-ro
+  namespace: storage
+spec:
+  storageClassName: nfs-csi
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /photos
+    server: 192.168.0.173
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: photos-nfs-ro
+  namespace: storage
+spec:
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: nfs-csi
+  resources:
+    requests:
+      storage: 1Mi
