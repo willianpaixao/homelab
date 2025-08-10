@@ -1,0 +1,35 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8spspprivilegedcontainer
+  annotations:
+    description: Prohibits running privileged containers
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sPSPPrivilegedContainer
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8spspprivilegedcontainer
+
+        violation[{"msg": msg}] {
+          container := input_containers[_]
+          container.securityContext.privileged
+          msg := sprintf("privileged container is not allowed: %v", [container.name])
+        }
+
+        # Get containers from pods or pod templates
+        input_containers[container] {
+          # Pod case
+          input.review.object.kind == "Pod"
+          container := input.review.object.spec.containers[_]
+        }
+
+        input_containers[container] {
+          # Deployment, StatefulSet, DaemonSet case
+          kinds := {"Deployment", "StatefulSet", "DaemonSet"}
+          kinds[input.review.object.kind]
+          container := input.review.object.spec.template.spec.containers[_]
+        }
