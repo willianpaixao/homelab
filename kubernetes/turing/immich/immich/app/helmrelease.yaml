@@ -41,7 +41,7 @@ spec:
       image:
         registry: ghcr.io
         repository: immich-app/postgres
-        tag: 14-vectorchord0.4.3-pgvectors0.2.0@sha256:32324a2f41df5de9efe1af166b7008c3f55646f8d0e00d9550c16c9822366b4a
+        tag: 14-vectorchord0.4.3-pgvectors0.2.0@sha256:41eacbe83eca995561fe43814fd4891e16e39632806253848efaf04d3c8a8b84
       primary:
         resources:
           requests:
