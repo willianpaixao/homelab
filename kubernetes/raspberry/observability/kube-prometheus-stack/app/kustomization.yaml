@@ -6,5 +6,4 @@ resources:
   - helmrelease.yaml
   - telegram-config.sops.yaml
   - dashboards
-  - scrapeconfigs
   - rules
