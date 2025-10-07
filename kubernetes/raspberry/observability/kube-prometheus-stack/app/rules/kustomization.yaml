@@ -4,7 +4,5 @@ kind: Kustomization
 resources:
   - networking-rules.yaml
   - node-exporter-rules.yaml
-  - reth-rules.yaml
-  - prysm-rules.yaml
   - storage-rules.yaml
   - validator-rules.yaml
