@@ -36,10 +36,10 @@ spec:
       deployment:
         resources:
           limits:
-            cpu: 15m
+            cpu: 30m
             memory: 64Mi
           requests:
-            cpu: 15m
+            cpu: 30m
             memory: 64Mi
         containerSecurityContext:
           allowPrivilegeEscalation: false
