@@ -6,7 +6,6 @@ resources:
   - jellyseerr/ks.yaml
   - namespace.yaml
   - networkpolicy.yaml
-  - ocis/ks.yaml
   - prowlarr/ks.yaml
   - qbittorrent/ks.yaml
   - radarr/ks.yaml
