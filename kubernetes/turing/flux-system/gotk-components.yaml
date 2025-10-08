@@ -7203,7 +7203,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/kustomize-controller:v1.6.1@sha256:1a50730537bafb7827365b9af95c4eb71ca3d9b0bed9bc9bc765880e976972ef
+        image: ghcr.io/fluxcd/kustomize-controller:v1.7.1@sha256:2b51e7a48594263ece5d86636a9b95381b19fc3091e7341a88802f4557b35a53
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
