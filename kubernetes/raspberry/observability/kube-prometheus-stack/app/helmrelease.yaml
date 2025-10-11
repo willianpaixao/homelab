@@ -90,6 +90,28 @@ spec:
         enableRemoteWriteReceiver: true
         retention: 30d
         retentionSize: 128GiB
+        # Drop high-cardinality metrics to reduce storage
+        metricRelabelConfigs:
+          # Drop expensive histogram buckets for API server
+          - sourceLabels: [__name__]
+            regex: 'apiserver_request_duration_seconds_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket'
+            action: drop
+          # Drop high-cardinality container metrics
+          - sourceLabels: [__name__]
+            regex: 'container_network_tcp_usage_total|container_network_udp_usage_total'
+            action: drop
+          # Drop verbose etcd metrics
+          - sourceLabels: [__name__]
+            regex: 'etcd_request_duration_seconds_bucket|etcd_disk_wal_fsync_duration_seconds_bucket|etcd_disk_backend_commit_duration_seconds_bucket'
+            action: drop
+          # Drop high-cardinality workqueue metrics
+          - sourceLabels: [__name__]
+            regex: 'workqueue_queue_duration_seconds_bucket|workqueue_work_duration_seconds_bucket'
+            action: drop
+          # Drop rest client request latency buckets
+          - sourceLabels: [__name__]
+            regex: 'rest_client_request_duration_seconds_bucket'
+            action: drop
         nodeSelector:
           disktype: ssd
         storageSpec:
@@ -115,6 +137,17 @@ spec:
             targetLabel: metrics_path
           - replacement: raspberry
             targetLabel: cluster
+        cAdvisorMetricRelabelings:
+          # Drop expensive cAdvisor histogram buckets
+          - sourceLabels: [__name__]
+            regex: 'container_cpu_cfs_throttled_periods_total|container_cpu_cfs_periods_total'
+            action: keep
+          - sourceLabels: [__name__]
+            regex: 'container_(network|memory|fs|cpu|spec).*'
+            action: keep
+          - sourceLabels: [__name__]
+            action: drop
+            regex: 'container_.*_bucket'
         relabelings:
           - sourceLabels: [__metrics_path__]
             targetLabel: metrics_path
@@ -146,6 +179,8 @@ spec:
     grafana:
       enabled: true
       defaultDashboardsTimezone: ${TIMEZONE}
+      deploymentStrategy:
+        type: Recreate
       extraConfigmapMounts:
         - name: grafana-custom-ini
           mountPath: /etc/grafana/custom.ini
