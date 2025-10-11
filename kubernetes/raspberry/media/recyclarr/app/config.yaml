@@ -78,9 +78,12 @@ data:
             assign_scores_to:
               - name: Remux + WEB 2160p
           - trash_ids:
-              - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
+              - 55a5b50cb416dea5a50c4955896217ab # DV HDR10+ Boost
+              - 58d6a88f13e2db7f5059c41047876f00 # DV
               - 923b6abef9b17f937fab56cfcf89e1f1 # DV (WEBDL)
               - b17886cb4158d9fea189859409975758 # HDR10Plus Boost
-              - 55a5b50cb416dea5a50c4955896217ab # DV HDR10+ Boost
+              - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
+              - e23edd2482476e595fb990b12e7c609c # DV HDR10
             assign_scores_to:
               - name: Remux + WEB 2160p
+                score: 0
