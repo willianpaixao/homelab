@@ -13,6 +13,4 @@ resources:
   - knative.yaml
   - longhorn.yaml
   - metrics-server.yaml
-  - netbox.yaml
-  - prometheus-community-charts.yaml
   - stakater.yaml
