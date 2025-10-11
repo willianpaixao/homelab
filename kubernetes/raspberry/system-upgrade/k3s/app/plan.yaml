@@ -2,44 +2,54 @@
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
-  name: k3s-server
+  name: controllers
   namespace: system-upgrade
-  labels:
-    k3s-upgrade: server
 spec:
   version: "${KUBE_VERSION}"
+  upgrade:
+    image: rancher/k3s-upgrade:v1.34.1-k3s1@sha256:26b95a5ca43cadb0cfd4d173eeb6fce0fc5ef30cf473c79b81fb7371aaa9a8cf
+  serviceAccountName: system-upgrade
   concurrency: 1
   cordon: true
   nodeSelector:
     matchExpressions:
-      - {key: k3s-upgrade, operator: Exists}
-      - {key: k3s-upgrade, operator: NotIn, values: ["disabled", "false"]}
-      - {key: node-role.kubernetes.io/control-plane, operator: Exists}
-  serviceAccountName: system-upgrade
-  upgrade:
-    image: rancher/k3s-upgrade@sha256:26b95a5ca43cadb0cfd4d173eeb6fce0fc5ef30cf473c79b81fb7371aaa9a8cf
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+      operator: Exists
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+      operator: Exists
+    - key: node-role.kubernetes.io/etcd
+      effect: NoExecute
+      operator: Exists
+    - key: CriticalAddonsOnly
+      operator: Exists
 ---
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
-  name: k3s-agent
+  name: workers
   namespace: system-upgrade
-  labels:
-    k3s-upgrade: agent
 spec:
   version: "${KUBE_VERSION}"
+  serviceAccountName: system-upgrade
   concurrency: 1
   nodeSelector:
     matchExpressions:
-      - {key: k3s-upgrade, operator: Exists}
-      - {key: k3s-upgrade, operator: NotIn, values: ["disabled", "false"]}
-      - {key: node-role.kubernetes.io/control-plane, operator: DoesNotExist}
-  serviceAccountName: system-upgrade
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
   prepare:
-    image: rancher/k3s-upgrade@sha256:26b95a5ca43cadb0cfd4d173eeb6fce0fc5ef30cf473c79b81fb7371aaa9a8cf
-    args: ["prepare", "k3s-server"]
+    image: rancher/k3s-upgrade:v1.34.1-k3s1@sha256:26b95a5ca43cadb0cfd4d173eeb6fce0fc5ef30cf473c79b81fb7371aaa9a8cf
+    args: ["prepare", "controllers"]
   drain:
     force: true
     skipWaitForDeleteTimeout: 60
   upgrade:
-    image: rancher/k3s-upgrade@sha256:26b95a5ca43cadb0cfd4d173eeb6fce0fc5ef30cf473c79b81fb7371aaa9a8cf
+    image: rancher/k3s-upgrade:v1.34.1-k3s1@sha256:26b95a5ca43cadb0cfd4d173eeb6fce0fc5ef30cf473c79b81fb7371aaa9a8cf
