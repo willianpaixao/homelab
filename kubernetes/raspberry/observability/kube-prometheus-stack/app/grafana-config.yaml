@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-custom-ini
+  namespace: observability
+data:
+  custom.ini: |
+    [feature_toggles]
+    provisioning = true
+    kubernetesDashboards = true

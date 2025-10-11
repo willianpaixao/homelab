@@ -146,6 +146,12 @@ spec:
     grafana:
       enabled: true
       defaultDashboardsTimezone: ${TIMEZONE}
+      extraConfigmapMounts:
+        - name: grafana-custom-ini
+          mountPath: /etc/grafana/custom.ini
+          subPath: custom.ini
+          configMap: grafana-custom-ini
+          readOnly: true
       ingress:
         enabled: true
         ingressClassName: internal
