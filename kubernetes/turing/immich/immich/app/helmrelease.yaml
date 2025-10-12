@@ -49,6 +49,10 @@ spec:
           limits:
             memory: 2Gi
     redis:
+      image:
+        registry: docker.io
+        repository: redis
+        tag: 8.2.2-alpine3.22@sha256:59b6e694653476de2c992937ebe1c64182af4728e54bb49e9b7a6c26614d8933
       enabled: true
       architecture: standalone
       master:
