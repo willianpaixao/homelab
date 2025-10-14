@@ -6,7 +6,6 @@ resources:
   - cilium.yaml
   - csi-driver-nfs.yaml
   - external-dns.yaml
-  - immich-charts.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
   - k8s-gateway.yaml

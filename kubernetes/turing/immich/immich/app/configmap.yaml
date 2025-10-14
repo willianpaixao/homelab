@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: immich-configmap
+  namespace: immich
+data:
+  # General
+  TZ: ${TIMEZONE}
+
+  # Database
+  DB_HOSTNAME: immich-postgresql
+  DB_PORT: "5432"
+  DB_DATABASE_NAME: immich
+  DB_USERNAME: immich
+
+  # Redis
+  REDIS_HOSTNAME: immich-redis
+  REDIS_PORT: "6379"
+
+  # Machine Learning
+  IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning:3003

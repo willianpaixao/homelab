@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -7,14 +7,10 @@ metadata:
   namespace: &namespace immich
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: immich
-      version: 0.9.3
-      sourceRef:
-        kind: HelmRepository
-        namespace: flux-system
-        name: immich-charts
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
   maxHistory: 3
   install:
     remediation:
@@ -25,97 +21,389 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    env:
-      TZ: ${TIMEZONE}
-    image:
-      tag: "v2.0.1"
-    immich:
-      metrics:
+    controllers:
+      server:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          wait-postgres:
+            image:
+              repository: ghcr.io/immich-app/postgres
+              tag: 14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+            command:
+              - /bin/sh
+              - -c
+              - |
+                until pg_isready -h immich-postgresql -U immich -d immich; do
+                  echo "Waiting for PostgreSQL to be ready..."
+                  sleep 2
+                done
+                echo "PostgreSQL is ready!"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/immich-app/immich-server
+              tag: v2.0.1@sha256:8286638680f0a38a7cb380be64ed77d1d1cfe6d0e0b843f64bff92b24289078d
+            env:
+              TZ: ${TIMEZONE}
+              # Server specific
+              IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
+            envFrom:
+              - configMapRef:
+                  name: immich-configmap
+              - secretRef:
+                  name: immich-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: &port 2283
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server/ping
+                    port: *port
+                  failureThreshold: 30
+                  periodSeconds: 5
+                  successThreshold: 1
+                  timeoutSeconds: 1
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 4Gi
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 2000
+            runAsGroup: 2000
+            runAsNonRoot: true
+            fsGroup: 2000
+            fsGroupChangePolicy: OnRootMismatch
+
+      machine-learning:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/immich-app/immich-machine-learning
+              tag: v2.0.1-rknn
+            env:
+              TZ: ${TIMEZONE}
+              MACHINE_LEARNING_RKNN_THREADS: "2"
+              IMMICH_MEDIA_LOCATION: *mediaLocation
+              MPLCONFIGDIR: /cache/matplotlib
+            envFrom:
+              - configMapRef:
+                  name: immich-configmap
+              - secretRef:
+                  name: immich-secret
+            probes:
+              liveness: &mlProbes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &mlPort 3003
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *mlProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *mlPort
+                  failureThreshold: 30
+                  periodSeconds: 5
+                  successThreshold: 1
+                  timeoutSeconds: 1
+            securityContext:
+              privileged: true
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 4Gi
+        pod:
+          enableServiceLinks: false
+
+      redis:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: docker.io/redis
+              tag: 8.2.2-alpine3.22@sha256:59b6e694653476de2c992937ebe1c64182af4728e54bb49e9b7a6c26614d8933
+            command:
+              - redis-server
+            env:
+              REDIS_REPLICATION_MODE: master
+            probes:
+              liveness: &redisProbes
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - redis-cli
+                      - ping
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *redisProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - redis-cli
+                      - ping
+                  failureThreshold: 30
+                  periodSeconds: 5
+                  successThreshold: 1
+                  timeoutSeconds: 1
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+
+      postgresql:
+        replicas: 1
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/immich-app/postgres
+              tag: 14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+            env:
+              POSTGRES_USER: immich
+              POSTGRES_DB: immich
+              POSTGRES_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: postgres-password
+              POSTGRES_INITDB_ARGS: "--data-checksums"
+            probes:
+              liveness: &pgProbes
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - pg_isready -U immich -d immich
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *pgProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - pg_isready -U immich -d immich
+                  failureThreshold: 30
+                  periodSeconds: 10
+                  successThreshold: 1
+                  timeoutSeconds: 5
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            runAsNonRoot: true
+            fsGroup: 1001
+            fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      server:
+        controller: server
+        ports:
+          http:
+            port: *port
+          metrics:
+            port: 8081
+      machine-learning:
+        controller: machine-learning
+        ports:
+          http:
+            port: *mlPort
+      redis:
+        controller: redis
+        ports:
+          http:
+            port: 6379
+      postgresql:
+        controller: postgresql
+        ports:
+          http:
+            port: 5432
+
+    ingress:
+      main:
         enabled: true
-      persistence:
-        library:
-          existingClaim: photos-nfs
-    useDeprecatedPostgresChart: true
-    postgresql:
-      enabled: true
-      image:
-        registry: ghcr.io
-        repository: immich-app/postgres
-        tag: 14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
-      primary:
-        resources:
-          requests:
-            memory: 512Mi
-          limits:
-            memory: 2Gi
-    redis:
-      image:
-        registry: docker.io
-        repository: redis
-        tag: 8.2.2-alpine3.22@sha256:59b6e694653476de2c992937ebe1c64182af4728e54bb49e9b7a6c26614d8933
-      enabled: true
-      architecture: standalone
-      master:
-        persistence:
-          enabled: false
-    server:
-      ingress:
-        main:
-          enabled: true
-          ingressClassName: internal
-          annotations:
-            nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          hosts:
-            - host: "immich.${SECRET_DOMAIN}"
-              paths:
-                - path: /
-          tls:
-            - hosts:
-                - immich.${SECRET_DOMAIN}
-    machine-learning:
-      image:
-        tag: "v2.0.1-rknn"
-      env:
-        MACHINE_LEARNING_RKNN_THREADS: "2"
-      securityContext:
-        privileged: true
-      persistence:
-        cache:
-          size: 32Gi
-          type: pvc
-          accessMode: ReadWriteOnce
-        dri:
-          enabled: true
-          type: hostPath
-          hostPath: /dev/dri
-          mountPath: /dev/dri
-        dma-heap:
-          enabled: true
-          type: hostPath
-          hostPath: /dev/dma_heap
-          mountPath: /dev/dma_heap
-        mali0:
-          enabled: true
-          type: hostPath
-          hostPath: /dev/mali0
-          mountPath: /dev/mali0
-        rga:
-          enabled: true
-          type: hostPath
-          hostPath: /dev/rga
-          mountPath: /dev/rga
-        mpp-service:
-          enabled: true
-          type: hostPath
-          hostPath: /dev/mpp_service
-          mountPath: /dev/mpp_service
-        mali-csffw:
-          enabled: true
-          type: hostPath
-          hostPath: /lib/firmware/mali_csffw.bin
-          mountPath: /lib/firmware/mali_csffw.bin
-        libmali:
-          enabled: true
-          type: hostPath
-          hostPath: /usr/lib/aarch64-linux-gnu/libmali.so
-          mountPath: /usr/lib/libmali.so
+        className: internal
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        hosts:
+          - host: "immich.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: server
+                  port: http
+        tls:
+          - hosts:
+              - immich.${SECRET_DOMAIN}
+
+    persistence:
+      library:
+        enabled: true
+        existingClaim: photos-nfs
+        globalMounts:
+          - path: *mediaLocation
+
+      data:
+        enabled: true
+        existingClaim: immich
+        advancedMounts:
+          postgresql:
+            app:
+              - path: /var/lib/postgresql/data
+                subPath: data
+
+      cache:
+        enabled: true
+        existingClaim: immich-ml-cache
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /cache
+
+      redis-data:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          redis:
+            app:
+              - path: /data
+
+      # Rockchip NPU device mounts for machine-learning
+      dri:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/dri
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /dev/dri
+
+      dma-heap:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/dma_heap
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /dev/dma_heap
+
+      mali0:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/mali0
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /dev/mali0
+
+      rga:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/rga
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /dev/rga
+
+      mpp-service:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/mpp_service
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /dev/mpp_service
+
+      mali-csffw:
+        enabled: true
+        type: hostPath
+        hostPath: /lib/firmware/mali_csffw.bin
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /lib/firmware/mali_csffw.bin
+
+      libmali:
+        enabled: true
+        type: hostPath
+        hostPath: /usr/lib/aarch64-linux-gnu/libmali.so
+        advancedMounts:
+          machine-learning:
+            app:
+              - path: /usr/lib/libmali.so
+
+    serviceMonitor:
+      server:
+        enabled: true
+        serviceName: immich-server
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
