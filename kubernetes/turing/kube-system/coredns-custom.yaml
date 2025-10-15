@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  log.override: |
+    log
+  multicluster.override: |
+    multicluster cluster.local {
+      remote raspberry.local 10.96.0.10:53
+      remote turing.local 10.86.0.10:53
+    }
