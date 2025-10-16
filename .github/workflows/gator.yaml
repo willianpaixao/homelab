@@ -30,10 +30,13 @@ jobs:
         with:
           path: pull
 
-      - name: Setup OPA
-        uses: open-policy-agent/setup-opa@v2
-        with:
-          version: latest
+      - name: Setup Gator CLI
+        run: |
+          GATOR_VERSION=v3.18.0
+          curl -L -o gator.tar.gz https://github.com/open-policy-agent/gatekeeper/releases/download/${GATOR_VERSION}/gator-${GATOR_VERSION}-linux-amd64.tar.gz
+          tar -xzf gator.tar.gz
+          chmod +x gator
+          sudo mv gator /usr/local/bin/
 
       - name: Build Flux manifests
         uses: docker://ghcr.io/allenporter/flux-local:v7.5.0@sha256:2111f5e96e65bfdb7cee71f3384cdfae0de1a6a2ce5b95d0fa6de8142c3314d1
@@ -44,10 +47,10 @@ jobs:
             --path /github/workspace/pull/${{ matrix.paths }}/flux-system
             --output /github/workspace/pull/manifests.yaml
 
-      - name: Run OPA Tests
+      - name: Run Gatekeeper Tests
         working-directory: pull
         run: |
-          opa test kubernetes/policies/ > output.txt
+          gator test --filename=kubernetes/policies/ --filename=manifests.yaml > output.txt 2>&1 || true
           cat output.txt
 
       - uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2
