@@ -1,0 +1,69 @@
+---
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequiredresources
+  annotations:
+    description: Requires containers to have resource limits set
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequiredResources
+      validation:
+        # Schema for the `parameters` field
+        openAPIV3Schema:
+          type: object
+          properties:
+            limits:
+              type: array
+              items:
+                type: string
+            requests:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequiredresources
+
+        violation[{"msg": msg}] {
+          container := input_containers[_]
+          missing_limits := missing_fields(container.resources.limits, input.parameters.limits)
+          count(missing_limits) > 0
+          msg := sprintf("Container %v is missing required limits: %v", [container.name, missing_limits])
+        }
+
+        violation[{"msg": msg}] {
+          container := input_containers[_]
+          missing_requests := missing_fields(container.resources.requests, input.parameters.requests)
+          count(missing_requests) > 0
+          msg := sprintf("Container %v is missing required requests: %v", [container.name, missing_requests])
+        }
+
+        # Get containers from pods or pod templates
+        input_containers[container] {
+          # Pod case
+          input.review.object.kind == "Pod"
+          container := input.review.object.spec.containers[_]
+        }
+
+        input_containers[container] {
+          # Deployment, StatefulSet, DaemonSet case
+          kinds := {"Deployment", "StatefulSet", "DaemonSet"}
+          kinds[input.review.object.kind]
+          container := input.review.object.spec.template.spec.containers[_]
+        }
+
+        missing_fields(resources, required_fields) = missing {
+          # If resources is undefined, then we're definitely missing all the required fields
+          not resources
+          missing := required_fields
+        }
+
+        missing_fields(resources, required_fields) = missing {
+          # If resources is defined, then we need to check each required field
+          resources
+          missing := {field | field := required_fields[_]; not resources[field]}
+        }

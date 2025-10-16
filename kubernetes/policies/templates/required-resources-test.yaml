@@ -1,0 +1,53 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sRequiredResources
+metadata:
+  name: no-limits
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+  parameters:
+    limits:
+      - cpu
+      - memory
+---
+kind: Suite
+apiVersion: test.gatekeeper.sh/v1alpha1
+metadata:
+  name: required-resources
+cases:
+  - name: pod-no-resource-limits
+    object:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: non-compliant-pod
+      spec:
+        containers:
+        - name: nginx
+          image: nginx:1.14.2
+          # Missing resource limits and requests
+    assertions:
+      - violations:
+          anyOf:
+            - message: "Container nginx is missing required limits: [cpu memory]"
+  - name: pod-with-resource-limits
+    object:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: compliant-pod
+      spec:
+        containers:
+        - name: nginx
+          image: nginx:1.14.2
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "128Mi"
+            requests:
+              cpu: "250m"
+              memory: "64Mi"
+    assertions:
+      - violations: null

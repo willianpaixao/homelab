@@ -1,0 +1,92 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8spsphostnetworkingports
+  annotations:
+    description: Controls usage of host networking and ports
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sPSPHostNetworkingPorts
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            hostNetwork:
+              type: boolean
+            hostPorts:
+              type: array
+              items:
+                type: object
+                properties:
+                  min:
+                    type: integer
+                  max:
+                    type: integer
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8spsphostnetworkingports
+
+        violation[{"msg": msg}] {
+          # Host network is restricted but pod has hostNetwork = true
+          input.parameters.hostNetwork == false
+          is_host_network_true
+
+          msg := sprintf("The specified hostNetwork setting is not allowed, pod: %v. Allowed value: false", [input.review.object.metadata.name])
+        }
+
+        violation[{"msg": msg}] {
+          # Host ports are restricted and pod has ports outside the allowed range
+          not input.parameters.hostPorts
+          container := input_containers[_]
+          port := container.ports[_]
+          port.hostPort
+
+          msg := sprintf("Host port %v is not allowed, pod: %v container: %v", [port.hostPort, input.review.object.metadata.name, container.name])
+        }
+
+        violation[{"msg": msg}] {
+          # Host ports are restricted to a specific range and pod has ports outside the allowed range
+          input.parameters.hostPorts
+          container := input_containers[_]
+          port := container.ports[_]
+          port.hostPort
+          port_outside_range(port.hostPort, input.parameters.hostPorts)
+
+          msg := sprintf("Host port %v is outside the allowed range, pod: %v container: %v", [port.hostPort, input.review.object.metadata.name, container.name])
+        }
+
+        # True if hostNetwork is set to true
+        is_host_network_true {
+          # Pod case
+          input.review.object.kind == "Pod"
+          input.review.object.spec.hostNetwork
+        }
+
+        is_host_network_true {
+          # Deployment, StatefulSet, DaemonSet case
+          kinds := {"Deployment", "StatefulSet", "DaemonSet"}
+          kinds[input.review.object.kind]
+          input.review.object.spec.template.spec.hostNetwork
+        }
+
+        # Get containers from pods or pod templates
+        input_containers[container] {
+          # Pod case
+          input.review.object.kind == "Pod"
+          container := input.review.object.spec.containers[_]
+        }
+
+        input_containers[container] {
+          # Deployment, StatefulSet, DaemonSet case
+          kinds := {"Deployment", "StatefulSet", "DaemonSet"}
+          kinds[input.review.object.kind]
+          container := input.review.object.spec.template.spec.containers[_]
+        }
+
+        # True if port is outside all allowed ranges
+        port_outside_range(port, ranges) {
+          count([range | range = ranges[_]; port >= range.min; port <= range.max]) == 0
+        }

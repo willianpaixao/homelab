@@ -1,0 +1,94 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8spspcapabilities
+  annotations:
+    description: Controls container capabilities
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sPSPCapabilities
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            allowedCapabilities:
+              type: array
+              items:
+                type: string
+            requiredDropCapabilities:
+              type: array
+              items:
+                type: string
+            volumes:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8spspcapabilities
+
+        violation[{"msg": msg}] {
+          container := input_containers[_]
+          has_disallowed_capabilities(container)
+          msg := sprintf("container <%v> has a disallowed capability. Allowed capabilities are %v", [container.name, get_default_capabilities()])
+        }
+
+        violation[{"msg": msg}] {
+          container := input_containers[_]
+          missing_drop_capabilities(container)
+          msg := sprintf("container <%v> is not dropping all required capabilities. Container must drop all of %v", [container.name, input.parameters.requiredDropCapabilities])
+        }
+
+        missing_drop_capabilities(container) {
+          input.parameters.requiredDropCapabilities
+          required := {cap | cap := input.parameters.requiredDropCapabilities[_]}
+          not container.securityContext.capabilities
+          count(required) > 0
+        }
+
+        missing_drop_capabilities(container) {
+          input.parameters.requiredDropCapabilities
+          required := {cap | cap := input.parameters.requiredDropCapabilities[_]}
+          dropped := {cap | cap := container.securityContext.capabilities.drop[_]}
+          remaining := required - dropped
+          count(remaining) > 0
+        }
+
+        has_disallowed_capabilities(container) {
+          allowed := {cap | cap := get_default_capabilities()[_]}
+          not container.securityContext.capabilities
+          not allowed["*"]
+        }
+
+        has_disallowed_capabilities(container) {
+          allowed := {cap | cap := get_default_capabilities()[_]}
+          not allowed["*"]
+          capabilities := {cap | cap := container.securityContext.capabilities.add[_]}
+          count(capabilities - allowed) > 0
+        }
+
+        get_default_capabilities() = out {
+          out = input.parameters.allowedCapabilities
+        }
+
+        get_default_capabilities() = out {
+          not input.parameters.allowedCapabilities
+          out = ["AUDIT_WRITE", "CHOWN", "DAC_OVERRIDE", "FOWNER", "FSETID", "KILL", "MKNOD", "NET_BIND_SERVICE", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_CHROOT"]
+        }
+
+        # Get containers from pods or pod templates
+        input_containers[container] {
+          # Pod case
+          input.review.object.kind == "Pod"
+          container := input.review.object.spec.containers[_]
+        }
+
+        input_containers[container] {
+          # Deployment, StatefulSet, DaemonSet case
+          kinds := {"Deployment", "StatefulSet", "DaemonSet"}
+          kinds[input.review.object.kind]
+          container := input.review.object.spec.template.spec.containers[_]
+        }
