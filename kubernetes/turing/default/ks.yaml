@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app homepage-remote-access
+  namespace: flux-system
+spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/turing/default/homepage-remote-access
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  interval: 30m
+  retryInterval: 5m
+  timeout: 5m

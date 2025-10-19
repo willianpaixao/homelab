@@ -94,7 +94,7 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
 
       machine-learning:
-        strategy: RollingUpdate
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -289,6 +289,13 @@ spec:
         className: internal
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/name: Immich
+          gethomepage.dev/icon: immich.png
+          gethomepage.dev/description: Photo & Video Management
+          gethomepage.dev/widget.type: immich
+          gethomepage.dev/widget.url: "https://immich.${SECRET_DOMAIN}"
         hosts:
           - host: "immich.${SECRET_DOMAIN}"
             paths:

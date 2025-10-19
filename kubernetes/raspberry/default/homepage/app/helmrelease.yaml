@@ -85,6 +85,12 @@ spec:
         name: homepage-config
         globalMounts:
           - path: /app/config
+      clusters:
+        enabled: true
+        type: secret
+        name: homepage-turing-kubeconfig
+        globalMounts:
+          - path: /app/config/clusters/turing
       logs:
         enabled: true
         type: emptyDir

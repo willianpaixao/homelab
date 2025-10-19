@@ -30,21 +30,15 @@ data:
   docker.yaml: ""
   kubernetes.yaml: |
     mode: cluster
+    clusters:
+      - name: raspberry
+      - name: turing
+        kubeconfig: /app/config/clusters/turing/config
   proxmox.yaml: |
     url: https://tank.web3.wiki.br:8006
     token: {{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}
     secret: {{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}
   services.yaml: |
-    - Media:
-        - Jellyfin:
-            icon: jellyfin.png
-            href: https://jellyfin.web3.wiki.br
-            widget:
-              type: jellyfin
-              fields: ["movies", "episodes"]
-              url: https://jellyfin.web3.wiki.br
-              key: {{HOMEPAGE_VAR_JELLYFIN_API_TOKEN}}
-              enableNowPlaying: false
     - Network:
         - Cloudflare:
             icon: cloudflare.png
