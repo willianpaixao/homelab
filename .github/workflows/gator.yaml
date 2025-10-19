@@ -39,7 +39,7 @@ jobs:
           sudo mv gator /usr/local/bin/
 
       - name: Build Flux manifests
-        uses: docker://ghcr.io/allenporter/flux-local:v7.5.0@sha256:2111f5e96e65bfdb7cee71f3384cdfae0de1a6a2ce5b95d0fa6de8142c3314d1
+        uses: docker://ghcr.io/allenporter/flux-local:v7.10.1@sha256:eea3ef015803ce58ca7331c94f7a8dac65faa925a3ff4d72f39c94b3096ca2fe
         with:
           args: >-
             build helmrelease
