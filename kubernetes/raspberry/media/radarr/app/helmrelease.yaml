@@ -102,11 +102,7 @@ spec:
     persistence:
       config:
         enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 2Gi
-        labels:
-          recurring-job-group.longhorn.io/backup: enabled
+        existingClaim: radarr-config
       media:
         enabled: true
         type: nfs
