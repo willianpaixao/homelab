@@ -47,13 +47,23 @@ spec:
               tag: v2.1.0@sha256:72a9b9de6c6abfa7a9c9cdc244ae4d2bd9fea2ae00997f194cbd10aca72ea210
             env:
               TZ: ${TIMEZONE}
-              # Server specific
               IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
+              IMMICH_TELEMETRY_INCLUDE: all
             envFrom:
               - configMapRef:
                   name: immich-configmap
               - secretRef:
                   name: immich-secret
+            ports:
+              - name: http
+                containerPort: 2283
+                protocol: TCP
+              - name: metrics-api
+                containerPort: 8081
+                protocol: TCP
+              - name: metrics-ms
+                containerPort: 8082
+                protocol: TCP
             probes:
               liveness: &probes
                 enabled: true
@@ -262,11 +272,24 @@ spec:
     service:
       server:
         controller: server
+        type: ClusterIP
         ports:
           http:
-            port: *port
-          metrics:
+            enabled: true
+            primary: true
+            port: 2283
+            targetPort: 2283
+            protocol: HTTP
+          metrics-api:
+            enabled: true
             port: 8081
+            targetPort: 8081
+            protocol: HTTP
+          metrics-ms:
+            enabled: true
+            port: 8082
+            targetPort: 8082
+            protocol: HTTP
       machine-learning:
         controller: machine-learning
         ports:
@@ -407,10 +430,11 @@ spec:
     serviceMonitor:
       server:
         enabled: true
-        serviceName: immich-server
+        serviceName: server
         endpoints:
-          - port: metrics
+          - port: metrics-api
             scheme: http
             path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
+          - port: metrics-ms
+            scheme: http
+            path: /metrics
