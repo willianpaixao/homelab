@@ -45,7 +45,7 @@ spec:
       ingressClassName: internal
       annotations:
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: storage
+        gethomepage.dev/group: Storage
         gethomepage.dev/icon: longhorn.png
         gethomepage.dev/name: longhorn
         gethomepage.dev/pod-selector: "app=longhorn-ui"
