@@ -101,7 +101,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.0.1-rknn@sha256:dee3d6384469107f6228afe08c3cb08f33a3ee19acccaf95ad4a3850574ea6fd
+              tag: v2.1.0-rknn@sha256:48ffac2125ea923aaa271c8ef6a49276bac2206ec8b087915fa860a6d183c9fa
             env:
               TZ: ${TIMEZONE}
               MACHINE_LEARNING_RKNN_THREADS: "2"
