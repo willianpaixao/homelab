@@ -26,7 +26,7 @@ cases:
       spec:
         containers:
         - name: nginx
-          image: nginx:1.14.2@sha256:f7988fb6c02e0ce69257d9bd9cf37ae20a60f1df7563c3a2a6abe24160306b8d
+          image: nginx:1.29.2@sha256:3b7732505933ca591ce4a6d860cb713ad96a3176b82f7979a8dfa9973486a0d6
           # Missing resource limits and requests
     assertions:
       - violations:
@@ -41,7 +41,7 @@ cases:
       spec:
         containers:
         - name: nginx
-          image: nginx:1.14.2@sha256:f7988fb6c02e0ce69257d9bd9cf37ae20a60f1df7563c3a2a6abe24160306b8d
+          image: nginx:1.29.2@sha256:3b7732505933ca591ce4a6d860cb713ad96a3176b82f7979a8dfa9973486a0d6
           resources:
             limits:
               cpu: "500m"
