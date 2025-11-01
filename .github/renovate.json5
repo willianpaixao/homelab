@@ -15,18 +15,19 @@
   reviewers: [
     'willianpaixao',
   ],
-  // Auto-merge configuration
   automerge: true,
   automergeType: 'pr',
   automergeStrategy: 'squash',
   platformAutomerge: true,
   ignoreTests: false,
   assignAutomerge: true,
-  // Dependency dashboard
   dependencyDashboard: true,
   dependencyDashboardTitle: 'Renovate Dashboard 🤖',
-  dependencyDashboardLabels: ['dependencies', 'renovate'],
-  dependencyDashboardFooter: "Need help? See the [Renovate documentation](https://docs.renovatebot.com/)",
+  dependencyDashboardLabels: [
+    'dependencies',
+    'renovate',
+  ],
+  dependencyDashboardFooter: 'Need help? See the [Renovate documentation](https://docs.renovatebot.com/)',
   ignorePaths: [
     '**/*.sops.*',
     '**/docs/**',
@@ -44,25 +45,26 @@
     'on saturday',
   ],
   flux: {
-    fileMatch: [
-      '/(^|/)kubernetes/.+\\.ya?ml$/',
+    managerFilePatterns: [
+      '//(^|/)kubernetes/.+\\.ya?ml$//',
     ],
   },
   'helm-values': {
-    fileMatch: [
-      '/(^|/)kubernetes/.+\\.ya?ml$/',
+    managerFilePatterns: [
+      '//(^|/)kubernetes/.+\\.ya?ml$//',
     ],
   },
   kubernetes: {
-    fileMatch: [
-      '/(^|/)kubernetes/.+\\.ya?ml$/',
+    managerFilePatterns: [
+      '//(^|/)kubernetes/.+\\.ya?ml$//',
     ],
   },
-  regexManagers: [
+  customManagers: [
     {
+      customType: 'regex',
       description: 'Process Flux HelmRepository/OCIRepository across clusters',
-      fileMatch: [
-        '/(^|/)kubernetes/.+\\.ya?ml$/',
+      managerFilePatterns: [
+        '//(^|/)kubernetes/.+\\.ya?ml$//',
       ],
       matchStrings: [
         'registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)',
@@ -71,7 +73,6 @@
     },
   ],
   packageRules: [
-    // Update type labels
     {
       matchUpdateTypes: [
         'major',
@@ -116,7 +117,6 @@
       automerge: true,
       automergeType: 'pr',
     },
-    // Disable digest pinning for frequently updated charts
     {
       matchDatasources: [
         'docker',
@@ -124,34 +124,31 @@
       matchPackageNames: [
         'ghcr.io/bjw-s/helm/app-template',
         'ghcr.io/bjw-s-labs/helm/app-template',
-        'ghcr.io/prometheus-community/charts/kube-prometheus-stack'
+        'ghcr.io/prometheus-community/charts/kube-prometheus-stack',
       ],
       pinDigests: false,
     },
-    // Group Immich components
     {
       groupName: 'immich',
       matchDatasources: [
         'docker',
       ],
-      matchPackagePatterns: [
-        '^ghcr\\.io/immich-app/immich-',
+      matchPackageNames: [
+        '/^ghcr\\.io/immich-app/immich-/',
       ],
     },
-    // Group *arr apps from home-operations
     {
       groupName: 'home-operations-arr-apps',
       matchDatasources: [
         'docker',
       ],
-      matchPackagePatterns: [
-        '^ghcr\\.io/home-operations/(sonarr|radarr|prowlarr|bazarr)',
-      ],
       addLabels: [
         'renovate/arr-apps',
       ],
+      matchPackageNames: [
+        '/^ghcr\\.io/home-operations/(sonarr|radarr|prowlarr|bazarr)/',
+      ],
     },
-    // Group system-upgrade-controller across clusters
     {
       groupName: 'system-upgrade-controller',
       matchDatasources: [
@@ -161,7 +158,6 @@
         'docker.io/rancher/system-upgrade-controller',
       ],
     },
-    // Group GitHub Actions updates
     {
       groupName: 'github-actions',
       matchManagers: [
@@ -173,7 +169,6 @@
       automerge: true,
       automergeType: 'pr',
     },
-    // Group Python dependencies
     {
       groupName: 'python-dependencies',
       matchManagers: [
@@ -190,7 +185,6 @@
         'on saturday',
       ],
     },
-    // Security updates - automerge and higher priority
     {
       matchDatasources: [
         'docker',
@@ -204,19 +198,11 @@
       automerge: true,
       automergeType: 'pr',
     },
-    // Separate PRs for major updates of critical infrastructure
     {
       groupSlug: 'critical-infrastructure-major',
       matchDatasources: [
         'docker',
         'helm',
-      ],
-      matchPackagePatterns: [
-        'cilium',
-        'cert-manager',
-        'external-dns',
-        'ingress-nginx',
-        'kube-prometheus-stack',
       ],
       matchUpdateTypes: [
         'major',
@@ -226,8 +212,14 @@
         'critical',
       ],
       automerge: false,
+      matchPackageNames: [
+        '/cilium/',
+        '/cert-manager/',
+        '/external-dns/',
+        '/ingress-nginx/',
+        '/kube-prometheus-stack/',
+      ],
     },
-    // Handle duplicate registry URLs across multi-cluster setup
     {
       description: 'Deduplicate Flux sources across clusters',
       matchDatasources: [
@@ -248,7 +240,9 @@
       description: 'Suppress registryUrls warning for OCI registries',
       matchHost: 'ghcr.io',
       abortOnError: false,
-      abortIgnoreStatusCodes: [404],
+      abortIgnoreStatusCodes: [
+        404,
+      ],
     },
   ],
 }
