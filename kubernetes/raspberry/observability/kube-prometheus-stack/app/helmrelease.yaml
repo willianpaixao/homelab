@@ -87,7 +87,10 @@ spec:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
+          - out-of-order-time-series
         enableRemoteWriteReceiver: true
+        tsdb:
+          outOfOrderTimeWindow: 5m
         retention: 30d
         retentionSize: 128GiB
         # Drop high-cardinality metrics to reduce storage

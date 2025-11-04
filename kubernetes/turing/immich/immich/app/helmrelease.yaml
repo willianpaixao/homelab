@@ -149,11 +149,8 @@ spec:
             securityContext:
               privileged: true
             resources:
-              requests:
-                cpu: 100m
-                memory: 512Mi
               limits:
-                memory: 4Gi
+                memory: 6Gi
         pod:
           enableServiceLinks: false
 
@@ -430,11 +427,15 @@ spec:
     serviceMonitor:
       server:
         enabled: true
-        serviceName: server
+        serviceName: immich-server
         endpoints:
           - port: metrics-api
             scheme: http
             path: /metrics
+            interval: 30s
+            scrapeTimeout: 10s
           - port: metrics-ms
             scheme: http
             path: /metrics
+            interval: 30s
+            scrapeTimeout: 10s
