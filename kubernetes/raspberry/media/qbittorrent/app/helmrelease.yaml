@@ -84,6 +84,8 @@ spec:
               DOT: "off"
               FIREWALL_INPUT_PORTS: 8080
               FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16
+              HEALTH_VPN_DURATION_INITIAL: 30s
+              SERVER_COUNTRIES: "Sweden"
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
