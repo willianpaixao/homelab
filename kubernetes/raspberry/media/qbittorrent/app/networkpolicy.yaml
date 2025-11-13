@@ -12,18 +12,95 @@ spec:
     - Ingress
     - Egress
   ingress:
-    - from: []
+    # Allow access to qBittorrent web UI from internal network
+    - from:
+        - namespaceSelector: {}
       ports:
         - protocol: TCP
-          port: 6881
-        - protocol: UDP
-          port: 6881
+          port: 8080
   egress:
-    - to: []
+    # Allow DNS (for initial resolution before VPN)
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # Allow access to internal DNS server
+    - to:
+        - ipBlock:
+            cidr: 192.168.0.8/32
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # Allow DoT (DNS over TLS) for Gluetun
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+      ports:
+        - protocol: TCP
+          port: 853
+    # Allow HTTPS for health checks and API access
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+      ports:
+        - protocol: TCP
+          port: 443
+    # Allow WireGuard VPN connection
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+      ports:
+        - protocol: UDP
+          port: 51820
+    # Allow torrent tracker access (common ports)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
       ports:
         - protocol: UDP
           port: 1337
         - protocol: UDP
           port: 6969
+    # Allow access to local pod network (NFS, ingress, etc)
+    - to:
+        - ipBlock:
+            cidr: 10.69.0.0/16
+    # Allow access to NFS server
+    - to:
+        - ipBlock:
+            cidr: 192.168.0.0/24
+      ports:
+        - protocol: TCP
+          port: 111
+        - protocol: TCP
+          port: 2049
         - protocol: UDP
-          port: 51820
+          port: 111
+        - protocol: UDP
+          port: 2049

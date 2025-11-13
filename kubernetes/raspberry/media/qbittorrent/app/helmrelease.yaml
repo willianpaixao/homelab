@@ -48,7 +48,7 @@ spec:
               tag: 5.1.3@sha256:2feb2c8d188db4de330ca4840c167282e10e3252f4c6d1bce7943c7f46099836
             env:
               QBITTORRENT__PORT: &port 8080
-              QBITTORRENT__BT_PORT: &bittorrentPort 0
+              QBITTORRENT__BT_PORT: &bittorrentPort 6881
               TZ: ${TIMEZONE}
               UMASK: "022"
             probes:
@@ -81,10 +81,14 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
             env:
-              DOT: "off"
-              FIREWALL_INPUT_PORTS: 8080
+              DNS_ADDRESS: "127.0.0.1"
+              DOT: "on"
+              DOT_PROVIDERS: "cloudflare"
+              FIREWALL_INPUT_PORTS: "8080,6881"
               FIREWALL_OUTBOUND_SUBNETS: 10.69.0.0/16
               HEALTH_VPN_DURATION_INITIAL: 30s
+              HEALTH_VPN_DURATION_ADDITION: 10s
+              HEALTH_SUCCESS_WAIT_DURATION: 10s
               SERVER_COUNTRIES: "Sweden"
             envFrom:
               - secretRef:

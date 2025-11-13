@@ -26,6 +26,7 @@ spec:
             matchLabels:
               kubernetes.io/metadata.name: observability
   egress:
+    # Allow DNS resolution
     - to:
         - namespaceSelector:
             matchLabels:
@@ -38,15 +39,57 @@ spec:
           port: 53
         - protocol: TCP
           port: 53
+    # Allow access to internal DNS server
+    - to:
+        - ipBlock:
+            cidr: 192.168.0.8/32
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # Allow communication within media namespace
     - to:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: media
+    # Allow access to storage namespace
     - to:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: storage
+    # Allow HTTPS for external services
     - to: []
       ports:
         - protocol: TCP
           port: 443
+    # Allow DNS over TLS (DoT)
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 853
+    # Allow WireGuard VPN connections
+    - to: []
+      ports:
+        - protocol: UDP
+          port: 51820
+    # Allow torrent tracker connections
+    - to: []
+      ports:
+        - protocol: UDP
+          port: 1337
+        - protocol: UDP
+          port: 6969
+    # Allow access to NFS server for media storage
+    - to:
+        - ipBlock:
+            cidr: 192.168.0.0/24
+      ports:
+        - protocol: TCP
+          port: 111
+        - protocol: TCP
+          port: 2049
+        - protocol: UDP
+          port: 111
+        - protocol: UDP
+          port: 2049
