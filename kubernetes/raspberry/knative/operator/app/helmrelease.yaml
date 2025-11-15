@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: knative-operator
-      version: v1.18.1
+      version: v1.20.0
       sourceRef:
         kind: HelmRepository
         name: knative-operator
