@@ -52,12 +52,3 @@ spec:
           annotations:
             summary: "Persistent volume usage high (volume {{ $labels.persistentvolumeclaim }})"
             description: "PersistentVolume {{ $labels.persistentvolumeclaim }} is more than 85% full\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
-
-        - alert: DiskIOWaitHigh
-          expr: rate(node_disk_io_time_weighted_seconds_total[10m]) > 0.75
-          for: 15m
-          labels:
-            severity: warning
-          annotations:
-            summary: "Disk IO wait high (instance {{ $labels.instance }})"
-            description: "Disk IO wait on {{ $labels.device }} is high (>75%)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
