@@ -221,5 +221,23 @@ spec:
         size: 8Gi
         labels:
           recurring-job-group.longhorn.io/backup: enabled
+      datasources:
+        datasources.yaml:
+          apiVersion: 1
+          datasources:
+            - name: Prometheus
+              type: prometheus
+              uid: prometheus
+              url: http://kube-prometheus-stack-prometheus.observability:9090
+              access: proxy
+              jsonData:
+                timeInterval: 30s
+            - name: Alertmanager
+              type: alertmanager
+              uid: alertmanager
+              url: http://kube-prometheus-stack-alertmanager.observability.svc.cluster.local:9093
+              access: proxy
+              jsonData:
+                implementation: prometheus
       nodeSelector:
         disktype: ssd
