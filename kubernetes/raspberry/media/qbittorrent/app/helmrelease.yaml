@@ -97,6 +97,35 @@ spec:
               capabilities:
                 add:
                   - NET_ADMIN
+          qbrr:
+            image:
+              repository: ghcr.io/buroa/qbrr
+              tag: latest
+            env:
+              QBITTORRENT_HOST: "http://localhost:8080"
+            args:
+              - "-max-age"
+              - "10000000"
+              - "-interval"
+              - "300"
+              - "-log-level"
+              - "info"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                cpu: 100m
+                memory: 128Mi
+            securityContext:
+              runAsUser: 2000
+              runAsGroup: 2000
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
     service:
       app:
         controller: qbittorrent

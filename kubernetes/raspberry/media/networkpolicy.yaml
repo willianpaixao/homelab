@@ -80,6 +80,16 @@ spec:
           port: 1337
         - protocol: UDP
           port: 6969
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 1337
+        - protocol: TCP
+          port: 2710
+        - protocol: TCP
+          port: 6969
+        - protocol: TCP
+          port: 8080
     # Allow access to NFS server for media storage
     - to:
         - ipBlock:

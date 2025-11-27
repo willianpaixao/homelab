@@ -74,7 +74,7 @@ spec:
       ports:
         - protocol: UDP
           port: 51820
-    # Allow torrent tracker access (common ports)
+    # Allow torrent tracker access
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
@@ -87,6 +87,16 @@ spec:
           port: 1337
         - protocol: UDP
           port: 6969
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 1337
+        - protocol: TCP
+          port: 2710
+        - protocol: TCP
+          port: 6969
+        - protocol: TCP
+          port: 8080
     # Allow access to local pod network (NFS, ingress, etc)
     - to:
         - ipBlock:
