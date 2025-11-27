@@ -43,3 +43,80 @@ spec:
             name: 'telegram-config'
             key: 'BOT_TOKEN'
           chatID: "${TELEGRAM_CHAT_ID}"
+          parseMode: HTML
+          sendResolved: true
+          message: |-
+            {{ range .Alerts }}
+            {{- if eq .Status "firing" }}
+            🔥 <b>ALERT FIRING</b> 🔥
+            {{- else }}
+            ✅ <b>ALERT RESOLVED</b> ✅
+            {{- end }}
+
+            🪪 <b>{{ .Labels.alertname }}</b>
+            {{- if .Labels.severity }}
+            {{- if eq .Labels.severity "critical" }}
+            🚨 <b>Severity:</b> CRITICAL
+            {{- else if eq .Labels.severity "warning" }}
+            ⚠️ <b>Severity:</b> WARNING
+            {{- else if eq .Labels.severity "info" }}
+            ℹ️ <b>Severity:</b> INFO
+            {{- else }}
+            ℹ️ <b>Severity:</b> {{ .Labels.severity | toUpper }}
+            {{- end }}
+            {{- end }}
+            {{- if .Labels.cluster }}
+            🏷️ <b>Cluster:</b> <code>{{ .Labels.cluster }}</code>
+            {{- end }}
+
+            {{- if .Annotations.summary }}
+            📝 <b>Summary:</b>
+            {{ .Annotations.summary }}
+            {{- end }}
+
+            {{- if .Annotations.description }}
+            📖 <b>Description:</b>
+            {{ .Annotations.description }}
+            {{- end }}
+
+            {{- if .Labels.namespace }}
+            📦 <b>Namespace:</b> <code>{{ .Labels.namespace }}</code>
+            {{- end }}
+
+            {{- if .Labels.pod }}
+            🐳 <b>Pod:</b> <code>{{ .Labels.pod }}</code>
+            {{- end }}
+
+            {{- if .Labels.container }}
+            📦 <b>Container:</b> <code>{{ .Labels.container }}</code>
+            {{- end }}
+
+            {{- if .Labels.pvc }}
+            💾 <b>PVC:</b> <code>{{ .Labels.pvc }}</code>
+            {{- if .Labels.pvc_namespace }}
+             (ns: <code>{{ .Labels.pvc_namespace }}</code>)
+            {{- end }}
+            {{- end }}
+
+            {{- if .Labels.node }}
+            🖥️ <b>Node:</b> <code>{{ .Labels.node }}</code>
+            {{- end }}
+
+            {{- if .Labels.job }}
+            💼 <b>Job:</b> <code>{{ .Labels.job }}</code>
+            {{- end }}
+
+            {{- if .Labels.instance }}
+            🌐 <b>Instance:</b> <code>{{ .Labels.instance }}</code>
+            {{- end }}
+
+            {{- if .Annotations.runbook_url }}
+            📚 <b>Runbook:</b> <a href="{{ .Annotations.runbook_url }}">View</a>
+            {{- end }}
+
+            🕐 <b>Started:</b> {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
+            {{- if eq .Status "resolved" }}
+            🕑 <b>Ended:</b> {{ .EndsAt.Format "2006-01-02 15:04:05 MST" }}
+            {{- end }}
+            ━━━━━━━━━━━━━━━━
+            {{ end }}
