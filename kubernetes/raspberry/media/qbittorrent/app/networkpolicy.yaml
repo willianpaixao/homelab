@@ -41,7 +41,7 @@ spec:
           port: 53
         - protocol: TCP
           port: 53
-    # Allow DoT (DNS over TLS) for Gluetun
+    # Allow all egress to internet (VPN traffic and trackers)
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
@@ -49,54 +49,6 @@ spec:
               - 10.0.0.0/8
               - 172.16.0.0/12
               - 192.168.0.0/16
-      ports:
-        - protocol: TCP
-          port: 853
-    # Allow HTTPS for health checks and API access
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-            except:
-              - 10.0.0.0/8
-              - 172.16.0.0/12
-              - 192.168.0.0/16
-      ports:
-        - protocol: TCP
-          port: 443
-    # Allow WireGuard VPN connection
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-            except:
-              - 10.0.0.0/8
-              - 172.16.0.0/12
-              - 192.168.0.0/16
-      ports:
-        - protocol: UDP
-          port: 51820
-    # Allow torrent tracker access
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
-            except:
-              - 10.0.0.0/8
-              - 172.16.0.0/12
-              - 192.168.0.0/16
-      ports:
-        - protocol: UDP
-          port: 1337
-        - protocol: UDP
-          port: 6969
-        - protocol: TCP
-          port: 80
-        - protocol: TCP
-          port: 1337
-        - protocol: TCP
-          port: 2710
-        - protocol: TCP
-          port: 6969
-        - protocol: TCP
-          port: 8080
     # Allow access to local pod network (NFS, ingress, etc)
     - to:
         - ipBlock:

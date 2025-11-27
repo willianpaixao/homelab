@@ -58,38 +58,8 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: storage
-    # Allow HTTPS for external services
+    # Allow all egress to external services (VPN, trackers, etc)
     - to: []
-      ports:
-        - protocol: TCP
-          port: 443
-    # Allow DNS over TLS (DoT)
-    - to: []
-      ports:
-        - protocol: TCP
-          port: 853
-    # Allow WireGuard VPN connections
-    - to: []
-      ports:
-        - protocol: UDP
-          port: 51820
-    # Allow torrent tracker connections
-    - to: []
-      ports:
-        - protocol: UDP
-          port: 1337
-        - protocol: UDP
-          port: 6969
-        - protocol: TCP
-          port: 80
-        - protocol: TCP
-          port: 1337
-        - protocol: TCP
-          port: 2710
-        - protocol: TCP
-          port: 6969
-        - protocol: TCP
-          port: 8080
     # Allow access to NFS server for media storage
     - to:
         - ipBlock:
