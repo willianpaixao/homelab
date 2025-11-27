@@ -90,6 +90,8 @@ spec:
               HEALTH_VPN_DURATION_ADDITION: 10s
               HEALTH_SUCCESS_WAIT_DURATION: 10s
               SERVER_COUNTRIES: "Sweden"
+              VPN_PORT_FORWARDING: "on"
+              VPN_PORT_FORWARDING_PROVIDER: "protonvpn"
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
