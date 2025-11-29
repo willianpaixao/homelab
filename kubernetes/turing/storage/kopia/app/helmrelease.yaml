@@ -36,7 +36,7 @@ spec:
           app:
             image:
               repository: docker.io/kopia/kopia
-              tag: 0.22.2@sha256:883b0f357cafbf2d9ea828a1336951fa8998cf6b63ea55fdf57b1f22447e7f47
+              tag: 20251128.0.62506@sha256:8e08ab65fa6d47b8bde066b1e5aa6fa04fbc3aeee6728a97ad5fa3e4ce7a6557
             env:
               TZ: ${TIMEZONE}
             args:
