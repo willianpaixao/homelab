@@ -10,5 +10,5 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 7.2.19@sha256:3d870e90016c2aea2a63c426819635dbf952e8b8d930e9ee7b3a1bbb9476081b
+    tag: 7.2.20@sha256:38081cf1dbc961b8cf1146131a2177a0b8cdd073fb281cf0b78be43f6ff85444
   url: oci://ghcr.io/netbox-community/netbox-chart/netbox
