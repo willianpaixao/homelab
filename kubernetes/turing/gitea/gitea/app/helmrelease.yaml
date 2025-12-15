@@ -1,0 +1,120 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &name gitea
+  namespace: &namespace gitea
+spec:
+  interval: 1h
+  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+    controllers:
+      gitea:
+        containers:
+          gitea:
+            image:
+              repository: ghcr.io/go-gitea/gitea
+              tag: 1.25.2-rootless
+            env:
+              TZ: "${TIMEZONE}"
+              USER_UID: 1000
+              USER_GID: 1000
+              GITEA__database__DB_TYPE: sqlite3
+              GITEA__database__PATH: /var/lib/gitea/gitea.db
+              GITEA__REPOSITORY__ENABLE_PUSH_CREATE_USER: "true"
+              GITEA__SECURITY__INSTALL_LOCK: "true"
+              GITEA__SERVER__DOMAIN: "gitea.${SECRET_DOMAIN}"
+              GITEA__SERVER__ROOT_URL: "https://gitea.${SECRET_DOMAIN}"
+              GITEA__SERVER__SSH_DOMAIN: "git.${SECRET_DOMAIN}"
+              GITEA__SERVER__SSH_PORT: 22
+              GITEA__SERVER__START_SSH_SERVER: "true"
+              GITEA__SERVER__SSH_LISTEN_PORT: 2222
+            probes:
+              liveness: &probes
+                enabled: true
+              readiness: *probes
+              startup: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                add:
+                  - CHOWN
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 500m
+                memory: 266Mi
+              limits:
+                memory: 512Mi
+    ingress:
+      gitea:
+        className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Gitea
+          gethomepage.dev/icon: gitea.png
+          gethomepage.dev/name: Gitea
+        hosts:
+          - host: &host gitea.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: gitea
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    service:
+      gitea:
+        controller: *name
+        ports:
+          http:
+            port: 3000
+      ssh:
+        controller: *name
+        type: LoadBalancer
+        loadBalancerIP: 192.168.0.167
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: git.${SECRET_DOMAIN}
+        ports:
+          ssh:
+            port: 22
+            targetPort: 2222
+            protocol: TCP
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 4Gi
+        globalMounts:
+          - path: /var/lib/gitea
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

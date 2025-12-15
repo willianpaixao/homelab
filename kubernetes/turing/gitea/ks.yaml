@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app immich
+  name: &app gitea
   namespace: flux-system
 spec:
-  targetNamespace: immich
+  targetNamespace: gitea
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/turing/immich/immich/app
+  path: ./kubernetes/turing/gitea/gitea/app
   prune: true
   sourceRef:
     kind: GitRepository
