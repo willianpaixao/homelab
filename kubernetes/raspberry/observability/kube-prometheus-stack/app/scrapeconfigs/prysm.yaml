@@ -3,12 +3,13 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: reth
+  name: prysm
   namespace: observability
 spec:
   staticConfigs:
     - labels:
-        job: reth
+        job: prysm
       targets:
-        - 192.168.0.151:9001
-  metricsPath: /
+        - 192.168.0.151:8080
+        - 192.168.0.151:8081
+  metricsPath: /metrics

@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prometheus-rules-override
+  namespace: observability
+spec:
+  groups:
+    - name: prometheus
+      rules:
+        - alert: PrometheusMissingRuleEvaluations
+          annotations:
+            description: Prometheus {{ $labels.namespace }}/{{ $labels.pod }} has missed {{ printf "%.0f" $value }} rule group evaluations in the last 5m.
+            summary: Prometheus is missing rule evaluations due to slow rule group evaluation.
+          expr: increase(prometheus_rule_group_iterations_missed_total{job=~".*prometheus.*",namespace="observability"}[5m]) > 0
+          for: 15m
+          labels:
+            severity: info
