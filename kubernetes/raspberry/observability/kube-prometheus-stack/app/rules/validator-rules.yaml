@@ -70,3 +70,241 @@ spec:
           annotations:
             summary: "Validator missing sync committee contributions (validator {{ $labels.pubkey }})"
             description: "Validator is in a sync committee but not contributing\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - name: prysm.rules
+      rules:
+        - alert: PrysmNodeDown
+          expr: up{job="prysm"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Prysm consensus client down (instance {{ $labels.instance }})"
+            description: "Prysm Ethereum consensus client is down\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmSyncLagging
+          expr: sync_eth2_synced == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Prysm node not synced (instance {{ $labels.instance }})"
+            description: "Prysm Ethereum consensus client is not in sync with the network\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmLowPeerCount
+          expr: p2p_peer_count{state="Connected"} < 15
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm low peer count (instance {{ $labels.instance }})"
+            description: "Prysm Ethereum consensus client has fewer than 15 peers\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmNoIncomingBlocksForSlots
+          expr: rate(block_received_slot[5m]) == 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm not receiving blocks (instance {{ $labels.instance }})"
+            description: "Prysm Ethereum consensus client has not received any blocks in the last 5 minutes\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmMissedAttestations
+          expr: rate(missed_attestations_total[30m]) > 3
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm missing attestations (instance {{ $labels.instance }})"
+            description: "Prysm validator is missing attestations at a high rate\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmHighMemoryUsage
+          expr: process_resident_memory_bytes{job="prysm"} > 6e9
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm high memory usage (instance {{ $labels.instance }})"
+            description: "Prysm is using more than 6GB of memory\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmGRPCErrors
+          expr: sum(rate(grpc_server_handled_total{grpc_code!="OK"}[5m])) by (instance) > 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm GRPC errors (instance {{ $labels.instance }})"
+            description: "Prysm consensus client is experiencing GRPC errors\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmSlotProcessingDelay
+          expr: slot_processing_delay_seconds > 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm slot processing delay (instance {{ $labels.instance }})"
+            description: "Prysm slot processing is delayed by more than 1 second\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmSlotsBehind
+          expr: beacon_clock_time_slot - beacon_head_slot > 5
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm beacon node falling behind (instance {{ $labels.instance }})"
+            description: "Prysm beacon node is more than 5 slots behind the network\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmLowParticipationRate
+          expr: (beacon_prev_epoch_target_gwei / beacon_prev_epoch_active_gwei) * 100 < 66
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Low network participation rate (instance {{ $labels.instance }})"
+            description: "Network participation rate is below 66%\n  VALUE = {{ $value }}%\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmExecutionLayerErrors
+          expr: increase(execution_server_error_count[5m]) > 5
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm execution layer errors (instance {{ $labels.instance }})"
+            description: "Prysm is experiencing errors communicating with execution layer\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmChainReorgs
+          expr: increase(beacon_reorgs_total[1h]) > 3
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm chain reorgs detected (instance {{ $labels.instance }})"
+            description: "Multiple chain reorganizations detected in the last hour\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmHighBlockLatency
+          expr: block_arrival_latency_milliseconds_gauge > 4000
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm high block arrival latency (instance {{ $labels.instance }})"
+            description: "Block arrival latency is higher than 4 seconds\n  VALUE = {{ $value }}ms\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmLowCacheHitRate
+          expr: hot_state_cache_hit / (hot_state_cache_hit + hot_state_cache_miss) * 100 < 80
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Prysm low cache hit rate (instance {{ $labels.instance }})"
+            description: "Hot state cache hit rate is below 80%\n  VALUE = {{ $value }}%\n  LABELS: {{ $labels }}"
+
+        - alert: PrysmInvalidPayloads
+          expr: increase(new_payload_invalid_node_count[1h]) > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Prysm receiving invalid payloads (instance {{ $labels.instance }})"
+            description: "Execution layer is returning invalid payload responses\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - name: reth.rules
+      rules:
+        - alert: RethNodeDown
+          expr: up{job="reth"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Reth execution client down (instance {{ $labels.instance }})"
+            description: "Reth Ethereum execution client is down\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethLowPeerCount
+          expr: reth_network_connected_peers < 10
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth low peer count (instance {{ $labels.instance }})"
+            description: "Reth execution client has fewer than 10 connected peers\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethSyncStalled
+          expr: increase(reth_sync_checkpoint{stage="Execution"}[30m]) == 0 and reth_sync_checkpoint{stage="Execution"} < reth_sync_checkpoint{stage="Headers"}
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth sync stalled (instance {{ $labels.instance }})"
+            description: "Reth execution sync has not progressed in the last 30 minutes\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethHighMemoryUsage
+          expr: reth_jemalloc_resident > 12e9
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth high memory usage (instance {{ $labels.instance }})"
+            description: "Reth is using more than 12GB of resident memory\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethNewPayloadInvalid
+          expr: increase(reth_engine_rpc_new_payload_invalid[1h]) > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Reth receiving invalid new payloads (instance {{ $labels.instance }})"
+            description: "Consensus layer is sending payloads that Reth marks as invalid\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethForkChoiceInvalid
+          expr: increase(reth_engine_rpc_forkchoice_updated_invalid[1h]) > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Reth fork choice updates invalid (instance {{ $labels.instance }})"
+            description: "Fork choice updates from consensus layer are being marked invalid\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethRPCErrors
+          expr: sum(rate(reth_rpc_server_calls_failed_total[5m])) by (instance) > 10
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth RPC errors (instance {{ $labels.instance }})"
+            description: "Reth RPC server is experiencing high error rate\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethDatabaseTransactionErrors
+          expr: rate(reth_database_transaction_closed_total[5m]) > rate(reth_database_transaction_opened_total[5m]) * 1.1
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth database transaction anomaly (instance {{ $labels.instance }})"
+            description: "Database transactions closing faster than opening, may indicate issues\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethTxPoolOverflow
+          expr: reth_transaction_pool_total_transactions > 10000
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth transaction pool large (instance {{ $labels.instance }})"
+            description: "Transaction pool has more than 10000 transactions\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethHighDiskIO
+          expr: rate(reth_io_write_bytes[5m]) > 100e6
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth high disk write rate (instance {{ $labels.instance }})"
+            description: "Reth is writing more than 100MB/s to disk sustained\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+        - alert: RethNetworkDisconnects
+          expr: increase(reth_network_disconnect_requested[1h]) > 50
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Reth high disconnect rate (instance {{ $labels.instance }})"
+            description: "High number of peer disconnections in the last hour\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
