@@ -301,10 +301,10 @@ spec:
             description: "Reth is writing more than 100MB/s to disk sustained\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
 
         - alert: RethNetworkDisconnects
-          expr: increase(reth_network_disconnect_requested[1h]) > 50
+          expr: increase(reth_network_disconnect_requested[1h]) > 10000
           for: 5m
           labels:
             severity: warning
           annotations:
             summary: "Reth high disconnect rate (instance {{ $labels.instance }})"
-            description: "High number of peer disconnections in the last hour\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+            description: "High number of peer disconnections in the last hour (>10000)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

@@ -9,13 +9,13 @@ spec:
     - name: networking.rules
       rules:
         - alert: NetworkHighPacketLoss
-          expr: 100 * (1 - (sum by(instance)(rate(node_network_receive_packets_total[5m])) / sum by(instance)(rate(node_network_receive_packets_total[5m]) + rate(node_network_receive_errs_total[5m]) + rate(node_network_receive_drop_total[5m])))) > 1
+          expr: 100 * (1 - (sum by(instance)(rate(node_network_receive_packets_total[5m])) / sum by(instance)(rate(node_network_receive_packets_total[5m]) + rate(node_network_receive_errs_total[5m]) + rate(node_network_receive_drop_total[5m])))) > 5
           for: 15m
           labels:
             severity: warning
           annotations:
             summary: "Network high packet loss (instance {{ $labels.instance }})"
-            description: "Network packet loss is higher than 1%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+            description: "Network packet loss is higher than 5%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
 
         - alert: NetworkInterfaceSaturated
           expr: (rate(node_network_receive_bytes_total[1m]) + rate(node_network_transmit_bytes_total[1m])) / node_network_speed_bytes{device!~"lo|veth.*|docker.*|flannel.*|cali.*|cbr.*"} > 0.8

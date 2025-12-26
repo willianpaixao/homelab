@@ -125,6 +125,16 @@
       ],
     },
     {
+      description: 'Pin immich postgres to v14',
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'ghcr.io/immich-app/postgres',
+      ],
+      allowedVersions: '/^14\\./',
+    },
+    {
       groupName: 'home-operations-arr-apps',
       matchDatasources: [
         'docker',

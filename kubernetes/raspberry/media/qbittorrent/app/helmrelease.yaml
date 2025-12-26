@@ -48,7 +48,7 @@ spec:
               tag: 5.1.4@sha256:25fc7caf22101f85276ede9b1f76a46b7a93971bb6b70b6c58d14d6ab7f51415
             env:
               QBITTORRENT__PORT: &port 8080
-              QBITTORRENT__BT_PORT: &bittorrentPort 6881
+              QBITTORRENT__BT_PORT: &bittorrentPort 49437
               TZ: ${TIMEZONE}
               UMASK: "022"
             probes:
@@ -128,6 +128,46 @@ spec:
               capabilities:
                 drop:
                   - ALL
+          port-forward-sync:
+            image:
+              repository: docker.io/curlimages/curl
+              tag: 8.11.1
+            command:
+              - /bin/sh
+              - -c
+              - |
+                QBIT_URL="http://localhost:8080"
+                PORT_FILE="/tmp/gluetun/forwarded_port"
+                LAST_PORT=""
+                while true; do
+                  if [ -f "$PORT_FILE" ]; then
+                    CURRENT_PORT=$(cat "$PORT_FILE")
+                    if [ "$CURRENT_PORT" != "$LAST_PORT" ] && [ -n "$CURRENT_PORT" ]; then
+                      echo "Port changed from $LAST_PORT to $CURRENT_PORT, updating qBittorrent..."
+                      curl -s -X POST "$QBIT_URL/api/v2/app/setPreferences" \
+                        -d "json={\"listen_port\":$CURRENT_PORT}"
+                      LAST_PORT="$CURRENT_PORT"
+                      echo "qBittorrent listen port updated to $CURRENT_PORT"
+                    fi
+                  fi
+                  sleep 30
+                done
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                cpu: 50m
+                memory: 64Mi
+            securityContext:
+              runAsUser: 2000
+              runAsGroup: 2000
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                  - ALL
     service:
       app:
         controller: qbittorrent
@@ -196,3 +236,12 @@ spec:
           qbittorrent:
             app:
               - path: /tmp
+      gluetun:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          qbittorrent:
+            gluetun:
+              - path: /tmp/gluetun
+            port-forward-sync:
+              - path: /tmp/gluetun

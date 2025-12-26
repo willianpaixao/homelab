@@ -11,5 +11,4 @@ spec:
         job: prysm
       targets:
         - 192.168.0.151:8080
-        - 192.168.0.151:8081
   metricsPath: /metrics
