@@ -23,6 +23,14 @@ data:
             assign_scores_to:
               - name: WEB-2160p
           - trash_ids:
+              - d6819cba26b1a6508138d25fb5e32293 # HD Bluray Tier 01
+              - c2216b7b8aa545dc1ce8388c618f8d57 # HD Bluray Tier 02
+              - 9965a052eb87b0d10313b1cea89eb451 # Remux Tier 01
+              - 8a1d0c3d7497e741736761a1da866a2e # Remux Tier 02
+              - d0c516558625b04b363fa6c5c2c7cfd4 # WEB Scene
+              - e6258996055b9fbab7e9cb2f75819294 # WEB Tier 01
+              - 58790d4e2fdcd9733aa7ae68ba2bb503 # WEB Tier 02
+              - d84935abd3f8556dcd51d4f27e22d0a6 # WEB Tier 03
               - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
               - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
               - e1a997ddb54e3ecbfe06341ad323c458 # Obfuscated
@@ -32,7 +40,10 @@ data:
             assign_scores_to:
               - name: WEB-2160p
           - trash_ids:
+              - 0c4b99df9206d2cfac3c05ab897dd62a # HDR10+ Boost
               - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
+              - 7c3a61a9c6cb04f52f1544be6d44a026 # DV Boost
+              - 9b27ab6498ec0f31a3353992e19434ca # DV (w/o HDR fallback)
             assign_scores_to:
               - name: WEB-2160p
                 score: 0
@@ -78,12 +89,8 @@ data:
             assign_scores_to:
               - name: Remux + WEB 2160p
           - trash_ids:
-              - 55a5b50cb416dea5a50c4955896217ab # DV HDR10+ Boost
-              - 58d6a88f13e2db7f5059c41047876f00 # DV
               - 923b6abef9b17f937fab56cfcf89e1f1 # DV (WEBDL)
-              - b17886cb4158d9fea189859409975758 # HDR10Plus Boost
               - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
-              - e23edd2482476e595fb990b12e7c609c # DV HDR10
             assign_scores_to:
               - name: Remux + WEB 2160p
                 score: 0
