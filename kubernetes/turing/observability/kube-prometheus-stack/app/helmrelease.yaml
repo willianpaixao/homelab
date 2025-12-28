@@ -38,10 +38,14 @@ spec:
     kubelet:
       enabled: true
       serviceMonitor:
+        # Disable honorTimestamps to prevent duplicate sample errors
+        honorTimestamps: false
+        # Disable trackTimestampsStaleness - when true, it forces honorTimestamps: true for cAdvisor
+        trackTimestampsStaleness: false
         # Increase scrape timeout to handle slower responses
         scrapeTimeout: 10s
         metricRelabelings:
-          # Drop high cardinality labels
+          # Drop high cardinality labels that cause duplicates
           - action: labeldrop
             regex: (uid)
           - action: labeldrop
@@ -50,10 +54,37 @@ spec:
           - action: drop
             sourceLabels: ["__name__"]
             regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
-          # Optionally drop some cAdvisor metrics prone to timestamp issues
+          # Drop metrics prone to timestamp issues
           - action: drop
             sourceLabels: ["__name__"]
             regex: (container_memory_failures_total)
+          # Drop expensive histogram buckets
+          - action: drop
+            sourceLabels: ["__name__"]
+            regex: (apiserver_request_duration_seconds_bucket|apiserver_response_sizes_bucket)
+        # cAdvisor-specific metric relabelings
+        cAdvisorMetricRelabelings:
+          # Drop high cardinality labels
+          - action: labeldrop
+            regex: (uid)
+          - action: labeldrop
+            regex: (id|name)
+          # Drop all histogram buckets from cAdvisor (very high cardinality)
+          - sourceLabels: ["__name__"]
+            regex: container_.*_bucket
+            action: drop
+          # Drop metrics for non-pod containers (system slices)
+          - sourceLabels: [id, pod]
+            regex: .+;
+            action: drop
+          # Drop rarely used high-cardinality metrics
+          - sourceLabels: ["__name__"]
+            regex: (container_tasks_state|container_memory_failures_total|container_blkio.*|container_file_descriptors|container_sockets|container_threads|container_threads_max|container_ulimits_soft|container_spec_.*)
+            action: drop
+          # Drop duplicate cpu metrics that overlap with kubelet
+          - sourceLabels: ["__name__"]
+            regex: (container_cpu_cfs_periods_total|container_cpu_cfs_throttled_periods_total|container_cpu_cfs_throttled_seconds_total)
+            action: drop
     prometheus:
       agentMode: true
       prometheusSpec:
@@ -71,5 +102,23 @@ spec:
         # without significantly impacting performance
         tsdb:
           outOfOrderTimeWindow: 5m
+        # Global metric relabeling to reduce cardinality before remote write
+        metricRelabelConfigs:
+          # Drop high-cardinality API server histogram buckets
+          - sourceLabels: ["__name__"]
+            regex: (apiserver_request_duration_seconds_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
+            action: drop
+          # Drop high-cardinality workqueue metrics
+          - sourceLabels: ["__name__"]
+            regex: (workqueue_queue_duration_seconds_bucket|workqueue_work_duration_seconds_bucket)
+            action: drop
+          # Drop etcd histogram buckets
+          - sourceLabels: ["__name__"]
+            regex: (etcd_request_duration_seconds_bucket|etcd_disk_wal_fsync_duration_seconds_bucket|etcd_disk_backend_commit_duration_seconds_bucket)
+            action: drop
+          # Drop go runtime metrics with high cardinality
+          - sourceLabels: ["__name__"]
+            regex: (go_gc_.*|go_memstats_.*_bytes_total)
+            action: drop
         remoteWrite:
           - url: 'http://192.168.0.35:9090/api/v1/write'
