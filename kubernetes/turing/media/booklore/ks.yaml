@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/raspberry/media/booklore/app
+  path: ./kubernetes/turing/media/booklore/app
   prune: true
   sourceRef:
     kind: GitRepository

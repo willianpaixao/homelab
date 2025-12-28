@@ -28,8 +28,6 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
-          nodeSelector:
-            disktype: ssd
           securityContext:
             fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
@@ -71,6 +69,9 @@ spec:
             image:
               repository: mariadb
               tag: 11.8@sha256:1cac8492bd78b1ec693238dc600be173397efd7b55eabc725abc281dc855b482
+            args:
+              - --wait_timeout=600
+              - --interactive_timeout=600
             env:
               MYSQL_ROOT_PASSWORD:
                 valueFrom:
@@ -133,7 +134,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
-          gethomepage.dev/icon: booklore.png
+          gethomepage.dev/icon: book-lore.png
           gethomepage.dev/name: Booklore
         hosts:
           - host: &host booklore.${SECRET_DOMAIN}
