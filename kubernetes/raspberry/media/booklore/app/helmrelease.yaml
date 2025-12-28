@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/booklore-app/booklore
-              tag: v1.15.0
+              tag: v1.15.0@sha256:595ff4c29ae2f4a4fae2c9fd45f0cb0a253dc4ceec242f3a55dba7c5ef51c07f
             env:
               TZ: ${TIMEZONE}
               PUID: "2000"
@@ -70,7 +70,7 @@ spec:
           mariadb:
             image:
               repository: mariadb
-              tag: 11.4
+              tag: 11.4@sha256:e623ab8d513eed0ec2364a71161edc5e8664f57cce768ce1cc7f0b6b349a04ef
             env:
               MYSQL_ROOT_PASSWORD:
                 valueFrom:
