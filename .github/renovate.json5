@@ -135,6 +135,16 @@
       allowedVersions: '/^14\\./',
     },
     {
+      description: 'Pin kopia to v0.x stable releases',
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'docker.io/kopia/kopia',
+      ],
+      allowedVersions: '/^0\\./',
+    },
+    {
       groupName: 'home-operations-arr-apps',
       matchDatasources: [
         'docker',

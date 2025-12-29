@@ -112,7 +112,8 @@ spec:
         globalMounts:
           - path: /app/cache
       config:
-        type: emptyDir
+        type: persistentVolumeClaim
+        existingClaim: kopia-config
         globalMounts:
           - path: /app/config
       logs:
@@ -128,3 +129,8 @@ spec:
         existingClaim: photos-nfs-ro
         globalMounts:
           - path: /photos
+      books:
+        type: persistentVolumeClaim
+        existingClaim: books-nfs-ro
+        globalMounts:
+          - path: /books
