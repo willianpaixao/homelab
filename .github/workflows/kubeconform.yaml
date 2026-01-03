@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Login to Github Packages
         run: echo "${{ github.token }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
-      - uses: docker://ghcr.io/yannh/kubeconform:latest
+      - uses: docker://ghcr.io/yannh/kubeconform:latest@sha256:85dbef6b4b312b99133decc9c6fc9495e9fc5f92293d4ff3b7e1b30f5611823c
         with:
           entrypoint: "/kubeconform"
           args: "-summary -output json -ignore-missing-schemas -ignore-filename-pattern json ${{ env.KUBERNETES_DIR }}"
