@@ -102,7 +102,7 @@ spec:
           qbrr:
             image:
               repository: ghcr.io/buroa/qbrr
-              tag: latest@sha256:f930dbb4de49ffe3348d1d4f8187ce27590842bc4d6a89c3aa84234d7e99f46b
+              tag: latest@sha256:b88f45657fd0cbfdf375e6a1e5ba24c8085d14f35116a8631e8b4d4694dd6370
             env:
               QBITTORRENT_HOST: "http://localhost:8080"
             args:
