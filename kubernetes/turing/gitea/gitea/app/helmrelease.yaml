@@ -22,6 +22,10 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
+      labels:
+        app: gitea
+        environment: production
+        owner: willianpaixao
       automountServiceAccountToken: false
       enableServiceLinks: false
       securityContext:
@@ -70,8 +74,6 @@ spec:
               requests:
                 cpu: 500m
                 memory: 266Mi
-              limits:
-                memory: 2Gi
     ingress:
       gitea:
         className: internal
@@ -101,7 +103,7 @@ spec:
         type: LoadBalancer
         loadBalancerIP: 192.168.0.167
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: git.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: "git.${SECRET_DOMAIN}"
         ports:
           ssh:
             port: 22

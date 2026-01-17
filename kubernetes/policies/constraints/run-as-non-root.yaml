@@ -5,6 +5,11 @@ metadata:
   name: run-as-non-root
 spec:
   match:
+    labelSelector:
+      matchExpressions:
+        - key: gatekeeper.sh/exempt
+          operator: NotIn
+          values: ["true"]
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]

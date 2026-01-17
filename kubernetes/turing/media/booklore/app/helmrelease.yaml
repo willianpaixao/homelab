@@ -65,6 +65,10 @@ spec:
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: true
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
           mariadb:
             image:
               repository: mariadb
@@ -123,6 +127,10 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 3
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
     service:
       app:
         controller: *app
@@ -190,3 +198,8 @@ spec:
           booklore:
             mariadb:
               - path: /var/lib/mysql
+    defaultPodOptions:
+      labels:
+        app: booklore
+        environment: production
+        owner: willianpaixao
