@@ -74,6 +74,10 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
     service:
       app:
         controller: kopia
@@ -137,3 +141,8 @@ spec:
         existingClaim: books-nfs-ro
         globalMounts:
           - path: /books
+    defaultPodOptions:
+      labels:
+        app: kopia
+        environment: production
+        owner: willianpaixao

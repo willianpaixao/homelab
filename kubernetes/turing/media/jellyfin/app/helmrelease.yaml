@@ -51,6 +51,10 @@ spec:
               TZ: ${TIMEZONE}
             securityContext:
               privileged: true
+            resources:
+              requests:
+                cpu: 500m
+                memory: 512Mi
             probes:
               liveness: &probes
                 enabled: true
@@ -165,3 +169,8 @@ spec:
         hostPath: /dev/mpp_service
         globalMounts:
           - path: /dev/mpp_service
+    defaultPodOptions:
+      labels:
+        app: jellyfin
+        environment: production
+        owner: willianpaixao

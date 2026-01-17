@@ -5,15 +5,17 @@ metadata:
   name: pod-must-have-resource-constraints
 spec:
   match:
+    labelSelector:
+      matchExpressions:
+        - key: gatekeeper.sh/exempt
+          operator: NotIn
+          values: ["true"]
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
       - apiGroups: ["apps"]
         kinds: ["Deployment", "StatefulSet", "DaemonSet"]
   parameters:
-    limits:
-      - cpu
-      - memory
     requests:
       - cpu
       - memory
