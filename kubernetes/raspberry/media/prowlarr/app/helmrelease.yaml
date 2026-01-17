@@ -111,6 +111,10 @@ spec:
       tmp:
         type: emptyDir
     defaultPodOptions:
+      labels:
+        app: prowlarr
+        environment: production
+        owner: willianpaixao
       dnsConfig:
         options:
           - name: ndots

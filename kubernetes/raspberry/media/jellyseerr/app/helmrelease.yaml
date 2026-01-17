@@ -50,12 +50,17 @@ spec:
               readiness: *probes
             resources:
               limits:
+                cpu: 1
                 memory: 2Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
     defaultPodOptions:
+      labels:
+        app: jellyseerr
+        environment: production
+        owner: willianpaixao
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

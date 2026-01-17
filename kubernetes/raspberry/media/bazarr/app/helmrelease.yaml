@@ -52,6 +52,8 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 5
             resources:
+              requests:
+                cpu: 100m
               limits:
                 cpu: 500m
                 memory: 512Mi
@@ -106,3 +108,8 @@ spec:
         path: /series
         globalMounts:
           - path: /media/series
+    defaultPodOptions:
+      labels:
+        app: bazarr
+        environment: production
+        owner: willianpaixao
