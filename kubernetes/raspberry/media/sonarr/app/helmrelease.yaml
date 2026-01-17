@@ -125,6 +125,10 @@ spec:
         globalMounts:
           - path: "/tmp"
     defaultPodOptions:
+      labels:
+        app: sonarr
+        environment: production
+        owner: willianpaixao
       dnsConfig:
         options:
           - name: ndots

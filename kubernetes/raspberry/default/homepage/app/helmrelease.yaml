@@ -44,6 +44,7 @@ spec:
                   name: homepage-secret
             resources:
               requests:
+                cpu: 100m
                 memory: 128Mi
               limits:
                 cpu: 500m
@@ -110,3 +111,8 @@ spec:
         tls:
           - hosts:
               - *host
+    defaultPodOptions:
+      labels:
+        app: homepage
+        environment: production
+        owner: willianpaixao

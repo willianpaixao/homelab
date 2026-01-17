@@ -17,17 +17,38 @@ spec:
 
         violation[{"msg": msg}] {
           container := input_containers[_]
-          not container.securityContext.runAsNonRoot
-          container_runasnonroot_is_false(container)
+          not container_runs_as_non_root(container)
           msg := sprintf("container <%v> is not set to runAsNonRoot", [container.name])
         }
 
-        container_runasnonroot_is_false(container) {
-          container.securityContext.runAsNonRoot == false
+        # Check if container runs as non-root (either container-level or pod-level)
+        container_runs_as_non_root(container) {
+          container.securityContext.runAsNonRoot == true
         }
 
-        container_runasnonroot_is_false(container) {
-          not has_field(container.securityContext, "runAsNonRoot")
+        container_runs_as_non_root(container) {
+          # Check pod-level securityContext for Pods
+          input.review.object.kind == "Pod"
+          input.review.object.spec.securityContext.runAsNonRoot == true
+        }
+
+        container_runs_as_non_root(container) {
+          # Check pod-level securityContext for Deployments, StatefulSets, DaemonSets
+          kinds := {"Deployment", "StatefulSet", "DaemonSet"}
+          kinds[input.review.object.kind]
+          input.review.object.spec.template.spec.securityContext.runAsNonRoot == true
+        }
+
+        container_runs_as_non_root(container) {
+          # Check pod-level securityContext for Jobs
+          input.review.object.kind == "Job"
+          input.review.object.spec.template.spec.securityContext.runAsNonRoot == true
+        }
+
+        container_runs_as_non_root(container) {
+          # Check pod-level securityContext for CronJobs
+          input.review.object.kind == "CronJob"
+          input.review.object.spec.jobTemplate.spec.template.spec.securityContext.runAsNonRoot == true
         }
 
         # Get containers from pods or pod templates
@@ -42,6 +63,18 @@ spec:
           kinds := {"Deployment", "StatefulSet", "DaemonSet"}
           kinds[input.review.object.kind]
           container := input.review.object.spec.template.spec.containers[_]
+        }
+
+        input_containers[container] {
+          # Job case
+          input.review.object.kind == "Job"
+          container := input.review.object.spec.template.spec.containers[_]
+        }
+
+        input_containers[container] {
+          # CronJob case
+          input.review.object.kind == "CronJob"
+          container := input.review.object.spec.jobTemplate.spec.template.spec.containers[_]
         }
 
         has_field(object, field) {

@@ -96,3 +96,8 @@ spec:
                 subPath: nginx-cache
               - path: /var/run
                 subPath: nginx-pid
+    defaultPodOptions:
+      labels:
+        app: willian-eth
+        environment: production
+        owner: willianpaixao

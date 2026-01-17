@@ -116,3 +116,8 @@ spec:
         type: emptyDir
         globalMounts:
           - path: "/tmp"
+    defaultPodOptions:
+      labels:
+        app: radarr
+        environment: production
+        owner: willianpaixao
