@@ -135,6 +135,18 @@
       allowedVersions: '/^14\\./',
     },
     {
+      description: 'Pin mariadb to v11',
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'mariadb',
+        'docker.io/mariadb',
+        'docker.io/library/mariadb',
+      ],
+      allowedVersions: '/^11\\./',
+    },
+    {
       description: 'Pin kopia to v0.x stable releases',
       matchDatasources: [
         'docker',
@@ -163,6 +175,18 @@
       ],
       matchPackageNames: [
         'docker.io/rancher/system-upgrade-controller',
+      ],
+    },
+    {
+      groupName: 'k3s',
+      description: 'Group k3s upgrade image and KUBE_VERSION together',
+      matchDatasources: [
+        'docker',
+        'github-releases',
+      ],
+      matchPackageNames: [
+        'rancher/k3s-upgrade',
+        'k3s-io/k3s',
       ],
     },
     {
