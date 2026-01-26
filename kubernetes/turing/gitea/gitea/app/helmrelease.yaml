@@ -26,7 +26,6 @@ spec:
         app: gitea
         environment: production
         owner: willianpaixao
-      automountServiceAccountToken: false
       enableServiceLinks: false
       securityContext:
         runAsUser: 1000
@@ -38,6 +37,12 @@ spec:
           type: RuntimeDefault
     controllers:
       gitea:
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: "OnRootMismatch"
         containers:
           gitea:
             image:
@@ -73,7 +78,56 @@ spec:
             resources:
               requests:
                 cpu: 500m
-                memory: 266Mi
+                memory: 256Mi
+      runner:
+        pod:
+          securityContext:
+            fsGroup: 1000
+        containers:
+          runner:
+            image:
+              repository: gitea/act_runner
+              tag: latest@sha256:8477d5b61b655caad4449888bae39f1f34bebd27db56cb15a62dccb3dcf3a944
+            env:
+              TZ: "${TIMEZONE}"
+              GITEA_INSTANCE_URL: "http://gitea.gitea.svc.cluster.local:3000"
+              GITEA_RUNNER_NAME: "turing-k8s"
+              GITEA_RUNNER_LABELS: "ubuntu-latest:docker://gitea/runner-images:ubuntu-latest,ubuntu-24.04:docker://gitea/runner-images:ubuntu-24.04,ubuntu-20.04:docker://gitea/runner-images:ubuntu-20.04"
+              DOCKER_HOST: "tcp://localhost:2376"
+              DOCKER_TLS_VERIFY: "1"
+              DOCKER_CERT_PATH: "/certs/client"
+            envFrom:
+              - secretRef:
+                  name: gitea-runner-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 4Gi
+          dind:
+            image:
+              repository: docker
+              tag: 28-dind
+            env:
+              TZ: "${TIMEZONE}"
+              DOCKER_TLS_CERTDIR: "/certs"
+            securityContext:
+              runAsUser: 0
+              runAsNonRoot: false
+              privileged: true
+            resources:
+              requests:
+                cpu: 200m
+                memory: 512Mi
+              limits:
+                memory: 512Mi
     ingress:
       gitea:
         className: internal
@@ -120,3 +174,30 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+      runner-data:
+        type: emptyDir
+        advancedMounts:
+          runner:
+            runner:
+              - path: /data
+      runner-cache:
+        type: emptyDir
+        advancedMounts:
+          runner:
+            runner:
+              - path: /cache
+      docker-certs:
+        type: emptyDir
+        advancedMounts:
+          runner:
+            runner:
+              - path: /certs/client
+                readOnly: true
+            dind:
+              - path: /certs/client
+      dind-storage:
+        type: emptyDir
+        advancedMounts:
+          runner:
+            dind:
+              - path: /var/lib/docker
