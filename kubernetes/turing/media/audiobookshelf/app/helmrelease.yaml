@@ -74,6 +74,7 @@ spec:
       app:
         className: internal
         annotations:
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
           gethomepage.dev/icon: audiobookshelf.png
