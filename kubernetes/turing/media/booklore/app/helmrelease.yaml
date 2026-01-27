@@ -51,6 +51,7 @@ spec:
                   secretKeyRef:
                     name: booklore-secret
                     key: DATABASE_PASSWORD
+              JAVA_TOOL_OPTIONS: "-Djava.net.preferIPv4Stack=true"
             probes:
               liveness: &probes
                 enabled: true
