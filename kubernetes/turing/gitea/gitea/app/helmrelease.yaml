@@ -114,7 +114,7 @@ spec:
           dind:
             image:
               repository: docker
-              tag: 28-dind@sha256:2a232a42256f70d78e3cc5d2b5d6b3276710a0de0596c145f627ecfae90282ac
+              tag: 29-dind@sha256:8bcbad4b45f0bff9d3e809d85a7ac589390f0be8acbc526850c998c35c1243fd
             env:
               TZ: "${TIMEZONE}"
               DOCKER_TLS_CERTDIR: "/certs"
