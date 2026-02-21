@@ -87,7 +87,7 @@ spec:
           runner:
             image:
               repository: gitea/act_runner
-              tag: latest@sha256:8477d5b61b655caad4449888bae39f1f34bebd27db56cb15a62dccb3dcf3a944
+              tag: latest@sha256:8368754bb612a1deb07ed604e3b955338aefc01576d4d0d92e8dd82f29250fcd
             env:
               TZ: "${TIMEZONE}"
               GITEA_INSTANCE_URL: "http://gitea.gitea.svc.cluster.local:3000"
