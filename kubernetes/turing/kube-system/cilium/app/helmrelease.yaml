@@ -74,6 +74,8 @@ spec:
     clustermesh:
       useAPIServer: true
       enableMCSAPISupport: true
+      config:
+        enabled: true
       apiserver:
         kvstoremesh:
           enabled: false
