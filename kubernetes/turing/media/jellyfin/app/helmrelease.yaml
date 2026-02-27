@@ -126,16 +126,22 @@ spec:
           jellyfin:
             app:
               - path: /media/series
-      tmp:
+      cache:
         enabled: true
         type: emptyDir
         advancedMounts:
           jellyfin:
             app:
               - path: /cache
-                subPath: cache
+      transcode:
+        enabled: true
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 6Gi
+        advancedMounts:
+          jellyfin:
+            app:
               - path: /transcode
-                subPath: transcode
       fonts:
         type: hostPath
         hostPath: /usr/share/fonts
