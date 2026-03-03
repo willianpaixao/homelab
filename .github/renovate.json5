@@ -44,11 +44,12 @@
   schedule: [
     'on saturday',
   ],
-  regexManagers: [
+  customManagers: [
     {
+      customType: 'regex',
       description: 'Update KUBE_VERSION in Flux Kustomization postBuild substitutes',
-      fileMatch: [
-        '(^|/)kubernetes/.+/system-upgrade/k3s/ks\\.ya?ml$',
+      managerFilePatterns: [
+        '/(^|/)kubernetes/.+/system-upgrade/k3s/ks\\.ya?ml$/',
       ],
       matchStrings: [
         '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+KUBE_VERSION: (?<currentValue>.*?)\\s',
