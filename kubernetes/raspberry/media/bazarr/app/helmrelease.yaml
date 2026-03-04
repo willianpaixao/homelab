@@ -23,6 +23,7 @@ spec:
   values:
     controllers:
       bazarr:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
@@ -49,7 +50,7 @@ spec:
               startup:
                 enabled: true
                 spec:
-                  failureThreshold: 30
+                  failureThreshold: 60
                   periodSeconds: 5
             resources:
               requests:
