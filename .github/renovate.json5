@@ -7,13 +7,13 @@
     'helpers:pinGitHubActionDigests',
     ':dependencyDashboard',
     ':disableRateLimiting',
-    ':semanticCommits',
+    ':semanticCommits'
   ],
   assignees: [
-    'willianpaixao',
+    'willianpaixao'
   ],
   reviewers: [
-    'willianpaixao',
+    'willianpaixao'
   ],
   automerge: true,
   automergeType: 'pr',
@@ -25,16 +25,16 @@
   dependencyDashboardTitle: 'Renovate Dashboard 🤖',
   dependencyDashboardLabels: [
     'dependencies',
-    'renovate',
+    'renovate'
   ],
   dependencyDashboardFooter: 'Need help? See the [Renovate documentation](https://docs.renovatebot.com/)',
   ignorePaths: [
     '**/*.sops.*',
-    '**/docs/**',
+    '**/docs/**'
   ],
   suppressNotifications: [
     'prEditedNotification',
-    'prIgnoreNotification',
+    'prIgnoreNotification'
   ],
   rebaseWhen: 'conflicted',
   prConcurrentLimit: 4,
@@ -42,217 +42,218 @@
   semanticCommitScope: '{{depName}}',
   semanticCommitType: 'chore',
   schedule: [
-    'on saturday',
+    'on saturday'
   ],
-  regexManagers: [
+  customManagers: [
     {
+      customType: 'regex',
       description: 'Update KUBE_VERSION in Flux Kustomization postBuild substitutes',
-      fileMatch: [
-        '(^|/)kubernetes/.+/system-upgrade/k3s/ks\\.ya?ml$',
+      managerFilePatterns: [
+        '/(^|/)kubernetes/.+/system-upgrade/k3s/ks\\.ya?ml$/'
       ],
       matchStrings: [
-        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+KUBE_VERSION: (?<currentValue>.*?)\\s',
+        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+KUBE_VERSION: (?<currentValue>.*?)\\s'
       ],
-      versioningTemplate: 'regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\+k3s(?<build>\\d+)$',
-    },
+      versioningTemplate: 'regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\+k3s(?<build>\\d+)$'
+    }
   ],
   flux: {
     managerFilePatterns: [
-      '/(^|/)kubernetes/.+\\.ya?ml$/',
-    ],
+      '/(^|/)kubernetes/.+\\.ya?ml$/'
+    ]
   },
   'helm-values': {
     managerFilePatterns: [
-      '/(^|/)kubernetes/.+\\.ya?ml$/',
-    ],
+      '/(^|/)kubernetes/.+\\.ya?ml$/'
+    ]
   },
   kubernetes: {
     managerFilePatterns: [
-      '/(^|/)kubernetes/.+\\.ya?ml$/',
-    ],
+      '/(^|/)kubernetes/.+\\.ya?ml$/'
+    ]
   },
   packageRules: [
     {
       matchUpdateTypes: [
-        'major',
+        'major'
       ],
       addLabels: [
-        'type/major',
-      ],
+        'type/major'
+      ]
     },
     {
       matchUpdateTypes: [
-        'minor',
+        'minor'
       ],
       addLabels: [
-        'type/minor',
-      ],
+        'type/minor'
+      ]
     },
     {
       matchUpdateTypes: [
-        'patch',
+        'patch'
       ],
       addLabels: [
-        'type/patch',
+        'type/patch'
       ],
       automerge: true,
-      automergeType: 'pr',
+      automergeType: 'pr'
     },
     {
       matchUpdateTypes: [
-        'pin',
+        'pin'
       ],
       addLabels: [
-        'type/pin',
-      ],
+        'type/pin'
+      ]
     },
     {
       matchUpdateTypes: [
-        'digest',
+        'digest'
       ],
       addLabels: [
-        'type/digest',
+        'type/digest'
       ],
       automerge: true,
-      automergeType: 'pr',
+      automergeType: 'pr'
     },
     {
       matchDatasources: [
-        'docker',
+        'docker'
       ],
       matchPackageNames: [
         'ghcr.io/bjw-s/helm/app-template',
         'ghcr.io/bjw-s-labs/helm/app-template',
-        'ghcr.io/prometheus-community/charts/kube-prometheus-stack',
+        'ghcr.io/prometheus-community/charts/kube-prometheus-stack'
       ],
-      pinDigests: false,
+      pinDigests: false
     },
     {
       groupName: 'immich',
       matchDatasources: [
-        'docker',
+        'docker'
       ],
       matchPackageNames: [
-        '/^ghcr\\.io/immich-app/immich-/',
-      ],
+        '/^ghcr\\.io/immich-app/immich-/'
+      ]
     },
     {
       description: 'Pin immich postgres to v14',
       matchDatasources: [
-        'docker',
+        'docker'
       ],
       matchPackageNames: [
-        'ghcr.io/immich-app/postgres',
+        'ghcr.io/immich-app/postgres'
       ],
-      allowedVersions: '/^14\\./',
+      allowedVersions: '/^14\\./'
     },
     {
       description: 'Pin mariadb to v11',
       matchDatasources: [
-        'docker',
+        'docker'
       ],
       matchPackageNames: [
         'mariadb',
         'docker.io/mariadb',
-        'docker.io/library/mariadb',
+        'docker.io/library/mariadb'
       ],
-      allowedVersions: '/^11\\./',
+      allowedVersions: '/^11\\./'
     },
     {
       description: 'Pin kopia to v0.x stable releases',
       matchDatasources: [
-        'docker',
+        'docker'
       ],
       matchPackageNames: [
-        'docker.io/kopia/kopia',
+        'docker.io/kopia/kopia'
       ],
-      allowedVersions: '/^0\\./',
+      allowedVersions: '/^0\\./'
     },
     {
       groupName: 'home-operations-arr-apps',
       matchDatasources: [
-        'docker',
+        'docker'
       ],
       addLabels: [
-        'renovate/arr-apps',
+        'renovate/arr-apps'
       ],
       matchPackageNames: [
-        '/^ghcr\\.io/home-operations/(sonarr|radarr|prowlarr|bazarr)/',
-      ],
+        '/^ghcr\\.io/home-operations/(sonarr|radarr|prowlarr|bazarr)/'
+      ]
     },
     {
       groupName: 'system-upgrade-controller',
       matchDatasources: [
-        'docker',
+        'docker'
       ],
       matchPackageNames: [
-        'docker.io/rancher/system-upgrade-controller',
-      ],
+        'docker.io/rancher/system-upgrade-controller'
+      ]
     },
     {
       groupName: 'k3s',
       description: 'Group k3s upgrade image and KUBE_VERSION together',
       matchDatasources: [
         'docker',
-        'github-releases',
+        'github-releases'
       ],
       matchPackageNames: [
         'rancher/k3s-upgrade',
-        'k3s-io/k3s',
-      ],
+        'k3s-io/k3s'
+      ]
     },
     {
       groupName: 'github-actions',
       matchManagers: [
-        'github-actions',
+        'github-actions'
       ],
       addLabels: [
-        'renovate/github-actions',
+        'renovate/github-actions'
       ],
       automerge: true,
-      automergeType: 'pr',
+      automergeType: 'pr'
     },
     {
       groupName: 'python-dependencies',
       matchManagers: [
-        'pip_requirements',
+        'pip_requirements'
       ],
       matchFileNames: [
         'requirements.txt',
-        'ansible/requirements.txt',
+        'ansible/requirements.txt'
       ],
       addLabels: [
-        'renovate/python',
+        'renovate/python'
       ],
       schedule: [
-        'on saturday',
-      ],
+        'on saturday'
+      ]
     },
     {
       matchDatasources: [
-        'docker',
+        'docker'
       ],
       matchUpdateTypes: [
-        'patch',
+        'patch'
       ],
       matchCurrentVersion: '!/^0/',
       semanticCommitType: 'fix',
       semanticCommitScope: 'security',
       automerge: true,
-      automergeType: 'pr',
+      automergeType: 'pr'
     },
     {
       groupSlug: 'critical-infrastructure-major',
       matchDatasources: [
         'docker',
-        'helm',
+        'helm'
       ],
       matchUpdateTypes: [
-        'major',
+        'major'
       ],
       addLabels: [
         'type/major',
-        'critical',
+        'critical'
       ],
       automerge: false,
       matchPackageNames: [
@@ -260,23 +261,23 @@
         '/cert-manager/',
         '/external-dns/',
         '/ingress-nginx/',
-        '/kube-prometheus-stack/',
-      ],
+        '/kube-prometheus-stack/'
+      ]
     },
     {
       description: 'Deduplicate Flux sources across clusters',
       matchDatasources: [
-        'helm',
+        'helm'
       ],
       matchFileNames: [
         'kubernetes/raspberry/flux/repositories/**',
         'kubernetes/turing/flux/repositories/**',
-        'kubernetes/main/flux/repositories/**',
+        'kubernetes/main/flux/repositories/**'
       ],
       enabled: true,
       separateMultipleMajor: false,
-      separateMinorPatch: false,
-    },
+      separateMinorPatch: false
+    }
   ],
   hostRules: [
     {
@@ -284,8 +285,8 @@
       matchHost: 'ghcr.io',
       abortOnError: false,
       abortIgnoreStatusCodes: [
-        404,
-      ],
-    },
-  ],
+        404
+      ]
+    }
+  ]
 }
