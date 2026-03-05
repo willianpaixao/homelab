@@ -29,9 +29,8 @@ spec:
           app:
             image:
               repository: docker.io/rancher/system-upgrade-controller
-              tag: v0.18.0@sha256:9813f85653c8378eef0582108a52f5c8f7b92da71e63f88e4cb234e0dbff27d1
+              tag: v0.19.0@sha256:f724930fd14e123306e721f3454eecffc9d9cd484beb0c7f60b26ba447a648d0
             env:
-              SYSTEM_UPGRADE_CONTROLLER_LEADER_ELECT: true
               SYSTEM_UPGRADE_CONTROLLER_NAME: *app
               SYSTEM_UPGRADE_CONTROLLER_NAMESPACE:
                 valueFrom:
@@ -41,19 +40,61 @@ spec:
                 valueFrom:
                   fieldRef:
                     fieldPath: spec.nodeName
+              SYSTEM_UPGRADE_JOB_ACTIVE_DEADLINE_SECONDS: "900"
               SYSTEM_UPGRADE_JOB_BACKOFF_LIMIT: "99"
-              SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: "rancher/kubectl:v1.35.0@sha256:63a9f14d017459f47d23cb266b2857e82ffe6602d8955eef00ce111b2d8a61cf"
-              SYSTEM_UPGRADE_JOB_PRIVILEGED: false
+              SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: "registry.k8s.io/kubectl:v1.35.0@sha256:0bb95b2a450875fc8ceaea2f9987a99fe27c228846e2e00b93b65ebb0d59034e"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
-              seccompProfile:
-                type: RuntimeDefault
         pod:
           securityContext:
             runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
             seccompProfile:
               type: RuntimeDefault
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: node-role.kubernetes.io/control-plane
+                        operator: Exists
+          tolerations:
+            - key: CriticalAddonsOnly
+              operator: Exists
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+            - key: node-role.kubernetes.io/master
+              operator: Exists
+              effect: NoSchedule
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      etc-ssl:
+        type: hostPath
+        hostPath: /etc/ssl
+        hostPathType: DirectoryOrCreate
+        globalMounts:
+          - path: /etc/ssl
+            readOnly: true
+      etc-pki:
+        type: hostPath
+        hostPath: /etc/pki
+        hostPathType: DirectoryOrCreate
+        globalMounts:
+          - path: /etc/pki
+            readOnly: true
+      etc-ca-certificates:
+        type: hostPath
+        hostPath: /etc/ca-certificates
+        hostPathType: DirectoryOrCreate
+        globalMounts:
+          - path: /etc/ca-certificates
+            readOnly: true
