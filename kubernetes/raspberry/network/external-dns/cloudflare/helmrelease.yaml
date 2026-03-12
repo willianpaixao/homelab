@@ -25,6 +25,8 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    nodeSelector:
+      kubernetes.io/hostname: logos
     provider:
       name: cloudflare
     env:

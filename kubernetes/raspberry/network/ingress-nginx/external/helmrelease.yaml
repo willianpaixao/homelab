@@ -28,6 +28,8 @@ spec:
       namespace: network
   values:
     controller:
+      nodeSelector:
+        kubernetes.io/hostname: logos
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"

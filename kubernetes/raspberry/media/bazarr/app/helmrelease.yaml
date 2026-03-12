@@ -29,6 +29,13 @@ spec:
         pod:
           nodeSelector:
             disktype: ssd
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: ScheduleAnyway
+              labelSelector:
+                matchLabels:
+                  app: bazarr
           securityContext:
             runAsUser: 2000
             runAsGroup: 2000

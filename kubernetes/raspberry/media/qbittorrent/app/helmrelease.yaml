@@ -30,6 +30,13 @@ spec:
         pod:
           nodeSelector:
             disktype: ssd
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: ScheduleAnyway
+              labelSelector:
+                matchLabels:
+                  app: qbittorrent
           securityContext:
             fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"

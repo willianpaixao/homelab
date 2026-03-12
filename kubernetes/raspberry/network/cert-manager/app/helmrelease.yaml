@@ -28,6 +28,14 @@ spec:
   values:
     crds:
       enabled: true
+    nodeSelector:
+      kubernetes.io/hostname: logos
+    cainjector:
+      nodeSelector:
+        kubernetes.io/hostname: logos
+    webhook:
+      nodeSelector:
+        kubernetes.io/hostname: logos
     dns01RecursiveNameservers: 1.1.1.1:53,9.9.9.9:53
     dns01RecursiveNameserversOnly: true
     resources:

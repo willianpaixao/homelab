@@ -41,12 +41,16 @@ spec:
       relay:
         enabled: true
         rollOutPods: true
+        nodeSelector:
+          kubernetes.io/hostname: logos
         prometheus:
           serviceMonitor:
             enabled: true
       ui:
         enabled: true
         rollOutPods: true
+        nodeSelector:
+          kubernetes.io/hostname: logos
         ingress:
           enabled: true
           className: internal
@@ -71,12 +75,16 @@ spec:
     operator:
       replicas: 1
       rollOutPods: true
+      nodeSelector:
+        kubernetes.io/hostname: logos
     clustermesh:
       useAPIServer: true
       enableMCSAPISupport: true
       config:
         enabled: true
       apiserver:
+        nodeSelector:
+          kubernetes.io/hostname: logos
         kvstoremesh:
           enabled: false
         service:

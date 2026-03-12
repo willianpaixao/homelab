@@ -28,6 +28,13 @@ spec:
         pod:
           nodeSelector:
             disktype: ssd
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: ScheduleAnyway
+              labelSelector:
+                matchLabels:
+                  app: jellyseerr
         containers:
           app:
             image:

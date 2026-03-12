@@ -79,6 +79,8 @@ spec:
         app: cloudflared
         environment: production
         owner: willianpaixao
+      nodeSelector:
+        kubernetes.io/hostname: logos
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534

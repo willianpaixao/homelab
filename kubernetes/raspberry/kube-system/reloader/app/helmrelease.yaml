@@ -34,6 +34,8 @@ spec:
         enabled: true
         namespace: *namespace
       deployment:
+        nodeSelector:
+          kubernetes.io/hostname: logos
         resources:
           limits:
             cpu: 30m

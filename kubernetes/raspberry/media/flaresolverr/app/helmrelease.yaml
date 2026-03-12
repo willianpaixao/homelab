@@ -45,6 +45,8 @@ spec:
         app: flaresolverr
         environment: production
         owner: willianpaixao
+      nodeSelector:
+        kubernetes.io/hostname: logos
     service:
       app:
         controller: *app

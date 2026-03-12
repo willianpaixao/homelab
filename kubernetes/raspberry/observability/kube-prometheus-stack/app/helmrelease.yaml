@@ -39,12 +39,14 @@ spec:
           gethomepage.dev/name: Alertmanager
           gethomepage.dev/app: alertmanager
         hosts:
-          - &host alertmanager.${SECRET_DOMAIN}
+          - &alertmanagerHost alertmanager.${SECRET_DOMAIN}
         tls:
           - hosts:
-              - *host
+              - *alertmanagerHost
       alertmanagerSpec:
         replicas: 1
+        nodeSelector:
+          kubernetes.io/hostname: logos
         alertmanagerConfiguration:
           name: alertmanager-config
     prometheus:
@@ -65,10 +67,10 @@ spec:
           gethomepage.dev/widget.fields: "[\"targets_up\", \"targets_down\"]"
           gethomepage.dev/widget.url: http://kube-prometheus-stack-prometheus.observability:9090
         hosts:
-          - &host prometheus.${SECRET_DOMAIN}
+          - &prometheusHost prometheus.${SECRET_DOMAIN}
         tls:
           - hosts:
-              - *host
+              - *prometheusHost
       serviceMonitor:
         relabelings:
           - replacement: raspberry
@@ -76,6 +78,13 @@ spec:
       prometheusSpec:
         replicas: 1
         scrapeInterval: 30s
+        topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: prometheus
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
@@ -163,6 +172,8 @@ spec:
     kubeProxy:
       enabled: false
     kube-state-metrics:
+      nodeSelector:
+        kubernetes.io/hostname: logos
       prometheus:
         monitor:
           relabelings:
@@ -175,6 +186,8 @@ spec:
             - replacement: raspberry
               targetLabel: cluster
     prometheusOperator:
+      nodeSelector:
+        kubernetes.io/hostname: logos
       serviceMonitor:
         relabelings:
           - replacement: raspberry
@@ -200,10 +213,10 @@ spec:
           gethomepage.dev/icon: grafana.png
           gethomepage.dev/name: Grafana
         hosts:
-          - &host grafana.${SECRET_DOMAIN}
+          - &grafanaHost grafana.${SECRET_DOMAIN}
         tls:
           - hosts:
-              - *host
+              - *grafanaHost
       sidecar:
         dashboards:
           multicluster:

@@ -116,3 +116,5 @@ spec:
         app: homepage
         environment: production
         owner: willianpaixao
+      nodeSelector:
+        kubernetes.io/hostname: logos
