@@ -29,7 +29,7 @@ spec:
   values:
     persistence:
       defaultClass: true
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: 1
       defaultNodeSelector:
         enable: true
         selector: "ssd"

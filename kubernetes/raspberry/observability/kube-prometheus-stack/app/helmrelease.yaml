@@ -129,7 +129,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: longhorn
+              storageClassName: local-path
               resources:
                 requests:
                   storage: 128Gi
@@ -228,12 +228,10 @@ spec:
           folderAnnotation: grafana_folder
       persistence:
         enabled: true
-        storageClassName: longhorn
+        storageClassName: longhorn-single
         accessModes:
           - ReadWriteOnce
         size: 8Gi
-        labels:
-          recurring-job-group.longhorn.io/backup: enabled
       datasources:
         datasources.yaml:
           apiVersion: 1

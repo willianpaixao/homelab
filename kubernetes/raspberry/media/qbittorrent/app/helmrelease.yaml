@@ -204,6 +204,7 @@ spec:
       config:
         enabled: true
         type: persistentVolumeClaim
+        storageClass: longhorn-single
         accessMode: ReadWriteOnce
         size: 2Gi
         advancedMounts:
