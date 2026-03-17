@@ -30,7 +30,8 @@
   dependencyDashboardFooter: 'Need help? See the [Renovate documentation](https://docs.renovatebot.com/)',
   ignorePaths: [
     '**/*.sops.*',
-    '**/docs/**'
+    '**/docs/**',
+    'kubernetes/turing/flux/repositories/**'
   ],
   suppressNotifications: [
     'prEditedNotification',
@@ -265,16 +266,10 @@
       ]
     },
     {
-      description: 'Deduplicate Flux sources across clusters',
+      description: 'Group Helm chart updates across clusters into single PRs',
       matchDatasources: [
         'helm'
       ],
-      matchFileNames: [
-        'kubernetes/raspberry/flux/repositories/**',
-        'kubernetes/turing/flux/repositories/**',
-        'kubernetes/main/flux/repositories/**'
-      ],
-      enabled: true,
       separateMultipleMajor: false,
       separateMinorPatch: false
     }
