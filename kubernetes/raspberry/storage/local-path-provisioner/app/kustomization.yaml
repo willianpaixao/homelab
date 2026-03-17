@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: storage
+resources:
+  - github.com/rancher/local-path-provisioner/deploy?ref=v0.0.35
+patches:
+  - target:
+      kind: ClusterRoleBinding
+      name: local-path-provisioner-bind
+    patch: |
+      - op: replace
+        path: /subjects/0/namespace
+        value: storage

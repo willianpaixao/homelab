@@ -129,7 +129,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: longhorn-single
+              storageClassName: local-path
               resources:
                 requests:
                   storage: 128Gi
