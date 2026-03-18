@@ -127,7 +127,7 @@ spec:
                 cpu: 200m
                 memory: 512Mi
               limits:
-                memory: 512Mi
+                memory: 3Gi
     ingress:
       gitea:
         className: internal
@@ -168,26 +168,36 @@ spec:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 16Gi
-        globalMounts:
-          - path: /var/lib/gitea
+        advancedMounts:
+          gitea:
+            gitea:
+              - path: /var/lib/gitea
       tmp:
         type: emptyDir
-        globalMounts:
-          - path: /tmp
+        advancedMounts:
+          gitea:
+            gitea:
+              - path: /tmp
       runner-data:
         type: emptyDir
+        medium: Memory
+        sizeLimit: 256Mi
         advancedMounts:
           runner:
             runner:
               - path: /data
       runner-cache:
         type: emptyDir
+        medium: Memory
+        sizeLimit: 256Mi
         advancedMounts:
           runner:
             runner:
               - path: /cache
       docker-certs:
         type: emptyDir
+        medium: Memory
+        sizeLimit: 16Mi
         advancedMounts:
           runner:
             runner:
@@ -197,6 +207,8 @@ spec:
               - path: /certs/client
       dind-storage:
         type: emptyDir
+        medium: Memory
+        sizeLimit: 2Gi
         advancedMounts:
           runner:
             dind:

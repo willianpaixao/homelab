@@ -45,8 +45,9 @@ spec:
               tag: "10.11.6@sha256:333b647716631443a43c7fabac4b0c46b4e2f036bad19547e00958f10f721b85"
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_FFmpeg__analyzeduration: 20000000
-              JELLYFIN_FFmpeg__probesize: 50000000
+              JELLYFIN_FFmpeg__analyzeduration: 2000000
+              JELLYFIN_FFmpeg__probesize: 5000000
+              JELLYFIN_FFmpeg__readrate: 0
               JELLYFIN_PublishedServerUrl: "jellyfin.${SECRET_DOMAIN}"
               TZ: ${TIMEZONE}
             securityContext:
