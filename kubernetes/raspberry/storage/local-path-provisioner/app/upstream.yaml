@@ -84,7 +84,7 @@ spec:
       serviceAccountName: local-path-provisioner-service-account
       containers:
         - name: local-path-provisioner
-          image: rancher/local-path-provisioner:v0.0.35
+          image: rancher/local-path-provisioner:v0.0.35@sha256:34ff0847cc47ebf69656ba44a3de9324596d0036b66ffd323b21614dd8221530
           imagePullPolicy: IfNotPresent
           command:
             - local-path-provisioner
@@ -151,5 +151,5 @@ data:
           effect: NoSchedule
       containers:
         - name: helper-pod
-          image: busybox
+          image: busybox@sha256:b3255e7dfbcd10cb367af0d409747d511aeb66dfac98cf30e97e87e4207dd76f
           imagePullPolicy: IfNotPresent
