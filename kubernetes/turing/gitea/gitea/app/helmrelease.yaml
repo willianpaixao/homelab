@@ -47,7 +47,8 @@ spec:
           gitea:
             image:
               repository: ghcr.io/go-gitea/gitea
-              tag: 1.25.5-rootless@sha256:be0b89adf2fc8657df508303d919c3be33e6413605882919f702177d62960c9a
+              tag: 1.25.5-rootless
+              digest: sha256:be0b89adf2fc8657df508303d919c3be33e6413605882919f702177d62960c9a
             env:
               TZ: "${TIMEZONE}"
               USER_UID: 1000
@@ -87,7 +88,8 @@ spec:
           runner:
             image:
               repository: gitea/act_runner
-              tag: latest@sha256:c2a169c5e99864c25e32527cef3d82203225e09558773022bf3dc164a2e6d762
+              tag: latest
+              digest: sha256:c2a169c5e99864c25e32527cef3d82203225e09558773022bf3dc164a2e6d762
             env:
               TZ: "${TIMEZONE}"
               GITEA_INSTANCE_URL: "http://gitea.gitea.svc.cluster.local:3000"
@@ -114,7 +116,8 @@ spec:
           dind:
             image:
               repository: docker
-              tag: 29-dind@sha256:4d90f1f6c400315c2dba96d3ec93c01e64198395cbba04f79d12adce4f737029
+              tag: 29-dind
+              digest: sha256:1ba18449911d01f477a3fc104123c85d677addc60701b14b3fcb5381f9c4a537
             env:
               TZ: "${TIMEZONE}"
               DOCKER_TLS_CERTDIR: "/certs"

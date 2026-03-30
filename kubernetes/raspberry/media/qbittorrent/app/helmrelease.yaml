@@ -48,7 +48,8 @@ spec:
             nameOverride: *app
             image:
               repository: ghcr.io/home-operations/qbittorrent
-              tag: 5.1.4@sha256:bb82ad6668f8eda1d0fcce6c1341498bfa879155bb1295cd9d314a2c35c07a01
+              tag: 5.1.4
+              digest: sha256:bb82ad6668f8eda1d0fcce6c1341498bfa879155bb1295cd9d314a2c35c07a01
             env:
               QBITTORRENT__PORT: &port 8080
               QBITTORRENT__BT_PORT: &bittorrentPort 49437
@@ -83,7 +84,8 @@ spec:
           gluetun:
             image:
               repository: ghcr.io/qdm12/gluetun
-              tag: v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
+              tag: v3.41.1
+              digest: sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
             env:
               DNS_ADDRESS: "127.0.0.1"
               DOT: "on"
@@ -106,7 +108,8 @@ spec:
           qbrr:
             image:
               repository: ghcr.io/buroa/qbrr
-              tag: latest@sha256:35dce0dafb56f20d628b84eeb0e0214ee55fe18d452e27c850e62d163e239d8f
+              tag: latest
+              digest: sha256:35dce0dafb56f20d628b84eeb0e0214ee55fe18d452e27c850e62d163e239d8f
             env:
               QBITTORRENT_HOST: "http://localhost:8080"
             args:
@@ -135,7 +138,8 @@ spec:
           port-forward-sync:
             image:
               repository: docker.io/curlimages/curl
-              tag: 8.18.0@sha256:d94d07ba9e7d6de898b6d96c1a072f6f8266c687af78a74f380087a0addf5d17
+              tag: 8.18.0
+              digest: sha256:d94d07ba9e7d6de898b6d96c1a072f6f8266c687af78a74f380087a0addf5d17
             command:
               - /bin/sh
               - -c
