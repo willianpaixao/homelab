@@ -44,6 +44,24 @@ spec:
             summary: "Longhorn volume I/O latency high (volume {{ $labels.volume }})"
             description: "Longhorn volume {{ $labels.volume }} has high I/O latency (>250ms)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
 
+        - alert: LonghornBackupFailed
+          expr: longhorn_backup_state == 4
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn backup failed (volume {{ $labels.volume }})"
+            description: "Longhorn backup {{ $labels.backup }} for volume {{ $labels.volume }} is in Error state (recurring job: {{ $labels.recurring_job }})\n  LABELS: {{ $labels }}"
+
+        - alert: LonghornVolumeBackupStale
+          expr: time() - longhorn_volume_last_backup_at > 86400 * 2
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "No recent backup for volume {{ $labels.volume }}"
+            description: "Longhorn volume {{ $labels.volume }} has not had a successful backup in over 2 days. Recurring backup job may be failing.\n  LABELS: {{ $labels }}"
+
         - alert: PersistentVolumeUsageHigh
           expr: kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes > 0.85
           for: 15m

@@ -53,7 +53,7 @@ spec:
       tls: true
       tlsSecret: "longhorn-certs"
     defaultBackupStore:
-      backupTarget: "s3://longhorn-uncaring@s3.us-east-005.backblazeb2.com/"
+      backupTarget: "s3://longhorn-uncaring@us-east-005/"
       backupTargetCredentialSecret: "longhorn-backup"
     longhornDriver:
       nodeSelector:
