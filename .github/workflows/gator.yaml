@@ -50,7 +50,7 @@ jobs:
           gator test --filename=kubernetes/policies/ --filename=manifests.yaml > output.txt 2>&1 || true
           cat output.txt
 
-      - uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2
+      - uses: mshick/add-pr-comment@ffd016c7e151d97d69d21a843022fd4cd5b96fe5 # v3
         with:
           message-id: "${{ github.event.pull_request.number }}/${{ matrix.paths }}"
           message-failure: OPA Gator CLI failed
