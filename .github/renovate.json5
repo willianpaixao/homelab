@@ -13,7 +13,8 @@
     'willianpaixao'
   ],
   reviewers: [
-    'willianpaixao'
+    'willianpaixao',
+    'copilot'
   ],
   automerge: true,
   automergeType: 'pr',
