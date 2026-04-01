@@ -41,16 +41,32 @@ spec:
       relay:
         enabled: true
         rollOutPods: true
-        nodeSelector:
-          kubernetes.io/hostname: logos
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                        - logos
         prometheus:
           serviceMonitor:
             enabled: true
       ui:
         enabled: true
         rollOutPods: true
-        nodeSelector:
-          kubernetes.io/hostname: logos
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                        - logos
         ingress:
           enabled: true
           className: internal
@@ -75,16 +91,32 @@ spec:
     operator:
       replicas: 1
       rollOutPods: true
-      nodeSelector:
-        kubernetes.io/hostname: logos
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - logos
     clustermesh:
       useAPIServer: true
       enableMCSAPISupport: true
       config:
         enabled: true
       apiserver:
-        nodeSelector:
-          kubernetes.io/hostname: logos
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                        - logos
         kvstoremesh:
           enabled: false
         service:

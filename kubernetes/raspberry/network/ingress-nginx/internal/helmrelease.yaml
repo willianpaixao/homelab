@@ -25,8 +25,16 @@ spec:
       retries: 3
   values:
     controller:
-      nodeSelector:
-        kubernetes.io/hostname: logos
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - logos
       service:
         annotations:
           io.cilium/lb-ipam-ips: "192.168.0.31"

@@ -45,8 +45,16 @@ spec:
               - *alertmanagerHost
       alertmanagerSpec:
         replicas: 1
-        nodeSelector:
-          kubernetes.io/hostname: logos
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.io/hostname
+                      operator: In
+                      values:
+                        - logos
         alertmanagerConfiguration:
           name: alertmanager-config
     prometheus:
@@ -170,8 +178,16 @@ spec:
     kubeProxy:
       enabled: false
     kube-state-metrics:
-      nodeSelector:
-        kubernetes.io/hostname: logos
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - logos
       prometheus:
         monitor:
           relabelings:
@@ -184,8 +200,16 @@ spec:
             - replacement: raspberry
               targetLabel: cluster
     prometheusOperator:
-      nodeSelector:
-        kubernetes.io/hostname: logos
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - logos
       serviceMonitor:
         relabelings:
           - replacement: raspberry

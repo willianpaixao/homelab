@@ -25,8 +25,16 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    nodeSelector:
-      kubernetes.io/hostname: logos
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - logos
     provider:
       name: cloudflare
     env:

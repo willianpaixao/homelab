@@ -46,8 +46,16 @@ spec:
         app: flaresolverr
         environment: production
         owner: willianpaixao
-      nodeSelector:
-        kubernetes.io/hostname: logos
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - logos
     service:
       app:
         controller: *app
