@@ -27,7 +27,7 @@ spec:
           init-config:
             image:
               repository: docker.io/owncloud/ocis
-              tag: 8.0.1
+              tag: 8.0.1@sha256:b38fd8fdd58ff220f5d3f0d3f038e47acdd4ea26a8a8ec97c1d9b16ef365f2fa
               digest: sha256:b38fd8fdd58ff220f5d3f0d3f038e47acdd4ea26a8a8ec97c1d9b16ef365f2fa
             command:
               - /bin/sh
@@ -41,7 +41,7 @@ spec:
           ocis:
             image:
               repository: docker.io/owncloud/ocis
-              tag: 8.0.1
+              tag: 8.0.1@sha256:b38fd8fdd58ff220f5d3f0d3f038e47acdd4ea26a8a8ec97c1d9b16ef365f2fa
               digest: sha256:b38fd8fdd58ff220f5d3f0d3f038e47acdd4ea26a8a8ec97c1d9b16ef365f2fa
             env:
               DEMO_USERS: false
