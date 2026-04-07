@@ -30,12 +30,19 @@ data:
               enabled: true
         custom_format_groups:
           add:
+            # Golden Rule HD: penalize x265 for HD content (guide default)
             - trash_id: 158188097a58d7687dee647e04af0da3  # [Required] Golden Rule HD
-              assign_scores_to:
-                - trash_id: 72dae194fc92bf828f32cde7744e51a1  # WEB-1080p
+              select:
+                - 47435ece6b99a0b477caf360e79ba0bb  # x265 (HD)
+            # Golden Rule UHD: penalize x265 w/o HDR/DV for UHD content
             - trash_id: e3f37512790f00d0e89e54fe5e790d1c  # [Required] Golden Rule UHD
-              assign_scores_to:
-                - trash_id: d1498e7d189fbe6c7110ceaabb7473e6  # WEB-2160p
+              select:
+                - 9b64dff695c2115facf1b6ea59c9bd07  # x265 (no HDR/DV)
+            # Penalize DV without HDR fallback on UHD profile
+            - trash_id: d776a1ea912a117d66d83b880ff2055d  # [HDR Formats] DV (w/o HDR fallback)
+            # Prefer season packs
+            - trash_id: d920fd959d220306888f40b6f38e1578  # [Optional] Season Packs
+            # Penalize problematic releases
             - trash_id: f4a0410a1df109a66d6e47dcadcce014  # [Optional] Miscellaneous
               select:
                 - 32b367365729d530ca1c124a0b180c64  # Bad Dual Groups
@@ -43,10 +50,6 @@ data:
                 - e1a997ddb54e3ecbfe06341ad323c458  # Obfuscated
                 - 06d66ab109d4d2eddb2794d21526d140  # Retags
                 - 1b3994c551cbb92a2c781af061f4ab44  # Scene
-            - trash_id: d776a1ea912a117d66d83b880ff2055d  # [HDR Formats] DV (w/o HDR fallback)
-              assign_scores_to:
-                - trash_id: d1498e7d189fbe6c7110ceaabb7473e6  # WEB-2160p
-            - trash_id: d920fd959d220306888f40b6f38e1578  # [Optional] Season Packs
     radarr:
       radarr:
         base_url: http://radarr:7878
@@ -63,19 +66,22 @@ data:
           - trash_id: d1d67249d3890e49bc12e275d989a7e9  # HD Bluray + WEB
             reset_unmatched_scores:
               enabled: true
-          - trash_id: 9ca12ea80aa55ef916e3751f4b874151  # Remux + WEB 1080p
-            reset_unmatched_scores:
-              enabled: true
-          - trash_id: fd161a61e3ab826d3a22d53f935696dd  # Remux + WEB 2160p
-            reset_unmatched_scores:
-              enabled: true
           - trash_id: 64fb5f9858489bdac2af690e27c8f42f  # UHD Bluray + WEB
             reset_unmatched_scores:
               enabled: true
         custom_format_groups:
           add:
+            # Golden Rule HD: penalize x265 for HD content (guide default)
             - trash_id: f8bf8eab4617f12dfdbd16303d8da245  # [Required] Golden Rule HD
+              select:
+                - dc98083864ea246d05a42df0d05f81cc  # x265 (HD)
+            # Golden Rule UHD: penalize x265 w/o HDR/DV for UHD content
             - trash_id: ff204bbcecdd487d1cefcefdbf0c278d  # [Required] Golden Rule UHD
+              select:
+                - 839bea857ed2c0a8e084f3cbdbd65ecb  # x265 (no HDR/DV)
+            # Penalize DV without HDR fallback on UHD profile
+            - trash_id: 7fc2751eef7e6bdc70b74136e5e35c76  # [HDR Formats] DV (w/o HDR fallback)
+            # Penalize problematic releases
             - trash_id: 9337080378236ce4c0b183e35790d2a7  # [Optional] Miscellaneous
               select:
                 - b6832f586342ef70d9c128d40c07b872  # Bad Dual Groups
@@ -83,7 +89,3 @@ data:
                 - 7357cf5161efbf8c4d5d0c30b4815ee2  # Obfuscated
                 - 5c44f52a8714fdd79bb4d98e2673be1f  # Retags
                 - f537cf427b64c38c8e36298f657e4828  # Scene
-            - trash_id: 7fc2751eef7e6bdc70b74136e5e35c76  # [HDR Formats] DV (w/o HDR fallback)
-              assign_scores_to:
-                - trash_id: fd161a61e3ab826d3a22d53f935696dd  # Remux + WEB 2160p
-                - trash_id: 64fb5f9858489bdac2af690e27c8f42f  # UHD Bluray + WEB
