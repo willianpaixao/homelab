@@ -58,7 +58,20 @@ Renovate PRs touching `kubernetes/**` trigger these workflows. Check that all ha
 - All three PR-triggered checks (Flux Diff Successful, Kubeconform, Labeler) must be green before approving.
 - If any check is failing or pending, do not approve. Suggest the author re-run failed checks or investigate the failure.
 
-## 6. Automerge Eligibility
+## 6. Upstream Release Notes Summary
+
+For each workload version bump in the PR, fetch the upstream project's release notes or changelog covering the old-to-new version range and post a concise summary as a PR review comment. This gives reviewers context on what actually changed in the software being deployed.
+
+- **What to include**:
+  - Breaking changes, API deprecations, and required migration steps.
+  - Notable new features or behaviour changes relevant to this cluster's configuration.
+  - Security fixes (CVEs, advisories) addressed by the update.
+  - Dependency or compatibility requirements (e.g. minimum Kubernetes version, CRD updates).
+- **What to omit**: Internal refactors, test-only changes, and cosmetic upstream changes that have no operational impact.
+- **Where to look**: GitHub Releases page, `CHANGELOG.md`, or upstream documentation for the project being updated. For Helm charts, also check the chart's `artifacthub.io/changes` annotation or the chart repo's release notes.
+- **Format**: Use a short bullet list under a heading like `### Upstream changes: <project> <old version> → <new version>`. If the PR is a grouped update, provide a separate summary per project.
+
+## 7. Automerge Eligibility
 
 Cross-check whether the PR should be auto-merged based on the Renovate config:
 - **Automerge enabled by default** for: patch updates, digest updates, GitHub Actions updates, and Docker patch updates for non-0.x versions.
