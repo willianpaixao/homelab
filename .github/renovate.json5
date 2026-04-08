@@ -184,16 +184,6 @@
       ]
     },
     {
-      description: 'Workaround for renovatebot/renovate#42082 - digests are tracked in separate fields',
-      matchManagers: [
-        'helm-values'
-      ],
-      matchDatasources: [
-        'docker'
-      ],
-      pinDigests: false
-    },
-    {
       groupName: 'system-upgrade-controller',
       matchDatasources: [
         'docker'

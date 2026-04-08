@@ -32,8 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/willianpaixao/willian.eth
-              tag: sha-836c9f51ae8d7123e0bfd595ef534dd79c514f0c
-              digest: sha256:7bf9081f15e67a020006f5cfdb30946aba82a97fa7e856e050145efe9025cb90
+              tag: sha-836c9f51ae8d7123e0bfd595ef534dd79c514f0c@sha256:7bf9081f15e67a020006f5cfdb30946aba82a97fa7e856e050145efe9025cb90
               pullPolicy: IfNotPresent
             resources:
               requests:
