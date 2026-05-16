@@ -42,7 +42,7 @@ spec:
                     fieldPath: spec.nodeName
               SYSTEM_UPGRADE_JOB_ACTIVE_DEADLINE_SECONDS: "900"
               SYSTEM_UPGRADE_JOB_BACKOFF_LIMIT: "99"
-              SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: "registry.k8s.io/kubectl:v1.35.3@sha256:8dad99b604a2c0bafe17f53cadf78482d6f667a6da687f385508f5f4e4696d37"
+              SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: "registry.k8s.io/kubectl:v1.36.1@sha256:d08f476d04d0e30f426f06bc6ff6c38913aaa4591943046b77e2f74a72d3611c"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
