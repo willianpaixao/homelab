@@ -50,6 +50,7 @@ spec:
                 drop:
                   - ALL
         pod:
+          automountServiceAccountToken: true
           securityContext:
             runAsNonRoot: true
             runAsUser: 65534
