@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/willianpaixao/booklore
-              tag: develop-bba1d8a8@sha256:fdebb7baa96470666497b6d93451be4ec92e9e03b62c86e88907a1100c3c881e
+              tag: v2.3.1@sha256:e3cc7e092946e444395506839c5607a1ad91c35d29491823bd0698bed3fdb516
             env:
               TZ: ${TIMEZONE}
               USER_ID: "2000"
