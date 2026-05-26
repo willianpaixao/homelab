@@ -28,6 +28,8 @@ spec:
           reloader.stakater.com/auto: "true"
         serviceAccount:
           identifier: homepage
+        pod:
+          automountServiceAccountToken: true
         containers:
           app:
             image:
