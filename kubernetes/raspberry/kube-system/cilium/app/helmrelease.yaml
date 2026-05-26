@@ -90,7 +90,7 @@ spec:
                 - "hubble.raspberry.${SECRET_DOMAIN}"
     ipam:
       mode: kubernetes
-    ipv4NativeRoutingCIDR: "${CLUSTER_CIDR}"
+    ipv4NativeRoutingCIDR: "10.68.0.0/15"
     k8sServiceHost: 127.0.0.1
     k8sServicePort: 6444
     kubeProxyReplacement: true

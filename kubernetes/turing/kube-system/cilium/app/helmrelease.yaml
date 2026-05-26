@@ -70,7 +70,7 @@ spec:
                 - "hubble.turing.web3.wiki.br"
     ipam:
       mode: kubernetes
-    ipv4NativeRoutingCIDR: "10.68.0.0/16"
+    ipv4NativeRoutingCIDR: "10.68.0.0/15"
     k8sServiceHost: 127.0.0.1
     k8sServicePort: 6444
     kubeProxyReplacement: true
