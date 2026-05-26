@@ -23,6 +23,19 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: cilium-clustermesh-creds
+      valuesKey: peer-cert
+      targetPath: clustermesh.config.clusters[0].tls.cert
+    - kind: Secret
+      name: cilium-clustermesh-creds
+      valuesKey: peer-key
+      targetPath: clustermesh.config.clusters[0].tls.key
+    - kind: Secret
+      name: cilium-clustermesh-creds
+      valuesKey: peer-ca
+      targetPath: clustermesh.config.clusters[0].tls.caCert
   values:
     autoDirectNodeRoutes: true
     bgpControlPlane:
@@ -76,6 +89,13 @@ spec:
       enableMCSAPISupport: true
       config:
         enabled: true
+        domain: mesh.cilium.io
+        clusters:
+          - name: raspberry
+            address: raspberry.mesh.cilium.io
+            port: 2379
+            ips:
+              - 192.168.0.30
       apiserver:
         kvstoremesh:
           enabled: false
