@@ -39,12 +39,6 @@ spec:
       ports:
         - protocol: TCP
           port: 8096
-    - from:
-        - ipBlock:
-            cidr: 10.69.0.0/16
-      ports:
-        - protocol: TCP
-          port: 8096
   egress:
     - to:
         - namespaceSelector:

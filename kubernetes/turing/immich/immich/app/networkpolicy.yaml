@@ -42,12 +42,6 @@ spec:
             matchLabels:
               kubernetes.io/metadata.name: immich
       ports: []
-    - from:
-        - ipBlock:
-            cidr: 10.69.0.0/16
-      ports:
-        - protocol: TCP
-          port: 2283
   egress:
     - to:
         - namespaceSelector:
