@@ -2,12 +2,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: jellyfin
+  name: booklore
   namespace: media
 spec:
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: jellyfin
+      app.kubernetes.io/name: booklore
   policyTypes:
     - Ingress
     - Egress
@@ -21,30 +21,20 @@ spec:
               app.kubernetes.io/name: ingress-nginx
       ports:
         - protocol: TCP
-          port: 8096
+          port: 6060
     - from:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: observability
       ports:
         - protocol: TCP
-          port: 8096
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: default
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: homepage
-      ports:
-        - protocol: TCP
-          port: 8096
+          port: 6060
     - from:
         - ipBlock:
             cidr: 10.69.0.0/16
       ports:
         - protocol: TCP
-          port: 8096
+          port: 6060
   egress:
     - to:
         - namespaceSelector:
