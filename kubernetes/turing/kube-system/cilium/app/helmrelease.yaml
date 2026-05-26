@@ -81,6 +81,7 @@ spec:
           enabled: false
         service:
           type: LoadBalancer
+          loadBalancerIP: 192.168.0.166
     rollOutCiliumPods: true
     routingMode: native
     securityContext:
