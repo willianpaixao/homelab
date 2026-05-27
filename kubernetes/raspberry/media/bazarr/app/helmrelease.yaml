@@ -75,30 +75,16 @@ spec:
         ports:
           http:
             port: 6767
-    ingress:
+    route:
       app:
         enabled: true
-        className: internal
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
           gethomepage.dev/icon: bazarr.png
           gethomepage.dev/name: Bazarr
-        hosts:
-          - host: &host bazarr.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-    route:
-      app:
-        enabled: true
         hostnames:
-          - *host
+          - bazarr.${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: network

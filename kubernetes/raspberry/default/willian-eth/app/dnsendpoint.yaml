@@ -1,0 +1,11 @@
+---
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: willian-eth
+  namespace: default
+spec:
+  endpoints:
+    - dnsName: "willian.${SECRET_DOMAIN}"
+      recordType: CNAME
+      targets: ["external.${SECRET_DOMAIN}"]

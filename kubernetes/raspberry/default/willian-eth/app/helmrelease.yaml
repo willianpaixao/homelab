@@ -64,30 +64,11 @@ spec:
         ports:
           http:
             port: 80
-    ingress:
-      app:
-        enabled: true
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-        hosts:
-          - host: &host willian.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
     route:
       app:
         enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hostnames:
-          - *host
+          - willian.${SECRET_DOMAIN}
         parentRefs:
           - name: external
             namespace: network

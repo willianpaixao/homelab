@@ -94,25 +94,11 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /app/config/logs
-    ingress:
-      homepage:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host ${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: homepage
-                  port: http
-        tls:
-          - hosts:
-              - *host
     route:
       homepage:
         enabled: true
         hostnames:
-          - *host
+          - ${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: network

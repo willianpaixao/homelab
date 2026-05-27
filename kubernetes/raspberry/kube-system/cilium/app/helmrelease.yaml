@@ -83,13 +83,7 @@ spec:
                       values:
                         - logos
         ingress:
-          enabled: true
-          className: internal
-          hosts:
-            - "hubble.raspberry.${SECRET_DOMAIN}"
-          tls:
-            - hosts:
-                - "hubble.raspberry.${SECRET_DOMAIN}"
+          enabled: false
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "10.68.0.0/15"

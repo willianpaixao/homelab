@@ -1,0 +1,11 @@
+---
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  endpoints:
+    - dnsName: "jellyfin.${SECRET_DOMAIN}"
+      recordType: CNAME
+      targets: ["external.${SECRET_DOMAIN}"]
