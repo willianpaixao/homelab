@@ -15,22 +15,6 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: network
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: ingress-nginx
-      ports:
-        - protocol: TCP
-          port: 2283
-        - protocol: TCP
-          port: 3003
-        - protocol: TCP
-          port: 5432
-        - protocol: TCP
-          port: 6379
-    - from:
-        - namespaceSelector:
-            matchLabels:
               kubernetes.io/metadata.name: observability
       ports:
         - protocol: TCP

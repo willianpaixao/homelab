@@ -18,3 +18,9 @@ spec:
         - ports:
             - port: "2283"
               protocol: TCP
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "2283"
+              protocol: TCP

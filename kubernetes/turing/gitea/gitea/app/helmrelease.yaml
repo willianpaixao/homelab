@@ -130,7 +130,7 @@ spec:
                 memory: 3Gi
     ingress:
       gitea:
-        className: internal
+        className: cilium
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Gitea
@@ -146,6 +146,7 @@ spec:
         tls:
           - hosts:
               - *host
+            secretName: web3-wiki-br-production-tls
     service:
       gitea:
         controller: *name

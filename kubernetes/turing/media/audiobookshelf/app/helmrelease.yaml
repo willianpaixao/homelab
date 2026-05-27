@@ -73,13 +73,9 @@ spec:
             port: *port
     ingress:
       app:
-        className: internal
+        className: cilium
         annotations:
-          nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-          nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-          nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
-          nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+          ingress.cilium.io/request-timeout: "600s"
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
           gethomepage.dev/icon: audiobookshelf.png
@@ -94,6 +90,7 @@ spec:
         tls:
           - hosts:
               - *host
+            secretName: web3-wiki-br-production-tls
     persistence:
       config:
         enabled: true

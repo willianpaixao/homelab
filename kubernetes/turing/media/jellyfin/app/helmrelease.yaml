@@ -80,7 +80,7 @@ spec:
     ingress:
       app:
         enabled: true
-        className: internal
+        className: cilium
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
@@ -99,6 +99,7 @@ spec:
         tls:
           - hosts:
               - *host
+            secretName: web3-wiki-br-production-tls
     persistence:
       config:
         enabled: true

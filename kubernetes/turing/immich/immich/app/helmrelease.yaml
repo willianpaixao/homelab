@@ -310,9 +310,8 @@ spec:
     ingress:
       main:
         enabled: true
-        className: internal
+        className: cilium
         annotations:
-          nginx.ingress.kubernetes.io/proxy-body-size: "0"
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
           gethomepage.dev/name: Immich
@@ -331,6 +330,7 @@ spec:
         tls:
           - hosts:
               - immich.${SECRET_DOMAIN}
+            secretName: web3-wiki-br-production-tls
 
     persistence:
       library:

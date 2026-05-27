@@ -18,3 +18,9 @@ spec:
         - ports:
             - port: "6060"
               protocol: TCP
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "6060"
+              protocol: TCP

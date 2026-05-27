@@ -97,7 +97,7 @@ spec:
             scrapeTimeout: 10s
     ingress:
       main:
-        className: internal
+        className: cilium
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Storage
@@ -113,6 +113,7 @@ spec:
         tls:
           - hosts:
               - *host
+            secretName: web3-wiki-br-production-tls
     persistence:
       cache:
         type: emptyDir
