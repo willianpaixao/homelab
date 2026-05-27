@@ -113,7 +113,6 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: web3-wiki-br-production-tls
     persistence:
       cache:
         type: emptyDir

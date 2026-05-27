@@ -146,7 +146,6 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: web3-wiki-br-production-tls
     service:
       gitea:
         controller: *name

@@ -54,6 +54,8 @@ spec:
       default: true
       loadbalancerMode: shared
       enforceHttps: true
+      defaultSecretNamespace: network
+      defaultSecretName: web3-wiki.br-production-tls
       service:
         annotations:
           io.cilium/lb-ipam-ips: "192.168.0.170"
@@ -76,7 +78,6 @@ spec:
           tls:
             - hosts:
                 - "hubble.turing.web3.wiki.br"
-              secretName: web3-wiki-br-production-tls
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "10.68.0.0/15"

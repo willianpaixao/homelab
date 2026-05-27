@@ -330,7 +330,6 @@ spec:
         tls:
           - hosts:
               - immich.${SECRET_DOMAIN}
-            secretName: web3-wiki-br-production-tls
 
     persistence:
       library:
