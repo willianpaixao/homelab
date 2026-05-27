@@ -37,10 +37,12 @@ spec:
     provider:
       name: pihole
     extraArgs:
-      - --ingress-class=internal
+      - --gateway-name=internal
+      - --gateway-namespace=network
       - --pihole-api-version=6
       - --pihole-server=http://192.168.0.8
       - --pihole-tls-skip-verify
+    sources: ["gateway-httproute", "service"]
     registry: noop
     domainFilters: ["web3.wiki.br"]
     env:
