@@ -25,6 +25,13 @@ data:
           - trash_id: 72dae194fc92bf828f32cde7744e51a1  # WEB-1080p
             reset_unmatched_scores:
               enabled: true
+            qualities:
+              - name: Bluray-1080p Remux
+              - name: Bluray-1080p
+              - name: WEB 1080p
+                qualities:
+                  - WEBRip-1080p
+                  - WEBDL-1080p
           - trash_id: d1498e7d189fbe6c7110ceaabb7473e6  # WEB-2160p
             reset_unmatched_scores:
               enabled: true
