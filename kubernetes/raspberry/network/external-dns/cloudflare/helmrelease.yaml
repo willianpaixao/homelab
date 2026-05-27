@@ -48,8 +48,6 @@ spec:
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --ignore-ingress-tls-spec
-      - --ingress-class=external
     resources:
       requests:
         cpu: 30m
@@ -59,7 +57,7 @@ spec:
         memory: 128Mi
     triggerLoopOnEvent: true
     policy: sync
-    sources: ["crd", "ingress"]
+    sources: ["crd"]
     txtPrefix: k8s.
     txtOwnerId: default
     domainFilters: ["${SECRET_DOMAIN}"]

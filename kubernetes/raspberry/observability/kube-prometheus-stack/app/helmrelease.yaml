@@ -29,20 +29,7 @@ spec:
         forceConflicts: true
     alertmanager:
       ingress:
-        enabled: true
-        pathType: Prefix
-        ingressClassName: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Monitoring
-          gethomepage.dev/icon: alertmanager.png
-          gethomepage.dev/name: Alertmanager
-          gethomepage.dev/app: alertmanager
-        hosts:
-          - &alertmanagerHost alertmanager.${SECRET_DOMAIN}
-        tls:
-          - hosts:
-              - *alertmanagerHost
+        enabled: false
       alertmanagerSpec:
         replicas: 1
         affinity:
@@ -62,23 +49,7 @@ spec:
         type: LoadBalancer
         loadBalancerIP: 192.168.0.35
       ingress:
-        enabled: true
-        ingressClassName: internal
-        pathType: Prefix
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/app: kube-prometheus-stack-prometheus-operator
-          gethomepage.dev/group: Monitoring
-          gethomepage.dev/icon: prometheus.png
-          gethomepage.dev/name: Prometheus
-          gethomepage.dev/widget.type: prometheus
-          gethomepage.dev/widget.fields: "[\"targets_up\", \"targets_down\"]"
-          gethomepage.dev/widget.url: http://kube-prometheus-stack-prometheus.observability:9090
-        hosts:
-          - &prometheusHost prometheus.${SECRET_DOMAIN}
-        tls:
-          - hosts:
-              - *prometheusHost
+        enabled: false
       serviceMonitor:
         relabelings:
           - replacement: raspberry
@@ -226,19 +197,7 @@ spec:
           configMap: grafana-custom-ini
           readOnly: true
       ingress:
-        enabled: true
-        ingressClassName: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/app: grafana
-          gethomepage.dev/group: Monitoring
-          gethomepage.dev/icon: grafana.png
-          gethomepage.dev/name: Grafana
-        hosts:
-          - &grafanaHost grafana.${SECRET_DOMAIN}
-        tls:
-          - hosts:
-              - *grafanaHost
+        enabled: false
       sidecar:
         dashboards:
           multicluster:

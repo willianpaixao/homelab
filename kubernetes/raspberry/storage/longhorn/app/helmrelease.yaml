@@ -41,17 +41,7 @@ spec:
             action: drop
             regex: "longhorn_rest_client_rate_limiter_latency_seconds_bucket"
     ingress:
-      enabled: true
-      ingressClassName: internal
-      annotations:
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Storage
-        gethomepage.dev/icon: longhorn.png
-        gethomepage.dev/name: longhorn
-        gethomepage.dev/pod-selector: "app=longhorn-ui"
-      host: &host "longhorn.raspberry.${SECRET_DOMAIN}"
-      tls: true
-      tlsSecret: "longhorn-certs"
+      enabled: false
     defaultBackupStore:
       backupTarget: "s3://longhorn-uncaring@us-east-005/"
       backupTargetCredentialSecret: "longhorn-backup"

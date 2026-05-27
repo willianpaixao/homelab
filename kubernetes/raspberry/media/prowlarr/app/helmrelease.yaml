@@ -85,30 +85,16 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
         enabled: true
-        className: internal
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
           gethomepage.dev/icon: prowlarr.png
           gethomepage.dev/name: Prowlarr
-        hosts:
-          - host: &host prowlarr.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-    route:
-      app:
-        enabled: true
         hostnames:
-          - *host
+          - prowlarr.${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: network

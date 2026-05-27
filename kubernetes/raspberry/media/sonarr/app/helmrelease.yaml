@@ -87,30 +87,16 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
         enabled: true
-        className: internal
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
           gethomepage.dev/icon: sonarr.png
           gethomepage.dev/name: Sonarr
-        hosts:
-          - host: &host sonarr.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-    route:
-      app:
-        enabled: true
         hostnames:
-          - *host
+          - sonarr.${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: network

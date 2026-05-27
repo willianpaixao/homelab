@@ -80,30 +80,16 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
         enabled: true
-        className: internal
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
           gethomepage.dev/icon: jellyseerr.png
           gethomepage.dev/name: Jellyseerr
-        hosts:
-          - host: &host jellyseerr.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-    route:
-      app:
-        enabled: true
         hostnames:
-          - *host
+          - jellyseerr.${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: network

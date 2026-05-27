@@ -6,7 +6,6 @@ resources:
   - cilium.yaml
   - external-dns.yaml
   - flux-operator.yaml
-  - ingress-nginx.yaml
   - jetstack.yaml
   - k8s-gateway.yaml
   - knative.yaml

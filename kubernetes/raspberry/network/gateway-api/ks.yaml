@@ -32,7 +32,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: gateway-api-crds
-    - name: ingress-nginx-certificates
+    - name: network-certificates
   path: ./kubernetes/raspberry/network/gateway-api/gateways
   prune: true
   sourceRef:

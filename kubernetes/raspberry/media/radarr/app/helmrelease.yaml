@@ -83,30 +83,16 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
         enabled: true
-        className: internal
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/group: Media
           gethomepage.dev/icon: radarr.png
           gethomepage.dev/name: Radarr
-        hosts:
-          - host: &host radarr.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-    route:
-      app:
-        enabled: true
         hostnames:
-          - *host
+          - radarr.${SECRET_DOMAIN}
         parentRefs:
           - name: internal
             namespace: network

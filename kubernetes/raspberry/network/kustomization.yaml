@@ -4,9 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - cert-manager/ks.yaml
+  - certificates/ks.yaml
   - cloudflared/ks.yaml
   - external-dns/ks.yaml
   - gateway-api/ks.yaml
-  - ingress-nginx/ks.yaml
   - k8s-gateway/ks.yaml
   - namespace.yaml
