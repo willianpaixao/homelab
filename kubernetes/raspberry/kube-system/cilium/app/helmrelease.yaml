@@ -49,6 +49,8 @@ spec:
       enabled: true
     envoy:
       enabled: false
+    gatewayAPI:
+      enabled: true
     hubble:
       enabled: true
       relay:
