@@ -108,6 +108,23 @@ spec:
         tls:
           - hosts:
               - *host
+    route:
+      homepage:
+        enabled: true
+        hostnames:
+          - *host
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: homepage
+                port: http
     defaultPodOptions:
       labels:
         app: homepage
