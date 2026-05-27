@@ -1,0 +1,11 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: media-gateway-ingress
+  namespace: media
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities:
+        - ingress

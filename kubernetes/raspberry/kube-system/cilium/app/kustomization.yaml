@@ -5,3 +5,4 @@ resources:
   - ./cilium-clustermesh-creds.sops.yaml
   - ./cilium-l2.yaml
   - ./helmrelease.yaml
+  - ./hubble-httproute.yaml

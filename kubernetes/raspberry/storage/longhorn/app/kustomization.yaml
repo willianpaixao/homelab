@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: storage
 resources:
   - ./helmrelease.yaml
+  - ./httproute.yaml
   - ./secret.sops.yaml
   - ./storageclass.yaml

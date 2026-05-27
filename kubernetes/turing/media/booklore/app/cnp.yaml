@@ -24,3 +24,12 @@ spec:
         - ports:
             - port: "6060"
               protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            io.cilium.k8s.policy.cluster: raspberry
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: cilium
+      toPorts:
+        - ports:
+            - port: "6060"
+              protocol: TCP

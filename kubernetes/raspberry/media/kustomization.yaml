@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - bazarr/ks.yaml
   - booklore/ks.yaml
+  - cnp.yaml
   - flaresolverr/ks.yaml
   - jellyfin/ks.yaml
   - jellyseerr/ks.yaml

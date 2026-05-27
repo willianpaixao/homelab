@@ -5,6 +5,7 @@ resources:
   - alertmanager-config.yaml
   - grafana-config.yaml
   - helmrelease.yaml
+  - httproute.yaml
   - telegram-config.sops.yaml
   - dashboards
   - rules

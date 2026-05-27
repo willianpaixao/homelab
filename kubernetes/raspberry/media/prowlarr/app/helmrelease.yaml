@@ -104,6 +104,23 @@ spec:
         tls:
           - hosts:
               - *host
+    route:
+      app:
+        enabled: true
+        hostnames:
+          - *host
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: http
     persistence:
       config:
         type: persistentVolumeClaim
