@@ -1,0 +1,17 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: webhook-gateway-ingress
+  namespace: flux-system
+spec:
+  endpointSelector:
+    matchLabels:
+      app: notification-controller
+  ingress:
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "9292"
+              protocol: TCP
