@@ -82,8 +82,6 @@ spec:
                       operator: In
                       values:
                         - logos
-        ingress:
-          enabled: false
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "10.68.0.0/15"

@@ -6,6 +6,5 @@ resources:
   - cnp.yaml
   - config.yaml
   - helmrelease.yaml
-  - networkpolicy.yaml
   - rbac.yaml
   - secret.sops.yaml

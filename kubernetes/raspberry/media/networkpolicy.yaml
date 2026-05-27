@@ -17,13 +17,6 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: network
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: ingress-nginx
-    - from:
-        - namespaceSelector:
-            matchLabels:
               kubernetes.io/metadata.name: observability
   egress:
     # Allow DNS resolution
