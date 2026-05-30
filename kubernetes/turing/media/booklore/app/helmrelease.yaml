@@ -73,7 +73,7 @@ spec:
           mariadb:
             image:
               repository: mariadb
-              tag: 11.8@sha256:78185355dd49b54dd6909072531ce8d7e06aa0eccd7aa5b23c93ebb7e34c5aaa
+              tag: 11.8@sha256:590803c3826ecc14db1ac4a9cdb175d4aaf28c39f990eb1f9c077021fd0e9716
             args:
               - --wait_timeout=600
               - --interactive_timeout=600
