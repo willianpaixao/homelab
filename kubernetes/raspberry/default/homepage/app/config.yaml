@@ -30,10 +30,7 @@ data:
   docker.yaml: ""
   kubernetes.yaml: |
     mode: cluster
-    clusters:
-      - name: raspberry
-      - name: turing
-        kubeconfig: /app/config/clusters/turing/config
+    gateway: true
   proxmox.yaml: |
     url: https://tank.web3.wiki.br:8006
     token: {{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}

@@ -6,6 +6,11 @@ metadata:
   namespace: immich
   annotations:
     external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/name: Immich
+    gethomepage.dev/icon: immich.png
+    gethomepage.dev/description: Photo & Video Management
 spec:
   parentRefs:
     - name: external

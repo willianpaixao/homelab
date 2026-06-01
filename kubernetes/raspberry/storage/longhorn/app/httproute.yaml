@@ -4,6 +4,11 @@ kind: HTTPRoute
 metadata:
   name: longhorn
   namespace: storage
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Storage
+    gethomepage.dev/name: Longhorn
+    gethomepage.dev/icon: longhorn.png
 spec:
   parentRefs:
     - name: internal

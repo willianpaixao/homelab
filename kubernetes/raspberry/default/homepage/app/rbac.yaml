@@ -24,6 +24,14 @@ rules:
     resources:
       - ingresses
   - apiGroups:
+      - gateway.networking.k8s.io
+    verbs:
+      - get
+      - list
+    resources:
+      - httproutes
+      - gateways
+  - apiGroups:
       - metrics.k8s.io
     verbs:
       - get

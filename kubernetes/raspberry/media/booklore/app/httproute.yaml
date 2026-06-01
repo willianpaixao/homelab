@@ -6,6 +6,10 @@ metadata:
   namespace: media
   annotations:
     external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/name: BookLore
+    gethomepage.dev/icon: booklore.png
 spec:
   parentRefs:
     - name: external
