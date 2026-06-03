@@ -31,10 +31,7 @@ data:
   kubernetes.yaml: |
     mode: cluster
     gateway: true
-  proxmox.yaml: |
-    url: https://tank.web3.wiki.br:8006
-    token: {{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}
-    secret: {{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}
+  proxmox.yaml: ""
   services.yaml: |
     - Network:
         - Cloudflare:
@@ -52,7 +49,7 @@ data:
             widget:
               type: proxmox
               url: https://tank.web3.wiki.br:8006
-              token: {{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}
+              username: {{HOMEPAGE_VAR_PROXMOX_TOKEN_ID}}
               password: {{HOMEPAGE_VAR_PROXMOX_TOKEN_SECRET}}
               fields: ["vms", "resources.mem"]
         - Pihole:
