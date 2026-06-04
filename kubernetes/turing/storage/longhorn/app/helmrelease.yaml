@@ -38,16 +38,7 @@ spec:
     longhornUI:
       replicas: 1
     ingress:
-      enabled: true
-      ingressClassName: cilium
-      annotations:
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: storage
-        gethomepage.dev/icon: longhorn.png
-        gethomepage.dev/name: longhorn
-      host: &host "longhorn.turing.${SECRET_DOMAIN}"
-      tls: true
-      tlsSecret: "longhorn-certs"
+      enabled: false
     defaultBackupStore:
       backupTarget: "s3://longhorn-uncaring@us-east-005/"
       backupTargetCredentialSecret: "longhorn-backup"
