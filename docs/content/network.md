@@ -2,7 +2,9 @@
 date = '2024-11-08T11:55:00+01:00'
 draft = true
 title = 'Network topology'
+description = 'Host inventory, IP addressing, and the layout of the homelab network.'
 tags = ['network']
+weight = 50
 +++
 
 # Network topology
@@ -65,3 +67,20 @@ tags = ['network']
 | marajo   | 192.168.0.172 | control-plane |
 | outeiro  | 192.168.0.173 | control-plane |
 | tapajos  | 192.168.0.174 | worker        |
+
+### Load balancer & virtual IPs
+
+Virtual IPs assigned to Kubernetes services via Cilium LB-IPAM and kube-vip (defined in the cluster manifests and Ansible `group_vars`).
+
+| IP address    | Purpose                                  | Cluster   |
+|---------------|------------------------------------------|-----------|
+| 192.168.0.30  | Cilium Cluster Mesh API server           | raspberry |
+| 192.168.0.31  | Gateway — `internal`                     | raspberry |
+| 192.168.0.32  | Gateway — `external`                     | raspberry |
+| 192.168.0.33  | k8s-gateway (split-horizon DNS)          | raspberry |
+| 192.168.0.35  | Prometheus (remote-write target)         | raspberry |
+| 192.168.0.77  | Control-plane registration VIP (kube-vip)| raspberry |
+| 192.168.0.166 | Cilium Cluster Mesh API server           | turing    |
+| 192.168.0.168 | k8s-gateway (split-horizon DNS)          | turing    |
+| 192.168.0.170 | Cilium ingress / Gateway                 | turing    |
+| 192.168.0.175 | Control-plane registration VIP (kube-vip)| turing    |

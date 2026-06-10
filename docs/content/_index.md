@@ -2,6 +2,7 @@
 date = '2024-11-07T18:54:11+01:00'
 draft = false
 title = 'Homelab'
+description = 'Documentation for a GitOps-managed homelab running two K3s Kubernetes clusters on Raspberry Pi and Turing Pi hardware.'
 +++
 
 # Willian's Homelab
@@ -17,11 +18,11 @@ The homelab is built around two distinct Kubernetes clusters:
 
 Both clusters are managed declaratively via GitOps, pulling their configuration from the [GitHub repository](https://github.com/willianpaixao/homelab). The reconciliation is triggered upon push via webhooks.
 
-For more information about the clusters, please visit the [main](kubernetes) article.
+For an overview of the workloads running on the clusters, see the [Kubernetes](kubernetes) section.
 
 ## Hardware
 
-For more information about Turing Pi Cluster Board, please visit the [main](turingpi) article.
+For details on the Turing Pi 2 cluster board and its RK1 compute modules, see the [Turing Pi Cluster](turingpi) page.
 
 ## Roadmap
 

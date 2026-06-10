@@ -2,7 +2,9 @@
 date = '2024-11-08T11:55:00+01:00'
 draft = false
 title = 'Turing Pi Cluster'
+description = 'Hardware and software overview of the Turing Pi 2 cluster board running four RK1 compute modules.'
 tags = ['cluster', 'turingpi']
+weight = 20
 +++
 
 # Turing Pi Cluster
