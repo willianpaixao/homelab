@@ -24,3 +24,13 @@ spec:
         - ports:
             - port: "2283"
               protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.cilium.k8s.policy.cluster: raspberry
+            io.kubernetes.pod.namespace: network
+            app.kubernetes.io/name: smtp-relay
+      toPorts:
+        - ports:
+            - port: "25"
+              protocol: TCP

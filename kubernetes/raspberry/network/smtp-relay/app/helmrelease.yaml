@@ -1,0 +1,119 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: smtp-relay
+  namespace: network
+spec:
+  interval: 1h
+  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      smtp-relay:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/foxcpp/maddy
+              tag: 0.9.5@sha256:de42151adff6388edb5e4ee88f60334fa1ab85e309485193ecb1c2db20203315
+            env:
+              SMTP_RELAY_METRICS_PORT: &metricsPort 8080
+              SMTP_RELAY_SMTP_PORT: &smtpPort 25
+              SMTP_RELAY_SERVER_PORT: 587
+            envFrom:
+              - secretRef:
+                  name: smtp-relay-secret
+            probes:
+              liveness: { enabled: true }
+              readiness: { enabled: true }
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 64Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: smtp-relay
+        annotations:
+          service.cilium.io/global: "true"
+        ports:
+          http:
+            port: *metricsPort
+          smtp:
+            port: *smtpPort
+    serviceMonitor:
+      app:
+        serviceName: smtp-relay
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
+    configMaps:
+      config:
+        data:
+          maddy.conf: |-
+            state_dir /cache/state
+            runtime_dir /cache/run
+            openmetrics tcp://0.0.0.0:{env:SMTP_RELAY_METRICS_PORT} { }
+            tls off
+            hostname {env:SMTP_RELAY_HOSTNAME}
+            smtp tcp://0.0.0.0:{env:SMTP_RELAY_SMTP_PORT} {
+                default_source {
+                    deliver_to &remote_queue
+                }
+            }
+            target.queue remote_queue {
+                target &remote_smtp
+            }
+            target.smtp remote_smtp {
+                starttls yes
+                auth plain {env:SMTP_RELAY_USERNAME} {env:SMTP_RELAY_PASSWORD}
+                targets tcp://{env:SMTP_RELAY_SERVER}:{env:SMTP_RELAY_SERVER_PORT}
+            }
+    persistence:
+      cache:
+        type: emptyDir
+        medium: Memory
+      config-file:
+        type: configMap
+        identifier: config
+        globalMounts:
+          - path: /data/maddy.conf
+            subPath: maddy.conf
+            readOnly: true
