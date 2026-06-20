@@ -95,24 +95,6 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    ingress:
-      main:
-        className: cilium
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Storage
-          gethomepage.dev/icon: kopia.png
-          gethomepage.dev/name: Kopia
-        hosts:
-          - host: &host kopia.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       cache:
         type: emptyDir
