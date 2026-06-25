@@ -212,8 +212,7 @@ spec:
               - path: /certs/client
       dind-storage:
         type: emptyDir
-        medium: Memory
-        sizeLimit: 2Gi
+        sizeLimit: 15Gi
         advancedMounts:
           runner:
             dind:
