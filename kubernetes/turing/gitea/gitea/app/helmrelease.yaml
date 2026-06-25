@@ -62,6 +62,11 @@ spec:
               GITEA__SERVER__SSH_PORT: 22
               GITEA__SERVER__START_SSH_SERVER: "true"
               GITEA__SERVER__SSH_LISTEN_PORT: 2222
+              GITEA__mailer__ENABLED: "true"
+              GITEA__mailer__PROTOCOL: "smtp"
+              GITEA__mailer__SMTP_ADDR: "smtp-relay.network.svc.cluster.local"
+              GITEA__mailer__SMTP_PORT: "25"
+              GITEA__mailer__FROM: "Gitea <noreply@${SECRET_DOMAIN}>"
             probes:
               liveness: &probes
                 enabled: true
