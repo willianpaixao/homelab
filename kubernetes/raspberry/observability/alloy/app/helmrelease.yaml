@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: alloy
-      version: 1.10.1
+      version: 1.10.0
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -32,9 +32,13 @@ spec:
     alloy:
       configMap:
         content: |
-          // Discover pods scheduled on this node only
+          // Discover pods scheduled on this node, limited to the media namespace
           discovery.kubernetes "pods" {
             role = "pod"
+
+            namespaces {
+              names = ["media"]
+            }
 
             selectors {
               role  = "pod"
@@ -73,9 +77,10 @@ spec:
             forward_to = [loki.write.default.receiver]
           }
 
-          loki.source.kubernetes_events "cluster_events" {
+          loki.source.kubernetes_events "media_events" {
             job_name   = "integrations/kubernetes/eventhandler"
             log_format = "logfmt"
+            namespaces = ["media"]
             forward_to = [loki.write.default.receiver]
           }
 
