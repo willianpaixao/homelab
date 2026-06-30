@@ -231,5 +231,10 @@ spec:
               access: proxy
               jsonData:
                 implementation: prometheus
+            - name: Loki
+              type: loki
+              uid: loki
+              url: http://loki.observability.svc.cluster.local:3100
+              access: proxy
       nodeSelector:
         disktype: ssd
