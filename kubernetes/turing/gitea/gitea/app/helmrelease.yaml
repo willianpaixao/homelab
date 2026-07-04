@@ -61,7 +61,7 @@ spec:
               GITEA__SERVER__SSH_PORT: 22
               GITEA__SERVER__START_SSH_SERVER: "true"
               GITEA__cache__ADAPTER: redis
-              GITEA__cache__HOST: redis://gitea-redis.gitea.svc.cluster.local:6379
+              GITEA__cache__HOST: redis://gitea-gitea-redis.gitea.svc.cluster.local:6379
               GITEA__database__DB_TYPE: sqlite3
               GITEA__database__PATH: /var/lib/gitea/gitea.db
               GITEA__mailer__ENABLED: "true"
@@ -70,10 +70,10 @@ spec:
               GITEA__mailer__SMTP_ADDR: "smtp-relay.network.svc.cluster.local"
               GITEA__mailer__SMTP_PORT: "25"
               GITEA__metrics__ENABLED: "true"
-              GITEA__queue__CONN_STR: redis://gitea-redis.gitea.svc.cluster.local:6379
+              GITEA__queue__CONN_STR: redis://gitea-gitea-redis.gitea.svc.cluster.local:6379
               GITEA__queue__TYPE: redis
               GITEA__session__PROVIDER: redis
-              GITEA__session__PROVIDER_CONFIG: redis://gitea-redis.gitea.svc.cluster.local:6379
+              GITEA__session__PROVIDER_CONFIG: redis://gitea-gitea-redis.gitea.svc.cluster.local:6379
             probes:
               liveness: &probes
                 enabled: true
@@ -294,11 +294,7 @@ spec:
               - path: /data
       dind-storage:
         type: emptyDir
-<<<<<<< HEAD
-        sizeLimit: 15Gi
-=======
         sizeLimit: 8Gi
->>>>>>> d33e32f2 (feat(turing): add redis to gitea)
         advancedMounts:
           runner:
             dind:
