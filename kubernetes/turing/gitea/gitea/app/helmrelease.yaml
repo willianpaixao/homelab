@@ -52,26 +52,51 @@ spec:
               TZ: "${TIMEZONE}"
               USER_UID: 1000
               USER_GID: 1000
-              GITEA__database__DB_TYPE: sqlite3
-              GITEA__database__PATH: /var/lib/gitea/gitea.db
               GITEA__REPOSITORY__ENABLE_PUSH_CREATE_USER: "true"
               GITEA__SECURITY__INSTALL_LOCK: "true"
               GITEA__SERVER__DOMAIN: "gitea.${SECRET_DOMAIN}"
               GITEA__SERVER__ROOT_URL: "https://gitea.${SECRET_DOMAIN}"
               GITEA__SERVER__SSH_DOMAIN: "git.${SECRET_DOMAIN}"
+              GITEA__SERVER__SSH_LISTEN_PORT: 2222
               GITEA__SERVER__SSH_PORT: 22
               GITEA__SERVER__START_SSH_SERVER: "true"
-              GITEA__SERVER__SSH_LISTEN_PORT: 2222
+              GITEA__cache__ADAPTER: redis
+              GITEA__cache__HOST: redis://gitea-redis.gitea.svc.cluster.local:6379
+              GITEA__database__DB_TYPE: sqlite3
+              GITEA__database__PATH: /var/lib/gitea/gitea.db
               GITEA__mailer__ENABLED: "true"
+              GITEA__mailer__FROM: "Gitea <noreply@${SECRET_DOMAIN}>"
               GITEA__mailer__PROTOCOL: "smtp"
               GITEA__mailer__SMTP_ADDR: "smtp-relay.network.svc.cluster.local"
               GITEA__mailer__SMTP_PORT: "25"
-              GITEA__mailer__FROM: "Gitea <noreply@${SECRET_DOMAIN}>"
+              GITEA__metrics__ENABLED: "true"
+              GITEA__queue__CONN_STR: redis://gitea-redis.gitea.svc.cluster.local:6379
+              GITEA__queue__TYPE: redis
+              GITEA__session__PROVIDER: redis
+              GITEA__session__PROVIDER_CONFIG: redis://gitea-redis.gitea.svc.cluster.local:6379
             probes:
               liveness: &probes
                 enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz
+                    port: http
+                  initialDelaySeconds: 200
+                  timeoutSeconds: 5
+                  periodSeconds: 10
+                  failureThreshold: 10
               readiness: *probes
-              startup: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz
+                    port: http
+                  failureThreshold: 30
+                  periodSeconds: 5
+                  timeoutSeconds: 1
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -133,6 +158,52 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 3Gi
+      redis:
+        containers:
+          redis:
+            image:
+              repository: docker.io/redis
+              tag: 8.4.3-alpine3.22@sha256:52e68c6542d1b658a207ba63e7545963ec7cde6c7efc8948108edfa7e339ff73
+            command:
+              - redis-server
+            env:
+              REDIS_REPLICATION_MODE: master
+            probes:
+              liveness: &redisProbes
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - redis-cli
+                      - ping
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *redisProbes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - redis-cli
+                      - ping
+                  failureThreshold: 30
+                  periodSeconds: 5
+                  timeoutSeconds: 1
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 50m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
     ingress:
       gitea:
         className: cilium
@@ -157,6 +228,11 @@ spec:
         ports:
           http:
             port: 3000
+      gitea-redis:
+        controller: redis
+        ports:
+          http:
+            port: 6379
       ssh:
         controller: *name
         type: LoadBalancer
@@ -210,9 +286,19 @@ spec:
                 readOnly: true
             dind:
               - path: /certs/client
+      redis-data:
+        type: emptyDir
+        advancedMounts:
+          redis:
+            redis:
+              - path: /data
       dind-storage:
         type: emptyDir
+<<<<<<< HEAD
         sizeLimit: 15Gi
+=======
+        sizeLimit: 8Gi
+>>>>>>> d33e32f2 (feat(turing): add redis to gitea)
         advancedMounts:
           runner:
             dind:
