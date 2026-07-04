@@ -8634,7 +8634,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/image-automation-controller:v1.2.0@sha256:f94f468bce5e011bafa03f985182333571e8d3a3d4b1892b801aab0265c87128
+        image: ghcr.io/fluxcd/image-automation-controller:v1.2.1@sha256:930d86fdb761a81311904b81d1cd9de76b3581767467ea7482a1a543dcf67bbe
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
