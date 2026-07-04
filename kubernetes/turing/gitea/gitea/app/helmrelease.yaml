@@ -75,25 +75,33 @@ spec:
               GITEA__session__PROVIDER: redis
               GITEA__session__PROVIDER_CONFIG: redis://gitea-gitea-redis.gitea.svc.cluster.local:6379
             probes:
-              liveness: &probes
+              liveness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /api/healthz
-                    port: http
-                  initialDelaySeconds: 200
+                    port: 3000
                   timeoutSeconds: 5
                   periodSeconds: 10
                   failureThreshold: 10
-              readiness: *probes
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz
+                    port: 3000
+                  timeoutSeconds: 5
+                  periodSeconds: 10
+                  failureThreshold: 3
               startup:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /api/healthz
-                    port: http
+                    port: 3000
                   failureThreshold: 30
                   periodSeconds: 5
                   timeoutSeconds: 1
@@ -122,10 +130,11 @@ spec:
               TZ: "${TIMEZONE}"
               GITEA_INSTANCE_URL: "http://gitea.gitea.svc.cluster.local:3000"
               GITEA_RUNNER_NAME: "turing-k8s"
-              GITEA_RUNNER_LABELS: "ubuntu-latest:docker://gitea/runner-images:ubuntu-latest,ubuntu-24.04:docker://gitea/runner-images:ubuntu-24.04,ubuntu-20.04:docker://gitea/runner-images:ubuntu-20.04"
+              GITEA_RUNNER_LABELS: "ubuntu-latest:docker://gitea/runner-images:ubuntu-latest"
               DOCKER_HOST: "tcp://localhost:2376"
               DOCKER_TLS_VERIFY: "1"
               DOCKER_CERT_PATH: "/certs/client"
+              GITEA_RUNNER_EPHEMERAL: "1"
             envFrom:
               - secretRef:
                   name: gitea-runner-secret
