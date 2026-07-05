@@ -5,6 +5,7 @@ resources:
   - bazarr/ks.yaml
   - booklore/ks.yaml
   - cnp.yaml
+  - cross-seed/ks.yaml
   - flaresolverr/ks.yaml
   - jellyfin/ks.yaml
   - jellyseerr/ks.yaml

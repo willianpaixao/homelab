@@ -51,7 +51,6 @@ spec:
               tag: 5.2.2@sha256:24f2d793cb7f7a93e755e5d22e533be818e62eadc864f4a82315b901b6ffe807
             env:
               QBITTORRENT__PORT: &port 8080
-              QBITTORRENT__BT_PORT: &bittorrentPort 49437
               TZ: ${TIMEZONE}
               UMASK: "022"
             probes:
@@ -103,35 +102,6 @@ spec:
               capabilities:
                 add:
                   - NET_ADMIN
-          qbrr:
-            image:
-              repository: ghcr.io/buroa/qbrr
-              tag: latest@sha256:50baeb6633f144b7220777c56a8d501ea708d43043e28eb416d93e4e96efe06b
-            env:
-              QBITTORRENT_HOST: "http://localhost:8080"
-            args:
-              - "-max-age"
-              - "10000000"
-              - "-interval"
-              - "300"
-              - "-log-level"
-              - "info"
-            resources:
-              requests:
-                cpu: 10m
-                memory: 32Mi
-              limits:
-                cpu: 100m
-                memory: 128Mi
-            securityContext:
-              runAsUser: 2000
-              runAsGroup: 2000
-              runAsNonRoot: true
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
           port-forward-sync:
             image:
               repository: docker.io/curlimages/curl
@@ -143,15 +113,23 @@ spec:
                 QBIT_URL="http://localhost:8080"
                 PORT_FILE="/tmp/gluetun/forwarded_port"
                 LAST_PORT=""
+                echo "Waiting for qBittorrent to become ready..."
+                until curl -sf "$QBIT_URL/api/v2/app/version" > /dev/null 2>&1; do
+                  sleep 5
+                done
+                echo "qBittorrent is ready."
                 while true; do
                   if [ -f "$PORT_FILE" ]; then
                     CURRENT_PORT=$(cat "$PORT_FILE")
                     if [ "$CURRENT_PORT" != "$LAST_PORT" ] && [ -n "$CURRENT_PORT" ]; then
                       echo "Port changed from $LAST_PORT to $CURRENT_PORT, updating qBittorrent..."
-                      curl -s -X POST "$QBIT_URL/api/v2/app/setPreferences" \
-                        -d "json={\"listen_port\":$CURRENT_PORT}"
-                      LAST_PORT="$CURRENT_PORT"
-                      echo "qBittorrent listen port updated to $CURRENT_PORT"
+                      if curl -sf -X POST "$QBIT_URL/api/v2/app/setPreferences" \
+                        -d "json={\"listen_port\":$CURRENT_PORT}" > /dev/null 2>&1; then
+                        LAST_PORT="$CURRENT_PORT"
+                        echo "qBittorrent listen port updated to $CURRENT_PORT"
+                      else
+                        echo "Failed to update port, will retry..."
+                      fi
                     fi
                   fi
                   sleep 30
