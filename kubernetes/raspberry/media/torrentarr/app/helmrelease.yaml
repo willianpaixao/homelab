@@ -38,7 +38,7 @@ spec:
           app:
             image:
               repository: feramance/qbitrr
-              tag: v5.12.10@sha256:b90522ae350d6fbecd3869ef7d701f2e2d49ad8254e960c7b3a9c7a500119d63
+              tag: v5.12.12@sha256:60843fc5b43511e6e50a09b1dd79faeae5706cd146320729ad770ce2966ec3f9
             env:
               TZ: ${TIMEZONE}
             probes:
