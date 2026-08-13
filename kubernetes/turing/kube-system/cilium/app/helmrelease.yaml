@@ -61,6 +61,12 @@ spec:
           io.cilium/lb-ipam-ips: "192.168.0.170"
     hubble:
       enabled: true
+      tls:
+        auto:
+          enabled: true
+          method: cronJob
+          schedule: "0 0 1 * *"
+          certValidityDuration: 180
       relay:
         enabled: true
         rollOutPods: true
