@@ -40,7 +40,7 @@ spec:
               - 110
         containers:
           app:
-            image:
+            image: &image
               repository: jellyfin/jellyfin
               tag: "10.11.11@sha256:aefb67e6a7ff1debdd154a78a7bbb780fd0c873d8639210a7f6a2016ad2b35db"
             env:
@@ -71,6 +71,17 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
+        initContainers:
+          init-cache-perms:
+            image: *image
+            command:
+              - /bin/sh
+              - -c
+              - chown 2000:2000 /cache
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              runAsNonRoot: false
     service:
       app:
         controller: jellyfin
@@ -129,10 +140,14 @@ spec:
               - path: /media/series
       cache:
         enabled: true
-        type: emptyDir
+        type: hostPath
+        hostPath: /mnt/nvme/jellyfin/cache
+        hostPathType: DirectoryOrCreate
         advancedMounts:
           jellyfin:
             app:
+              - path: /cache
+            init-cache-perms:
               - path: /cache
       transcode:
         enabled: true
@@ -149,8 +164,6 @@ spec:
         globalMounts:
           - path: /usr/local/share/fonts
 
-      # This stuff is necessary for the rockchip GPU to work
-      # source: https://github.com/RonaldPhilipsen/home-ops/blob/main/kubernetes/apps/media/jellyfin/app/helmrelease.yaml
       dri:
         type: hostPath
         hostPath: /dev/dri

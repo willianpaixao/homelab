@@ -21,6 +21,19 @@ data:
             anime: default
         quality_definition:
           type: series
+          qualities:
+            - name: Bluray-1080p Remux
+              max: 286    # ~40 Mbps, the practical 1080p Blu-ray ceiling
+              preferred: 250
+            - name: Bluray-1080p
+              max: 215    # ~30 Mbps
+              preferred: 150
+            - name: WEBDL-1080p
+              max: 143    # ~20 Mbps
+              preferred: 100
+            - name: WEBRip-1080p
+              max: 143
+              preferred: 100
         quality_profiles:
           - trash_id: 72dae194fc92bf828f32cde7744e51a1  # WEB-1080p
             reset_unmatched_scores:
@@ -35,6 +48,14 @@ data:
           - trash_id: d1498e7d189fbe6c7110ceaabb7473e6  # WEB-2160p
             reset_unmatched_scores:
               enabled: true
+        custom_formats:
+          - trash_ids:
+              - 9b27ab6498ec0f31a3353992e19434ca  # DV (w/o HDR fallback)
+            assign_scores_to:
+              - name: WEB-1080p
+                score: -10000
+              - name: WEB-2160p
+                score: -10000
         custom_format_groups:
           add:
             # Golden Rule HD: penalize x265 for HD content (guide default)
@@ -45,8 +66,8 @@ data:
             - trash_id: e3f37512790f00d0e89e54fe5e790d1c  # [Required] Golden Rule UHD
               select:
                 - 9b64dff695c2115facf1b6ea59c9bd07  # x265 (no HDR/DV)
-            # Penalize DV without HDR fallback on UHD profile
-            - trash_id: d776a1ea912a117d66d83b880ff2055d  # [HDR Formats] DV (w/o HDR fallback)
+            # DV (w/o HDR fallback) is now scored explicitly under
+            # custom_formats above, for both WEB-1080p and WEB-2160p.
             # Prefer season packs
             - trash_id: d920fd959d220306888f40b6f38e1578  # [Optional] Season Packs
             # Penalize problematic releases
@@ -69,6 +90,16 @@ data:
             standard: jellyfin-tmdb
         quality_definition:
           type: movie
+          qualities:
+            - name: Remux-2160p
+              max: 429
+              preferred: 400
+            - name: WEBDL-2160p
+              max: 429
+              preferred: 300
+            - name: WEBRip-2160p
+              max: 429
+              preferred: 300
         quality_profiles:
           - trash_id: d1d67249d3890e49bc12e275d989a7e9  # HD Bluray + WEB
             reset_unmatched_scores:
