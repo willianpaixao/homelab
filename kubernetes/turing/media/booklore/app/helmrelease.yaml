@@ -177,7 +177,9 @@ spec:
               - path: /books
       bookdrop:
         enabled: true
-        type: emptyDir
+        type: nfs
+        server: ${NFS_SERVER}
+        path: /books/bookdrop
         advancedMounts:
           booklore:
             app:
