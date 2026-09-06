@@ -116,7 +116,8 @@ spec:
                       - logos
     clustermesh:
       useAPIServer: true
-      enableMCSAPISupport: true
+      mcsapi:
+        enabled: true
       config:
         enabled: true
         domain: mesh.cilium.io
