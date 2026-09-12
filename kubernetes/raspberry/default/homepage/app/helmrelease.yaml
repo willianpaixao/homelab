@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: ghcr.io/gethomepage/homepage
-              tag: v2.1.2@sha256:da9dca9ec258c628146bed1445da0853f2b88f0b10bafd97c091de807c363d60
+              tag: v2.3.0@sha256:f820276654539cdc2cf0169f28188d135919a7984fad76d83d8d5ff1383f3705
               pullPolicy: IfNotPresent
             env:
               HOMEPAGE_ALLOWED_HOSTS: ${SECRET_DOMAIN}
