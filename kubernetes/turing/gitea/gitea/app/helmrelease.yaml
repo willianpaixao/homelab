@@ -171,7 +171,7 @@ spec:
           redis:
             image:
               repository: docker.io/redis
-              tag: 8.4.6-alpine3.22@sha256:a6d269b93afa6cfd74d7834e831a99ed72d61c7532c2a8d5a28317c6a837e72b
+              tag: 8.4.6-alpine3.22@sha256:0b0ae6770e7d416846dca4227382538fe4cc7e002e4feb04e4ade5fa851d920c
             command:
               - redis-server
             env:
