@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - audiobookshelf/ks.yaml
   - booklore/ks.yaml
+  - bookorbit/ks.yaml
   - jellyfin/ks.yaml
   - namespace.yaml
