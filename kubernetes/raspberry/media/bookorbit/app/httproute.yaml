@@ -1,0 +1,27 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: bookorbit
+  namespace: media
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Media
+    gethomepage.dev/name: BookOrbit
+    gethomepage.dev/icon: mdi-book-open-page-variant
+spec:
+  parentRefs:
+    - name: external
+      namespace: network
+      sectionName: https
+  hostnames:
+    - "bookorbit.${SECRET_DOMAIN}"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: derived-kte4o08upv
+          port: 3000
