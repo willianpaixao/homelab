@@ -207,3 +207,7 @@ spec:
         app: bookorbit
         environment: production
         owner: willianpaixao
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
