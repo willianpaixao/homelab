@@ -89,6 +89,53 @@ spec:
               requests:
                 cpu: 100m
                 memory: 256Mi
+          safaribooks-bridge:
+            image:
+              repository: ghcr.io/willianpaixao/safaribooks-bridge
+              tag: sha-2398ccb@sha256:c8eb9874db67cfe88045f6a269d6dcfb738d2144cbf54bd03157ea2d44d88f7a
+            envFrom:
+              - secretRef:
+                  name: safaribooks-bridge
+            env:
+              BRIDGE_DATA_DIR: /data/safaribooks
+              BRIDGE_OREILLY_COOKIES_FILE: /run/secrets/oreilly/cookies.json
+              BRIDGE_CAP_TZ: Europe/Stockholm
+            ports:
+              - name: ops
+                containerPort: 9787
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /livez
+                    port: ops
+                  periodSeconds: 30
+                  timeoutSeconds: 2
+                  failureThreshold: 3
+              # No readiness probe: an unready sidecar would take BookOrbit out of its Service.
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            securityContext:
+              runAsUser: 2000
+              runAsGroup: 2000
+              runAsNonRoot: true
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              seccompProfile:
+                type: RuntimeDefault
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
       postgres:
         strategy: Recreate
         containers:
@@ -176,6 +223,8 @@ spec:
           bookorbit:
             app:
               - path: /data
+            safaribooks-bridge:
+              - path: /data
       books:
         enabled: true
         type: nfs
@@ -192,6 +241,25 @@ spec:
           bookorbit:
             app:
               - path: /tmp
+      bridge-tmp:
+        enabled: true
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 64Mi
+        advancedMounts:
+          bookorbit:
+            safaribooks-bridge:
+              - path: /tmp
+      oreilly-cookies:
+        enabled: true
+        type: secret
+        name: safaribooks-bridge-cookies
+        defaultMode: 0440
+        advancedMounts:
+          bookorbit:
+            safaribooks-bridge:
+              - path: /run/secrets/oreilly
+                readOnly: true
       db:
         enabled: true
         type: persistentVolumeClaim
