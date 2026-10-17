@@ -43,7 +43,6 @@ Applications reconciled by Flux (`HelmRelease`s); some charts create additional 
 | kube-system        | reloader                    |
 | local-path-storage | local-path-provisioner      |
 | media              | bazarr                      |
-| media              | booklore                    |
 | media              | flaresolverr                |
 | media              | jellyfin                    |
 | media              | jellyseerr                  |
@@ -72,7 +71,6 @@ Services are exposed through the Cilium Gateway API via the `internal` and `exte
 | default       | willian-eth           | willian.${SECRET_DOMAIN}                                  | external |
 | immich        | immich                | immich.${SECRET_DOMAIN}                                   | external |
 | media         | jellyfin              | jellyfin.${SECRET_DOMAIN}                                 | external |
-| media         | booklore              | booklore.${SECRET_DOMAIN}                                 | external |
 | observability | kube-prometheus-stack | prometheus / alertmanager / grafana.${SECRET_DOMAIN}      | internal |
 | storage       | longhorn              | longhorn.raspberry.${SECRET_DOMAIN}                       | internal |
 | kube-system   | hubble                | hubble.raspberry.${SECRET_DOMAIN}                         | internal |
