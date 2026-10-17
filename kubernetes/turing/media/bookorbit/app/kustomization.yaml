@@ -5,5 +5,8 @@ resources:
   - cnp.yaml
   - helmrelease.yaml
   - networkpolicy.yaml
+  - podmonitor.yaml
+  - safaribooks-bridge-cookies.sops.yaml
+  - safaribooks-bridge.sops.yaml
   - secret.sops.yaml
   - svc.yaml

@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: safaribooks-bridge
+    namespace: media
+type: Opaque
+stringData:
+    BRIDGE_NEWZNAB_API_KEY: ENC[AES256_GCM,data:j8woeZ+UT0EpRmXCHv0mFzDF5vMtao7IVYQMe94m8V0fjg4c9F9Wwn4idIQ5cwlb13Nb3SEC0I759LBmj+CDeQ==,iv:ITTT81Imp9aaQFO2EkSLTJe09QrXgkS2jcOThRq4t1E=,tag:Zk0JwAw4x92ml0IkH8NnDg==,type:str]
+    BRIDGE_SAB_API_KEY: ENC[AES256_GCM,data:B7593ky2CghpcgCsqYI+HeeAB3zXsra3BaOZUvrlRQYzvRMszZXmSA6ueqKCnykrQJp7n9lh8AaIE1iBEMPVrg==,iv:Bz+7/qPweA1jXwxs5Cu+b3t11GJ6ZOzanhhsOLTiwLc=,tag:bx71QMLX1kMXTTonG4mGlg==,type:str]
+    BRIDGE_LINK_SECRET: ENC[AES256_GCM,data:J5Ii1+AUdFmx1WdfcO8qgr1kz7t6TUJW8XuFipS/w4DcpnQYVjieQbMWOY9FpuFB3rE1QysZNGFzISA5lStV5Q==,iv:7xSwaHQllW1EpidyRo0pEmt0iwhQxwdZnhKxqls2dR8=,tag:hix20TeZ96VLrn1onNvkfQ==,type:str]
+sops:
+    age:
+        - recipient: age1nkvss2a8xvmjauvr5mxzm233hyh2mk2fg4s6pt0t0kcn03dv34wqtgymg8
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBvRC9ocXVsQlJLRUVqTjVS
+            MFZKOWQ5S3JKRmdFUExGelE5dCt1bGFCWnk4CkREN1N3UWdSMmZUdjhRazhtS1E3
+            bG13Rmd6NzlzR2dsSTRGNWJjckJGR3MKLS0tIGE0ZGU5RlFvYmdWYlNTMElaM3JE
+            WlBlQ1F2dzh4ZFB2c0Z2cllPSVNWWmcK/qSRb5nMb0cjbW41G4+v5+Se0TuWVE4q
+            Qn9xUJC0zkw4ic4FfMsDY6yEyZfffQ0u19Daf6Zh/ZEPUXzY31UOKw==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1wxwqdrmkwkzsxajp58g0cgeextgf4wq287fv82pptv9yghkfgcqql66zhj
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB6akRpOEp0UnhzdUlkZDJF
+            VlFqMzdyamlVOGNPU05EZXV0S2VZVExlWHkwCjJRaFU5ZVhDRUthQU9pTTU5NlJO
+            empGNWxQWC9JR2Z0YTdpYlR4KzUrTlUKLS0tIGIxdjlIcTNjSTRZcjBLemx2eEdj
+            SU1rMktIbEpydndza3JoZlNLZEw2SjgKOCfdaWbCCrTkaMzKtz34hY+XtiS92vHu
+            KeDp6V/1z0WmTWiHsO1zqYpeRZOyqn4Q5Y6jI25WdqiCyezDC2rv7w==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-10-17T20:33:45Z"
+    mac: ENC[AES256_GCM,data:I4wP3OOuS+OH73+qcnWM89+XtpTuL5Z3PyJERw/+nG0ogu7IuUGDhEGitf7RMVIoq9zcttWc8rw0JfSXVnpJOGwS+GMV7vQSlaXyJBGiS2YRjvzsf/Ifh/yNLtdC8WuSmrNEVgUrPJhvDe3URnqL9h520m7zGfh8nd9yKGLrqQg=,iv:qjH/tepe0JmjsPm/geZMTbwqmj5pKlLyrcO+1Uuxjj4=,tag:Y0zJ4sMNW5nuD2wMFPLj4g==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.10.2

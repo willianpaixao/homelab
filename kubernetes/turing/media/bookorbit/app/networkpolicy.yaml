@@ -20,6 +20,13 @@ spec:
         - protocol: TCP
           port: 3000
     - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: observability
+      ports:
+        - protocol: TCP
+          port: 9787
+    - from:
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: bookorbit
