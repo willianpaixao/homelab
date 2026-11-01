@@ -267,6 +267,16 @@
       ]
     },
     {
+      description: 'Hold turing Cilium at 1.20.1: 1.20.4 (and likely 1.20.2+) fails without kernel BTF, which the RK1 Rockchip kernels lack. Remove once the turing nodes run a BTF-enabled kernel.',
+      matchFileNames: [
+        'kubernetes/turing/kube-system/cilium/**'
+      ],
+      matchPackageNames: [
+        'cilium'
+      ],
+      enabled: false
+    },
+    {
       description: 'Group Helm chart updates across clusters into single PRs',
       matchDatasources: [
         'helm'
