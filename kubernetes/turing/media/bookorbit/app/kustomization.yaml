@@ -6,6 +6,7 @@ resources:
   - helmrelease.yaml
   - networkpolicy.yaml
   - podmonitor.yaml
+  - read-aloud-worker.sops.yaml
   - safaribooks-bridge-cookies.sops.yaml
   - safaribooks-bridge.sops.yaml
   - secret.sops.yaml

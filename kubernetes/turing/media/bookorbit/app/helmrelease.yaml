@@ -29,6 +29,7 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           enableServiceLinks: false
+          terminationGracePeriodSeconds: 90
           securityContext:
             fsGroup: 2000
             fsGroupChangePolicy: "OnRootMismatch"
@@ -66,9 +67,15 @@ spec:
               POSTGRES_USER: bookorbit
               POSTGRES_DB: bookorbit
               NODE_MAX_OLD_SPACE_SIZE: "2048"
-              LIBRARY_BROWSE_ROOT: /books
+              LIBRARY_BROWSE_ROOT: /
               BOOK_DOCK_PATH: /books/bookdrop
               SWAGGER_ENABLED: "true"
+              READ_ALOUD_WORKER_URL: http://127.0.0.1:8788
+              READ_ALOUD_WORKER_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: bookorbit-read-aloud
+                    key: READ_ALOUD_WORKER_TOKEN
             envFrom:
               - secretRef:
                   name: bookorbit-secret
@@ -115,7 +122,6 @@ spec:
                   periodSeconds: 30
                   timeoutSeconds: 2
                   failureThreshold: 3
-              # No readiness probe: an unready sidecar would take BookOrbit out of its Service.
               readiness:
                 enabled: false
               startup:
@@ -137,6 +143,60 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 512Mi
+          read-aloud-worker:
+            image:
+              repository: ghcr.io/bookorbit/bookorbit-read-aloud-worker
+              tag: 3.8.0@sha256:830f4ea19d3ff74c53526a470525da926f5a2cd751c636eb2abdfb95c19d57a8
+            env:
+              TZ: ${TIMEZONE}
+              READ_ALOUD_WORKER_HOST: 127.0.0.1
+              PORT: "8788"
+              READ_ALOUD_LIBRARY_ROOTS: /books,/audiobooks
+              READ_ALOUD_WORK_ROOT: /data/read-aloud/jobs
+              READ_ALOUD_CTC_DEVICE: cpu
+              READ_ALOUD_WORKER_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: bookorbit-read-aloud
+                    key: READ_ALOUD_WORKER_TOKEN
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - node
+                      - -e
+                      - >-
+                        fetch('http://127.0.0.1:8788/health',{headers:{authorization:'Bearer '+process.env.READ_ALOUD_WORKER_TOKEN}})
+                        .then(r=>process.exit(r.ok?0:1),()=>process.exit(1))
+                  initialDelaySeconds: 60
+                  periodSeconds: 60
+                  timeoutSeconds: 10
+                  failureThreshold: 5
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            securityContext:
+              runAsUser: 2000
+              runAsGroup: 2000
+              runAsNonRoot: true
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              seccompProfile:
+                type: RuntimeDefault
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                # First guess; tune after watching a real job.
+                memory: 4Gi
       postgres:
         strategy: Recreate
         containers:
@@ -238,6 +298,33 @@ spec:
           bookorbit:
             app:
               - path: /books
+            read-aloud-worker:
+              - path: /books
+                readOnly: true
+      audiobooks:
+        enabled: true
+        type: nfs
+        server: ${NFS_SERVER}
+        path: /audiobooks
+        advancedMounts:
+          bookorbit:
+            app:
+              - path: /audiobooks
+            read-aloud-worker:
+              - path: /audiobooks
+                readOnly: true
+      read-aloud:
+        enabled: true
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        advancedMounts:
+          bookorbit:
+            app:
+              - path: /data/read-aloud
+            read-aloud-worker:
+              - path: /data/read-aloud
       tmp:
         enabled: true
         type: emptyDir

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: bookorbit-read-aloud
+    namespace: media
+type: Opaque
+stringData:
+    READ_ALOUD_WORKER_TOKEN: ENC[AES256_GCM,data:YUI4TOYsHGQTuRSU/ITlZH6ZlA4lCRNHO9+BFZuKkNUhwq6Y/Xy5ekViIaH3+3/MxiNByOk0uYut0vKmOX3CZQ==,iv:Z730Z4Z3ifOpYTT47bHT5EeeFv9vgHy15mRZiNrtJdQ=,tag:XTLoVs4TzVvp8YmBlZ+hbA==,type:str]
+sops:
+    age:
+        - recipient: age1nkvss2a8xvmjauvr5mxzm233hyh2mk2fg4s6pt0t0kcn03dv34wqtgymg8
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA1U2NYRWQ1SmloaTVvUDIx
+            Ym9ZZ2JxZGtRbElqQ1R3VnZtT1V2OCtVZEJvCnBYUjZMZ1RGaHZyY05yMU81Mjh6
+            Uko2bE5uN3o0TjRtcnRLN1FER1JwY2MKLS0tIHl3c25vMlFyc0dwbUhsdGczYmhD
+            OENMa0FsQk9ZWnNkeHdHK05zTmRBOG8K6iUWmiawHoD/YT7d8pN76NvEbRCrJpAs
+            y/8MZKh2l0+kiyUh2uNPDXiqsWR3wXmnp94QRmb7axFmPNC2kVAGuw==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1wxwqdrmkwkzsxajp58g0cgeextgf4wq287fv82pptv9yghkfgcqql66zhj
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBRZ3BPczY0akpVZzhmMnpa
+            QlRBckVTNHAvWWlnbUQxc2FGRGQxSCsvV2xnCmRSSERSa3lzWERoSHNUaXJvYTNP
+            QTZBb3R5VEpQZzd2Wmg2S3JTZUZsaHMKLS0tIExmcGhsSWxKeEV2MXllMkJYRjE0
+            cTNLY3lqclh6SmV4Wi9JZCsrV2YwbmMKaVhfWI48ndPXbn5+UF0C8sMEqWlDr3yv
+            SrSfc5nohEtVao8/vLaBX3Zp7Fcs76G4P6wZ4wRI6KL4YI+afTwlYg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-11-12T16:26:48Z"
+    mac: ENC[AES256_GCM,data:rKxHWUj3tV2TlvsI9by8C75LQbYjwveuvgHj/bMJzxV4I1fARoagqTHC0chRsNTdueD/ckMBjJb6uOpe5JkBt+d+zcdaKpPhwHK4J841VEHOxdAq46s89dY46/NN12nuVeZyLlUO3X//ITG7hVVLcDFRU7CV5KMP3tfDvL3qnvM=,iv:I9zoHyBLpAHma4ZUNMdsj74qKcuc7dKkVB69aRP7Smo=,tag:ZJXtTbKxfLfy3lTCXDZZOg==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.10.2
