@@ -5,6 +5,5 @@ resources:
   - ./cert-manager/ks.yaml
   - ./certificates/ks.yaml
   - ./external-dns/ks.yaml
-  - ./k8s-gateway/ks.yaml
   - ./smtp-relay/ks.yaml
   - ./namespace.yaml

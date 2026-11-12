@@ -7,7 +7,6 @@ resources:
   - csi-driver-nfs.yaml
   - external-dns.yaml
   - jetstack.yaml
-  - k8s-gateway.yaml
   - longhorn.yaml
   - metrics-server.yaml
   - prometheus-community-charts.yaml

@@ -8,7 +8,6 @@ resources:
   - flux-operator.yaml
   - grafana.yaml
   - jetstack.yaml
-  - k8s-gateway.yaml
   - knative.yaml
   - longhorn.yaml
   - metrics-server.yaml

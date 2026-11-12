@@ -77,10 +77,8 @@ Virtual IPs assigned to Kubernetes services via Cilium LB-IPAM and kube-vip (def
 | 192.168.0.30  | Cilium Cluster Mesh API server           | raspberry |
 | 192.168.0.31  | Gateway — `internal`                     | raspberry |
 | 192.168.0.32  | Gateway — `external`                     | raspberry |
-| 192.168.0.33  | k8s-gateway (split-horizon DNS)          | raspberry |
 | 192.168.0.35  | Prometheus (remote-write target)         | raspberry |
 | 192.168.0.77  | Control-plane registration VIP (kube-vip)| raspberry |
 | 192.168.0.166 | Cilium Cluster Mesh API server           | turing    |
-| 192.168.0.168 | k8s-gateway (split-horizon DNS)          | turing    |
 | 192.168.0.170 | Cilium ingress / Gateway                 | turing    |
 | 192.168.0.175 | Control-plane registration VIP (kube-vip)| turing    |

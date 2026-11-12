@@ -55,7 +55,6 @@ Applications reconciled by Flux (`HelmRelease`s); some charts create additional 
 | network            | cloudflared                 |
 | network            | external-dns (cloudflare)   |
 | network            | external-dns (pihole)       |
-| network            | k8s-gateway                 |
 | observability      | kube-prometheus-stack       |
 | storage            | cloudnative-pg              |
 | storage            | longhorn                    |
