@@ -30,7 +30,6 @@ spec:
       name: pihole
     extraArgs:
       - --ingress-class=cilium
-      - --pihole-api-version=6
       - --pihole-server=http://192.168.0.8
     policy: upsert-only
     sources: ["ingress", "service"]

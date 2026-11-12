@@ -68,6 +68,7 @@ spec:
               NODE_MAX_OLD_SPACE_SIZE: "2048"
               LIBRARY_BROWSE_ROOT: /books
               BOOK_DOCK_PATH: /books/bookdrop
+              SWAGGER_ENABLED: "true"
             envFrom:
               - secretRef:
                   name: bookorbit-secret

@@ -39,7 +39,6 @@ spec:
     extraArgs:
       - --gateway-name=internal
       - --gateway-namespace=network
-      - --pihole-api-version=6
       - --pihole-server=http://192.168.0.8
       - --pihole-tls-skip-verify
     sources: ["gateway-httproute", "service"]
