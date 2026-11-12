@@ -38,8 +38,11 @@ spec:
                 drop:
                   - ALL
             resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
               limits:
-                memory: 1Gi
+                memory: 2Gi
     defaultPodOptions:
       labels:
         app: flaresolverr
