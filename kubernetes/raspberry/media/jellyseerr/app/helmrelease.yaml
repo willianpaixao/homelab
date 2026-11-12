@@ -105,6 +105,9 @@ spec:
     persistence:
       config:
         type: persistentVolumeClaim
+        labels:
+          recurring-job.longhorn.io/source: enabled
+          recurring-job-group.longhorn.io/backup: enabled
         accessMode: ReadWriteOnce
         size: 1Gi
         globalMounts:

@@ -217,6 +217,9 @@ spec:
       data:
         enabled: true
         type: persistentVolumeClaim
+        labels:
+          recurring-job.longhorn.io/source: enabled
+          recurring-job-group.longhorn.io/backup: enabled
         storageClass: longhorn
         accessMode: ReadWriteOnce
         size: 2Gi
@@ -264,6 +267,9 @@ spec:
       db:
         enabled: true
         type: persistentVolumeClaim
+        labels:
+          recurring-job.longhorn.io/source: enabled
+          recurring-job-group.longhorn.io/backup: enabled
         storageClass: longhorn
         accessMode: ReadWriteOnce
         size: 5Gi

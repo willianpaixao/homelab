@@ -116,6 +116,7 @@ spec:
         accessMode: ReadWriteOnce
         size: 4Gi
         labels:
+          recurring-job.longhorn.io/source: enabled
           recurring-job-group.longhorn.io/backup: enabled
       media:
         enabled: true
