@@ -43,6 +43,7 @@ spec:
       - --pihole-server=http://192.168.0.8
       - --pihole-tls-skip-verify
     sources: ["gateway-httproute", "service"]
+    policy: upsert-only
     registry: noop
     domainFilters: ["web3.wiki.br"]
     env:
