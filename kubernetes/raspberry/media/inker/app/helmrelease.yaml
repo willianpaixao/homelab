@@ -1,0 +1,126 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app inker
+  namespace: &namespace media
+spec:
+  interval: 1h
+  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      inker:
+        # Single SQLite file on an RWO volume: never run two pods against it.
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          nodeSelector:
+            disktype: ssd
+        containers:
+          app:
+            image:
+              repository: docker.io/wojooo/inker
+              tag: 0.6.0@sha256:7174e13390aceee8afb14c1b1c3a952ade4e387607b41b646c78b5e8af7286e9
+            env:
+              TZ: ${TIMEZONE}
+              DEFAULT_TIMEZONE: ${TIMEZONE}
+              # Base URL handed to devices in /api/display image_url (avoids Host-header guessing)
+              API_URL: https://inker.${SECRET_DOMAIN}
+              CORS_ORIGINS: https://inker.${SECRET_DOMAIN}
+              LOG_LEVEL: info
+            envFrom:
+              - secretRef:
+                  name: inker-secret
+            probes:
+              # nginx only starts once the backend is healthy, so /health on :80 reflects both
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 80
+                  periodSeconds: 10
+                  failureThreshold: 30
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                # Headless Chromium renders screens; cap it so it can't starve the node
+                memory: 2Gi
+    # Image uses s6-overlay (/init) as root, then drops the backend to the `inker` user
+    # via s6-setuidgid, so runAsNonRoot is not possible here.
+    defaultPodOptions:
+      labels:
+        app: inker
+        environment: production
+        owner: willianpaixao
+    service:
+      app:
+        controller: inker
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Media
+          gethomepage.dev/icon: mdi-monitor-dashboard
+          gethomepage.dev/name: Inker
+          gethomepage.dev/description: TRMNL e-ink server
+        hostnames:
+          - inker.${SECRET_DOMAIN}
+        parentRefs:
+          - name: internal
+            namespace: network
+            sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: http
+    persistence:
+      uploads:
+        type: persistentVolumeClaim
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 2Gi
+        globalMounts:
+          - path: /app/uploads
+      dshm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 256Mi
+        globalMounts:
+          - path: /dev/shm

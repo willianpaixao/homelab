@@ -7,6 +7,7 @@ resources:
   - cnp.yaml
   - cross-seed/ks.yaml
   - flaresolverr/ks.yaml
+  - inker/ks.yaml
   - jellyfin/ks.yaml
   - jellyseerr/ks.yaml
   - namespace.yaml
