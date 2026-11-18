@@ -81,28 +81,12 @@ spec:
           outOfOrderTimeWindow: 5m
         retention: 30d
         retentionSize: 128GiB
-        # Drop high-cardinality metrics to reduce storage
-        metricRelabelConfigs:
-          # Drop expensive histogram buckets for API server
-          - sourceLabels: [__name__]
-            regex: 'apiserver_request_duration_seconds_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket'
-            action: drop
-          # Drop high-cardinality container metrics
-          - sourceLabels: [__name__]
-            regex: 'container_network_tcp_usage_total|container_network_udp_usage_total'
-            action: drop
-          # Drop verbose etcd metrics
-          - sourceLabels: [__name__]
-            regex: 'etcd_request_duration_seconds_bucket|etcd_disk_wal_fsync_duration_seconds_bucket|etcd_disk_backend_commit_duration_seconds_bucket'
-            action: drop
-          # Drop high-cardinality workqueue metrics
-          - sourceLabels: [__name__]
-            regex: 'workqueue_queue_duration_seconds_bucket|workqueue_work_duration_seconds_bucket'
-            action: drop
-          # Drop rest client request latency buckets
-          - sourceLabels: [__name__]
-            regex: 'rest_client_request_duration_seconds_bucket'
-            action: drop
+        resources:
+          requests:
+            cpu: 500m
+            memory: 3Gi
+          limits:
+            memory: 6Gi
         nodeSelector:
           disktype: ssd
         storageSpec:
@@ -117,12 +101,25 @@ spec:
         metricRelabelings:
           - sourceLabels: [__name__]
             action: drop
-            regex: '(apiserver|etcd)_request_duration_seconds_bucket'
+            regex: 'apiserver_(request_duration_seconds|response_sizes|request_body_size_bytes|watch_events_sizes|watch_events_dispatch_duration_seconds|watch_list_duration_seconds|storage_list_duration_seconds|watch_cache_read_wait_seconds|watch_cache_initialization_duration_seconds)_bucket'
+          - sourceLabels: [__name__]
+            action: drop
+            regex: '(etcd_request_duration_seconds|workqueue_queue_duration_seconds|workqueue_work_duration_seconds|rest_client_request_duration_seconds)_bucket'
         relabelings:
           - replacement: raspberry
             targetLabel: cluster
     kubelet:
       serviceMonitor:
+        metricRelabelings:
+          - sourceLabels: [__name__]
+            action: drop
+            regex: 'apiserver_(request_duration_seconds|response_sizes|request_body_size_bytes|watch_events_sizes|watch_events_dispatch_duration_seconds|watch_list_duration_seconds|storage_list_duration_seconds|watch_cache_read_wait_seconds|watch_cache_initialization_duration_seconds)_bucket'
+          - sourceLabels: [__name__]
+            action: drop
+            regex: '(etcd_request_duration_seconds|workqueue_queue_duration_seconds|workqueue_work_duration_seconds|rest_client_request_duration_seconds)_bucket'
+          - sourceLabels: [__name__, le]
+            action: drop
+            regex: '(csi_operations|storage_operation_duration)_seconds_bucket;(0.25|2.5|15|25|120|600)(\.0)?'
         cAdvisorRelabelings:
           - sourceLabels: [__metrics_path__]
             targetLabel: metrics_path

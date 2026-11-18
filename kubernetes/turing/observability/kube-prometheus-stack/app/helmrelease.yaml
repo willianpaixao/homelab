@@ -94,31 +94,19 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
-        # Enable out-of-order time series ingestion
         enableFeatures:
           - out-of-order-time-series
-        # Allow samples up to 5 minutes out of order
-        # This handles kubelet/cAdvisor timestamp inconsistencies
-        # without significantly impacting performance
         tsdb:
           outOfOrderTimeWindow: 5m
-        # Global metric relabeling to reduce cardinality before remote write
-        metricRelabelConfigs:
-          # Drop high-cardinality API server histogram buckets
-          - sourceLabels: ["__name__"]
-            regex: (apiserver_request_duration_seconds_bucket|apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
-            action: drop
-          # Drop high-cardinality workqueue metrics
-          - sourceLabels: ["__name__"]
-            regex: (workqueue_queue_duration_seconds_bucket|workqueue_work_duration_seconds_bucket)
-            action: drop
-          # Drop etcd histogram buckets
-          - sourceLabels: ["__name__"]
-            regex: (etcd_request_duration_seconds_bucket|etcd_disk_wal_fsync_duration_seconds_bucket|etcd_disk_backend_commit_duration_seconds_bucket)
-            action: drop
-          # Drop go runtime metrics with high cardinality
-          - sourceLabels: ["__name__"]
-            regex: (go_gc_.*|go_memstats_.*_bytes_total)
-            action: drop
         remoteWrite:
           - url: 'http://192.168.0.35:9090/api/v1/write'
+            writeRelabelConfigs:
+              - sourceLabels: ["__name__"]
+                regex: apiserver_(request_duration_seconds|response_sizes|request_body_size_bytes|watch_events_sizes|watch_events_dispatch_duration_seconds|watch_list_duration_seconds|storage_list_duration_seconds|watch_cache_read_wait_seconds|watch_cache_initialization_duration_seconds)_bucket
+                action: drop
+              - sourceLabels: ["__name__"]
+                regex: (etcd_request_duration_seconds|workqueue_queue_duration_seconds|workqueue_work_duration_seconds|rest_client_request_duration_seconds)_bucket
+                action: drop
+              - sourceLabels: ["__name__"]
+                regex: (go_gc_.*|go_memstats_.*_bytes_total)
+                action: drop
