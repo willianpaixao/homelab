@@ -53,7 +53,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v3.4.1@sha256:7c489add298fc2f92cda4c777de6462aa206877e04087b815f62c7664af0b53b
+              tag: v3.4.2@sha256:fc880c1bf665b4aab1e74c15e56ab871225989cd546536e6b77e771869af06bd
             env:
               TZ: ${TIMEZONE}
               IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
@@ -118,7 +118,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v3.4.1-rknn@sha256:b7baeb12cab0093803f09f0299b7c863bed46f36349c532096f40bfbf4f10c84
+              tag: v3.4.2-rknn@sha256:b8883c316ebd5c480d6b99ce94d0498b6e3c6d8653d225e00e365ce50914eb65
             env:
               TZ: ${TIMEZONE}
               MACHINE_LEARNING_RKNN_THREADS: "2"
