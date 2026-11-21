@@ -18,7 +18,6 @@ weight = 10
 | default            | Homepage dashboard and the `willian.eth` site                    |
 | flux-system        | FluxCD GitOps controllers and webhook receiver                   |
 | immich             | Immich photo & video management                                  |
-| knative            | Knative Operator (serverless)                                    |
 | kube-public        | Default Kubernetes public namespace                              |
 | kube-system        | Core components: Cilium, CoreDNS, metrics-server, reloader       |
 | local-path-storage | local-path-provisioner                                           |
@@ -37,7 +36,6 @@ Applications reconciled by Flux (`HelmRelease`s); some charts create additional 
 | default            | homepage                    |
 | default            | willian-eth                 |
 | immich             | immich                      |
-| knative            | knative-operator            |
 | kube-system        | cilium                      |
 | kube-system        | metrics-server              |
 | kube-system        | reloader                    |

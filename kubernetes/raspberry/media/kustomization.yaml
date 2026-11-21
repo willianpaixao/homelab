@@ -5,7 +5,6 @@ resources:
   - bazarr/ks.yaml
   - bookorbit/ks.yaml
   - cnp.yaml
-  - cross-seed/ks.yaml
   - flaresolverr/ks.yaml
   - inker/ks.yaml
   - jellyfin/ks.yaml
@@ -17,4 +16,3 @@ resources:
   - radarr/ks.yaml
   - recyclarr/ks.yaml
   - sonarr/ks.yaml
-  - torrentarr/ks.yaml
