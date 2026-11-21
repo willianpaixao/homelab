@@ -100,7 +100,7 @@ spec:
           safaribooks-bridge:
             image:
               repository: ghcr.io/willianpaixao/safaribooks-bridge
-              tag: sha-2398ccb@sha256:c8eb9874db67cfe88045f6a269d6dcfb738d2144cbf54bd03157ea2d44d88f7a
+              tag: sha-fc9dfbc@sha256:1fec4511f2551bee9b4b5d3ca90902fddabf9ac0c30ab1ead92645b0df8e80b4
             envFrom:
               - secretRef:
                   name: safaribooks-bridge
